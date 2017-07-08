@@ -26,4 +26,8 @@ A modification of the Standard Assets' FPSCounter that is converted to OnGUI ins
 
 ## TextureScrolling: 
 ![alt text](http://imgur.com/PviAb8E.jpg)
+Wraps the texture of the material around the mesh (changes the Texture-Offset) at the specified speed and direction. Negative speed goes into the opposite direction.
+The possible directions are: Horizontal, vertical, both (diagonal) or none (doesn't move).
 
+I used it for a seamlessly scrolling background in a Character-Introduction-Screen. 
+That background had a Quad-MeshFilter, a Mesh-Renderer with any Material that has a Texture-Field with Offset (like `Unlit/Masked Colored`) and this script on it to.
