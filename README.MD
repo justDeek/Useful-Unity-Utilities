@@ -1,4 +1,4 @@
-_(More Info on any specific script in it's respective folder)_
+_(More Info on any specific script in its respective folder)_
 
 # TOC:
 ## 1. Components:
