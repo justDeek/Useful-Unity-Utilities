@@ -1,7 +1,17 @@
 fileFormatVersion: 2
-guid: c591bbc408f4c3b4eb522fdfd99c3a9b
-timeCreated: 1490043789
-licenseType: Pro
+guid: 4a0b83cf83727de4a9e2b965f6ff9df4
+labels:
+- 2d
+- Code
+- Sprite
+- Editor
+- EasySpriteSheetCopy
+- Menu
+- Multiple
+- Copy
+- Sheet
+- SpriteSheet
+- Easy
 MonoImporter:
   serializedVersion: 2
   defaultReferences: []

@@ -1,5 +1,7 @@
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Collections;
+
 
 public class DontDestroyDeleteDuplicates : MonoBehaviour {
 
@@ -10,20 +12,13 @@ public class DontDestroyDeleteDuplicates : MonoBehaviour {
 		//Destroy identical GO when switching Scenes (otherwise would leave you with a duplicate of this GO when going back to a previous scene)
 		foreach(GameObject searchSameGO in GameObject.FindGameObjectsWithTag ("Persistent"))
 		{
-			if ((searchSameGO.GetInstanceID () > gameObject.GetInstanceID ()) || (searchSameGO.name == gameObject.name && searchSameGO != gameObject))
+			if ((searchSameGO.GetInstanceID () > gameObject.GetInstanceID ()) || (searchSameGO.name == this.gameObject.name && searchSameGO != this.gameObject))
 			{
-				DestroyImmediate (searchSameGO);
+				Destroy (searchSameGO);
 			}
 		}
-
-		//Destroy every GameObject tagged as "DestroyAtRuntime"
-		foreach (GameObject searchGOByTag in GameObject.FindGameObjectsWithTag ("RemoveAtRuntime")) 
-		{
-			if (searchGOByTag != null)
-			{
-				DestroyImmediate (searchGOByTag);
-			}
-		}
+		//disable this script
+		this.enabled = false;
 
 		//Seemingly not working:
 //		if (FindObjectsOfType(GetType()).Length > 1)
@@ -32,5 +27,20 @@ public class DontDestroyDeleteDuplicates : MonoBehaviour {
 //		}
 			
 	}
+
+//	void OnEnable()
+//	{
+//		SceneManager.sceneLoaded += OnLevelFinishedLoading;
+//	}
+//
+//	void OnDisable()
+//	{
+//		SceneManager.sceneLoaded -= OnLevelFinishedLoading;
+//	}
+//
+//	void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
+//	{
+//
+//	}
 
 }
