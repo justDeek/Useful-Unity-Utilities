@@ -5,8 +5,8 @@ layout: default
 # [](#header-1)**TOC**
 
 *   [Components](Components)
-*   [Custom PlayMaker Actions](Custom PlayMaker Actions)
-*   [Editor Extensions](Editor Extensions/Editor)
+*   [Custom PlayMaker Actions](Custom_PlayMaker_Actions)
+*   [Editor Extensions](tree/master/Editor Extensions/Editor)
 
 This is a normal paragraph following a header. GitHub is a code hosting platform for version control and collaboration. It lets you and others work together on projects from anywhere.
 
