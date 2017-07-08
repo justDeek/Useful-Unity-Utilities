@@ -1,10 +1,10 @@
 ## Comment: 
-![alt text](http://imgur.com/SAHWxUi)
+![alt text](http://imgur.com/SAHWxUi.jpg)
 Add a String to any GameObject to make a note or comment. Optionally set "Display On Screen" to draw that Text at the position of the Owner-GameObject (in relation to the main camera).
 In addition can throw a Debug.Log() of that comment and / or remove the component at runtime.
 
 ## DisableOnAwake: 
-![alt text](http://imgur.com/PR5C0IG)
+![alt text](http://imgur.com/PR5C0IG.jpg)
 Partner-Script to **DontDestroyDeleteDuplicates** wich disables all GameObjects tagged with `RemoveAtRuntime` in the current Scene on Awake.
 
 ### DontDestroyDeleteDuplicates: 
@@ -18,12 +18,12 @@ With the 'RemoveAtRuntime' Tag you can have tagged GameObjects be destroyed when
 GOs in several scenes for testing purposes but only want one copy to be persistent at the beginning, wich then destroys all those testing-copies.
 
 ## FPSCounter: 
-![alt text](http://imgur.com/SAap4pL)
+![alt text](http://imgur.com/SAap4pL.jpg)
 A modification of the Standard Assets' FPSCounter that is converted to OnGUI instead of uGUI (draws directly on screen instead of requiring a Canvas and uGUI-Components).
 
 ## SuperpoweredSpatializer (3rd Party): 
-![alt text](http://imgur.com/mm2x8Dg)
+![alt text](http://imgur.com/mm2x8Dg.jpg)
 
 ## TextureScrolling: 
-![alt text](http://imgur.com/PviAb8E)
+![alt text](http://imgur.com/PviAb8E.jpg)
 

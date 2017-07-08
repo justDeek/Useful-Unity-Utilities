@@ -1,5 +1,5 @@
 ## SendEventToFSM: 
-![Image](http://imgur.com/xe4EkUG)	![Image](http://imgur.com/CjOyFOl)
+![Image](http://imgur.com/xe4EkUG.jpg)	![Image](http://imgur.com/CjOyFOl.jpg)
 
 Send an OnClick-, OnPressUp- and/or OnPressDown-Event to the specified FSM, optionally set the value of an existing GameObject-Variable in that FSM to the GameObject this script is attached to, beforehand (to make checks where the signal came from, or use that one further, in the Target-FSM).
 The second image shows what the Target-FSM needs: The specified global Event(s) with matching name(s) and optionally the pre-existing variable, also with exact matching names.
@@ -10,7 +10,7 @@ especially when you have a lot of similar GameObjects or instantiate a lot of pr
 since with this you don't need an FSM for every button but can have one global FSM for all children.
 
 ## SendEventToFSMAdvanced: 
-![Image](http://imgur.com/r6X0nlE)
+![Image](http://imgur.com/r6X0nlE.jpg)
 
 ```
 Requires the **SendEventToFSMInspector**-Script in the Editor-Folder
