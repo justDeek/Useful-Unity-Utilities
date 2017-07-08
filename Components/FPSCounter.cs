@@ -11,7 +11,7 @@ namespace UnityStandardAssets.Utility
         private float m_FpsNextPeriod = 0;
         private int m_CurrentFps;
         const string display = "{0} FPS";
-        public string fps = "";
+        private string fps = "";
 
         void OnGUI() {
           GUI.color = Color.cyan;
