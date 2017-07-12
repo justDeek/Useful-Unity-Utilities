@@ -10,23 +10,33 @@ using System.Diagnostics;
 
 public class CurrentSelectionMenu : MonoBehaviour
 {
-    static GameObject[] instance;
-    static Object[] clones;
+  //container for current selection
+  static GameObject[] instance;
 
-	[MenuItem("Current Selection/Clone selected GameObject %#d", true)]
+  static Object[] clones;
+
+  //Validation for all selection-based options (Only enabled these options if something is selected in hirarchy)
+	[MenuItem("Current Selection/Clone/Clone selected GameObject %#d", true)]
   [MenuItem("Current Selection/Rename selected GameObjects incrementally %#r", true)]
-  [MenuItem("Current Selection/Select Parent &UP", true)]
-  [MenuItem("Current Selection/Parent: Select all Children &DOWN", true)]
-  [MenuItem("Current Selection/Parent: Sort Children by Name &s", true)]
+  [MenuItem("Current Selection/Parent/Select Parent &UP", true)]
+  [MenuItem("Current Selection/Parent/Parent: Select all Children &DOWN", true)]
+  [MenuItem("Current Selection/Parent/Parent: Sort Children by Name &s", true)]
   [MenuItem("Current Selection/Select previous GameObject #UP", true)]
   [MenuItem("Current Selection/Select next GameObject #DOWN", true)]
+  [MenuItem("Current Selection/Prefabs/Revert To Prefab %&y", true)]
+  [MenuItem("Current Selection/Prefabs/Apply Prefab Changes %#y", true)]
+  [MenuItem("Current Selection/Prefabs/Disconnect From Prefab %#&y", true)]
 	private static bool GeneralValidation()
 	{
     //Disable Options if nothing is selected
 		return Selection.activeGameObject != null;
 	}
 
-	[MenuItem("Current Selection/Clone selected GameObject %#d")]
+/*******************************************
+ *                Cloning                  *
+ *******************************************/
+
+	[MenuItem("Current Selection/Clone/Clone selected GameObject %#d")]
 	public static void Clone()
 	{
 		instance = Selection.gameObjects;
@@ -67,13 +77,13 @@ public class CurrentSelectionMenu : MonoBehaviour
     EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
 	}
 
-	[MenuItem("Current Selection/Undo Cloning %#z", true)]
+	[MenuItem("Current Selection/Clone/Undo Cloning %#z", true)]
 	private static bool UndoCloneValidation()
 	{
 		return clones != null;
 	}
 
-	[MenuItem("Current Selection/Undo Cloning %#z")]
+	[MenuItem("Current Selection/Clone/Undo Cloning %#z")]
 	public static void UndoClone()
 	{
 		if (clones != null)
@@ -109,7 +119,11 @@ public class CurrentSelectionMenu : MonoBehaviour
     EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
   }
 
-	[MenuItem("Current Selection/Select Parent &UP")]
+/*******************************************
+ *                 Parent                  *
+ *******************************************/
+
+	[MenuItem("Current Selection/Parent/Select Parent &UP")]
 	public static void selectParent()
 	{
 		List<Object> currentSelection = new List<Object>{ };
@@ -130,7 +144,7 @@ public class CurrentSelectionMenu : MonoBehaviour
 		Selection.objects = tmpArray;
 	}
 
-	[MenuItem("Current Selection/Parent: Select all Children &DOWN")]
+	[MenuItem("Current Selection/Parent/Parent: Select all Children &DOWN")]
 	public static void selectAllChildren()
 	{
 		List<Object> childrenArray = new List<Object>{};
@@ -152,7 +166,7 @@ public class CurrentSelectionMenu : MonoBehaviour
 
 	}
 
-	[MenuItem("Current Selection/Parent: Sort Children by Name &s")]
+	[MenuItem("Current Selection/Parent/Parent: Sort Children by Name &s")]
 	public static void SortChildrenByName()
 	{
 		foreach (GameObject obj in Selection.gameObjects)
@@ -228,6 +242,78 @@ public class CurrentSelectionMenu : MonoBehaviour
     tmpArray = currentSelection.ToArray ();
     if (tmpArray != null)
     Selection.objects = tmpArray;
+  }
+
+/*******************************************
+ *                Prefabs                  *
+ *******************************************/
+
+  [MenuItem("Current Selection/Prefabs/Revert To Prefab %&y")]
+  static public void revertToPrefab()
+  {
+      instance = Selection.gameObjects;
+
+      for (int i = 0; i < instance.Length; i++)
+      {
+        //works even better than the 'Revert'-Button in the Inspector,
+        //in that this also remains saved references to components from other GameObjects)
+        GameObject root = PrefabUtility.FindPrefabRoot(instance[i]);
+        GameObject source = (GameObject)PrefabUtility.GetPrefabParent(root);
+
+        if (source != null)
+        {
+          PrefabUtility.ConnectGameObjectToPrefab(root, source);
+          UnityEngine.Debug.Log(instance[i].name + " reverted to Prefab.");
+        }
+        else
+        {
+          UnityEngine.Debug.LogWarning("Selection has no prefab");
+        }
+      }
+  }
+
+  [MenuItem("Current Selection/Prefabs/Apply Prefab Changes %#y")]
+  static public void applyPrefabChanges()
+  {
+      instance = Selection.gameObjects;
+
+      for (int i = 0; i < instance.Length; i++)
+      {
+        GameObject root = PrefabUtility.FindPrefabRoot(instance[i]);
+        Object source = PrefabUtility.GetPrefabParent(root);
+
+        if (source != null)
+        {
+          PrefabUtility.ReplacePrefab(root, source,  ReplacePrefabOptions.ConnectToPrefab);
+          UnityEngine.Debug.Log("Updating prefab : "+AssetDatabase.GetAssetPath(source));
+        }
+        else
+        {
+          UnityEngine.Debug.LogWarning("Selection has no prefab");
+        }
+      }
+  }
+
+  [MenuItem("Current Selection/Prefabs/Disconnect From Prefab %#&y")]
+  static public void disconnectFromPrefab()
+  {
+      instance = Selection.gameObjects;
+
+      for (int i = 0; i < instance.Length; i++)
+      {
+        GameObject root = PrefabUtility.FindPrefabRoot(instance[i]);
+        Object source = PrefabUtility.GetPrefabParent(root);
+
+        if (source != null)
+        {
+          PrefabUtility.DisconnectPrefabInstance((Object)instance[i]);
+          UnityEngine.Debug.Log(instance[i].name + " disconnected from Prefab.");
+        }
+        else
+        {
+          UnityEngine.Debug.LogWarning("Selection has no prefab");
+        }
+      }
   }
 
 }

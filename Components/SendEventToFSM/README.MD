@@ -1,7 +1,7 @@
 ## SendEventToFSM.cs
-![Image](http://imgur.com/xe4EkUG.jpg)
+![Image](http://imgur.com/CES1cTh.jpg)
 
-Send an OnClick-, OnPressUp- and/or OnPressDown-Event to the specified FSM, optionally set the value of an existing GameObject-Variable in that FSM to the GameObject this script is attached to, beforehand (to make checks where the signal came from, or use that one further, in the Target-FSM).
+Send an OnStart-, OnClick-, OnPressUp- and/or OnPressDown-Event to the specified FSM, optionally set the value of an existing GameObject-Variable in that FSM to the GameObject this script is attached to, beforehand (to make checks where the signal came from, or use that one further, in the Target-FSM).
 
 ![Image](http://imgur.com/CjOyFOl.jpg)
 

@@ -9,7 +9,7 @@ namespace HutongGames.PlayMaker.Actions
 	{
 		[RequiredField]
 		[Tooltip("The GameObject to start from.")]
-		public FsmOwnerDefault startFrom;
+		public FsmOwnerDefault startingFrom;
 
 		[Tooltip ("How many 'Directories' to go up or down. For example '2' would be the grandparent of the GameObject this FSM is attached to, '3' the parent of that one ... and so on. 0 returns the Owner. Anything below 0 goes in the other direction (-2 = first Child of the first Child). You can also set a very high number to definitely get the root.")]
 		public FsmInt index;
@@ -19,30 +19,30 @@ namespace HutongGames.PlayMaker.Actions
 		public FsmGameObject storeResult;
 
 		[Tooltip("The Name of the final GameObject it reached.")]
-		public FsmString resultName;
+		public FsmString storeResultName;
 
 		[Tooltip("Follow the path it takes (throws Debug.Log's for every GameObject it passes). If there are several Log entries with the same GameObject, it means that the given index is higher than the GameObject has parents or lower than it has children.")]
 		public FsmBool debug;
 
 		public override void Reset()
 		{
-			startFrom = null;
+			startingFrom = null;
 			index = 1;
 			storeResult = null;
-			resultName = null;
+			storeResultName = null;
 			debug = false;
 		}
 
 		public override void OnEnter()
 		{
-			var go = Fsm.GetOwnerDefaultTarget(startFrom);
-			if (go != null) 
+			var go = Fsm.GetOwnerDefaultTarget(startingFrom);
+			if (go != null)
 			{
 				//Get Owner
 				if (index.Value == 0)
 				{
 					storeResult.Value = Owner;
-					resultName = storeResult.Value.name;
+					storeResultName = storeResult.Value.name;
 					if (debug.Value == true)
 					{
 						Debug.Log ("GetMultilevelGameObject - Owner: " + Owner);
@@ -51,11 +51,11 @@ namespace HutongGames.PlayMaker.Actions
 				}
 
 				//Get ascending parent
-				if (index.Value >= 1)
+				if (index.Value > 0)
 				{
 					for (int i = 1; i < index.Value; ++i) {
 
-							go = go.transform.parent == null ? go : go.transform.parent.gameObject;	
+							go = go.transform.parent == null ? go : go.transform.parent.gameObject;
 
 							if (debug.Value == true)
 							{
@@ -64,15 +64,15 @@ namespace HutongGames.PlayMaker.Actions
 							}
 
 							storeResult.Value = go;
-							resultName = storeResult.Value.name;
+							storeResultName = storeResult.Value.name;
 					}
 				}
 
 				//Get descending Child
 				if (index.Value < 0)
 				{
-					for (int i = 0; i > index.Value; i--) {
-							go = go.transform.GetChild (0) == null ? go.transform.gameObject : go.transform.GetChild (0).gameObject;	
+					for (int i = -1; i > index.Value; i--) {
+							go = go.transform.GetChild (0) == null ? go.transform.gameObject : go.transform.GetChild (0).gameObject;
 
 							if (debug.Value == true)
 							{
@@ -82,16 +82,16 @@ namespace HutongGames.PlayMaker.Actions
 							}
 
 							storeResult.Value = go;
-							resultName = storeResult.Value.name;
+							storeResultName = storeResult.Value.name;
 					}
 				}
 
 			}
-			//If StartFrom is Null
+			//If startingFrom is Null
 			else
 			{
 				storeResult.Value = null;
-				resultName = "None";
+				storeResultName = "None";
 				if (debug.Value == true)
 					Debug.Log ("GetMultilevelGameObject - NullReferenceException: 'Start From' is null");
 			}

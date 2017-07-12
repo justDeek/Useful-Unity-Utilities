@@ -3,34 +3,35 @@ using UnityEngine;
 public class SendEventToFSM : MonoBehaviour
 {
     public PlayMakerFSM targetFSM;
+    public string onStartEvent;
     public string onClickEvent;
     public string onPressDownEvent;
     public string onPressUpEvent;
 		public string variableName;
 
-    private GameObject currentGO;
+    public void Start()
+    {
+      if (targetFSM == null) Debug.LogError("TargetFSM missing in " + this.gameObject.name);
+
+      if (onStartEvent != null || onStartEvent != "")
+      {
+        SetThisGOInTargetFSM();
+        targetFSM.Fsm.Event(targetFSM.Fsm.EventTarget, onStartEvent.ToString ());
+      }
+    }
 
     void OnClick()
     {
       if (onClickEvent != null || onClickEvent != "")
       {
-        var fsmGameObject = targetFSM.FsmVariables.GetFsmGameObject(variableName);
-        if (fsmGameObject != null)
-        {
-          fsmGameObject.Value = this.gameObject;
-        }
+        SetThisGOInTargetFSM();
         targetFSM.Fsm.Event(targetFSM.Fsm.EventTarget, onClickEvent.ToString ());
       }
-
     }
 
     void OnPress(bool pressed)
   	{
-      var fsmGameObject = targetFSM.FsmVariables.GetFsmGameObject(variableName);
-      if (fsmGameObject != null)
-      {
-        fsmGameObject.Value = this.gameObject;
-      }
+      SetThisGOInTargetFSM();
 
   		if (pressed)
   		{
@@ -40,4 +41,16 @@ public class SendEventToFSM : MonoBehaviour
   		}
   	}
 
+    private void SetThisGOInTargetFSM()
+    {
+      if (variableName != null || variableName != "")
+      {
+        var fsmGameObject = targetFSM.FsmVariables.GetFsmGameObject(variableName);
+
+        if (fsmGameObject != null)
+        {
+          fsmGameObject.Value = this.gameObject;
+        }
+      }
+    }
 }
