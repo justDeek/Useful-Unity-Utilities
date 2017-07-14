@@ -1,4 +1,3 @@
-﻿// (c) Copyright HutongGames, LLC 2010-2013. All rights reserved.
 
 using System;
 using UnityEngine;
@@ -39,7 +38,7 @@ namespace HutongGames.PlayMaker.Actions
 		{
 			//Go through all GameObjects in the Array
 			foreach (var i in eventTarget) {
-				
+
 				//get the FSM-Component of the current GO
 				var comp = i.Value.GetComponent<PlayMakerFSM> ();
 
@@ -51,8 +50,8 @@ namespace HutongGames.PlayMaker.Actions
 				} else {
 					comp.Fsm.DelayedEvent (sendEvent, delay.Value);
 				}
-			}	
-		
+			}
+
 		}
 
 		public override void OnUpdate()

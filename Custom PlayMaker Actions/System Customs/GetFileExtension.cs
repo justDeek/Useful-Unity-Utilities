@@ -1,4 +1,3 @@
-﻿// (c) Copyright HutongGames, LLC 2010-2013. All rights reserved.
 
 using System.IO;
 using UnityEngine;
@@ -7,7 +6,7 @@ using System;
 
 namespace HutongGames.PlayMaker.Actions
 {
-	[ActionCategory("Files")]
+	[ActionCategory("System")]
 	[Tooltip("Returns the file-extension of an Asset at the speficied path.")]
 	public class GetFileExtension : FsmStateAction
 	{
@@ -39,7 +38,7 @@ namespace HutongGames.PlayMaker.Actions
 			{
 				Debug.LogWarning ("GetFileExtension.cs: File-Path is empty!");
 			}
-				
+
 			Finish();
 		}
 	}

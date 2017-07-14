@@ -1,6 +1,3 @@
-﻿// (c) Copyright HutongGames, LLC 2010-2013. All rights reserved.
-// Thanks derkoi:
-// http://hutonggames.com/playmakerforum/index.php?topic=4700.0
 
 using UnityEngine;
 

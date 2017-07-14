@@ -1,4 +1,3 @@
-﻿// (c) Copyright HutongGames, LLC 2010-2013. All rights reserved.
 
 using UnityEngine;
 using UnityEditor;
@@ -45,7 +44,7 @@ namespace HutongGames.PlayMaker.Actions
 			string[] results;
 			string path;
 			System.Type userDefinedType = (Type.GetType (storeAsset.TypeName)); //maybe with System.Activator.CreateInstance ...
-			if (!string.IsNullOrEmpty (assetName.Value)) 
+			if (!string.IsNullOrEmpty (assetName.Value))
 			{
 				results = AssetDatabase.FindAssets (assetName.Value);
 				foreach (string guid in results) {
@@ -70,6 +69,6 @@ namespace HutongGames.PlayMaker.Actions
 			}
 
 		}
-			
+
 	}
 }

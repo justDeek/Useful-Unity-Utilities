@@ -1,4 +1,3 @@
-/*--- __ECO__ __PLAYMAKER__ __ACTION__ ---*/
 
 using System;
 using UnityEngine;

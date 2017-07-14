@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions
 {
-	[ActionCategory(ActionCategory.Input)]
+	[ActionCategory(ActionCategory.Device)]
 	[Tooltip("Returns the last measured linear acceleration of a device in three-dimensional space.")]
 	public class GetDeviceLinearAcceleration : FsmStateAction
 	{

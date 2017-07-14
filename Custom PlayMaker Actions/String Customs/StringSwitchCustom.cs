@@ -1,10 +1,9 @@
-// (c) Copyright HutongGames, LLC 2010-2013. All rights reserved.
 
 using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions
 {
-	[ActionCategory(ActionCategory.Logic)]
+	[ActionCategory(ActionCategory.String)]
 	[Tooltip("Sends an Event based on the value of a String Variable. Added functionality to send a No-Match-Event.")]
 	public class StringSwitchCustom : FsmStateAction
 	{
@@ -30,7 +29,7 @@ namespace HutongGames.PlayMaker.Actions
 		public override void OnEnter()
 		{
 			DoStringSwitch();
-			
+
 			if (!everyFrame)
 				Finish();
 		}
@@ -39,27 +38,27 @@ namespace HutongGames.PlayMaker.Actions
 		{
 			DoStringSwitch();
 		}
-		
+
 		void DoStringSwitch()
 		{
 //			if (stringVariable.IsNone) {
 //
 //			}
 
-			
-			for (int i = 0; i < compareTo.Length; i++) 
+
+			for (int i = 0; i < compareTo.Length; i++)
 			{
 				if (stringVariable.Value == compareTo[i].Value)
 				{
 					Fsm.Event(sendEvent[i]);
 					return;
 				}
-					
+
 			}
 			if(NoMatchEvent != null)
 			{
 				Fsm.Event(NoMatchEvent);
-				return;	
+				return;
 			}
 		}
 	}

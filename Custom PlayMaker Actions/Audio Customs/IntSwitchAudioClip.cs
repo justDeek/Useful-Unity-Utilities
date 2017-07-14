@@ -1,4 +1,3 @@
-﻿// (c) Copyright HutongGames, LLC 2010-2013. All rights reserved.
 
 using UnityEngine;
 
@@ -49,7 +48,7 @@ namespace HutongGames.PlayMaker.Actions
 			if (intVariable.IsNone)
 				return;
 
-			for (int i = 0; i < compareTo.Length; i++) 
+			for (int i = 0; i < compareTo.Length; i++)
 			{
 				if (intVariable.Value == compareTo[i].Value)
 				{

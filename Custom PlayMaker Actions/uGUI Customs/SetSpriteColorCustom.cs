@@ -1,5 +1,3 @@
-// License: Attribution 4.0 International (CC BY 4.0)
-/*--- __ECO__ __PLAYMAKER__ __ACTION__ ---*/
 
 using UnityEngine;
 using System.Collections;
@@ -38,7 +36,7 @@ namespace HutongGames.PlayMaker.Actions
 				SpriteColo();
 
 				if (!everyFrame.Value)
-					Finish();	
+					Finish();
 			}
 			else
 			{

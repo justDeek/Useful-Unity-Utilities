@@ -6,6 +6,8 @@ In addition can throw a Debug.Log() of that comment and / or remove the componen
 
 ## DisableOnAwake.cs
 ![Image](http://imgur.com/PR5C0IG.jpg)
+```
+- Requires you to add the tag 'RemoveAtRuntime' to Unity and the corresponding GameObjects
 
 Partner-Script to **DontDestroyDeleteDuplicates** wich disables all GameObjects tagged with `RemoveAtRuntime` in the current Scene on Awake.
 
@@ -13,13 +15,21 @@ Partner-Script to **DontDestroyDeleteDuplicates** wich disables all GameObjects 
 ![Image](http://i.imgur.com/FqJX5va.jpg)
 
 ```diff
-- Requires you to add the Tags 'Persistent' and 'RemoveAtRuntime' to Unity. 
+- Requires you to add the tag 'Persistent' to Unity and the corresponding GameObjects
 ```
 
 Add this script to any GameObject that is supposed to stay persistent through all scenes and tag that GO as 'Persistent'.
 The advantage of this script is that it removes any duplicate that Unity creates when going back to a previously visited scene.
 With the 'RemoveAtRuntime' Tag you can have tagged GameObjects be destroyed when a new scene has been loaded. Useful if you have a similar 
 GOs in several scenes for testing purposes but only want one copy to be persistent at the beginning, wich then destroys all those testing-copies.
+
+## FollowMouseMovement
+![Image](Screenshots/FollowMouseMovement_Info.png)
+```
+- Requires you to add the tag 'UICamera' to Unity and set the camera that renders the objects with this script attached to it; 
+- alternatively replace all "UICamCamera.ScreenToWorldPoint" parts with "Camera.main.ScreenToWorldPoint" to automatically get the Camera with the tag 'Main Camera' on it
+```
+When this script is enabled it actively follows the current mouse-/touch-position in 2D space (that's why it disables itself On Awake(), so that you can enable it manually later when needed).
 
 ## FPSCounter.cs
 ![Image](http://imgur.com/SAap4pL.jpg)

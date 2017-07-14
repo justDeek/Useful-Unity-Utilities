@@ -1,7 +1,7 @@
 
 namespace HutongGames.PlayMaker.Actions
 {
-	[ActionCategory(ActionCategory.Logic)]
+	[ActionCategory(ActionCategory.String)]
 	[Tooltip("Tests a String against Multiple to see if it is within one of them.")]
 	public class StringContainsSwitch : FsmStateAction
 	{
