@@ -24,7 +24,7 @@ With the 'RemoveAtRuntime' Tag you can have tagged GameObjects be destroyed when
 GOs in several scenes for testing purposes but only want one copy to be persistent at the beginning, wich then destroys all those testing-copies.
 
 ## FollowMouseMovement
-![Image](Screenshots/FollowMouseMovement_Info.png)
+![Image](../Screenshots/FollowMouseMovement_Info.png)
 ```
 - Requires you to add the tag 'UICamera' to Unity and set the camera that renders the objects with this script attached to it; 
 - alternatively replace all "UICamCamera.ScreenToWorldPoint" parts with "Camera.main.ScreenToWorldPoint" to automatically get the Camera with the tag 'Main Camera' on it
