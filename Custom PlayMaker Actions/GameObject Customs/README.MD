@@ -1,11 +1,11 @@
 ## DestroyChildren.cs
-![Image](http://i.imgur.com/e6moRTa.jpg)
+![Image](../Screenshots/Actions/DestroyChildren_Info.png)
 
 ## GetGameObjectSibling.cs
-![Image](http://imgur.com/KxPMV8w.jpg)
+![Image](../Screenshots/Actions/GetGameObjectSibling_Info.png)
 
 ## GetMultilevelGameObject.cs
-![Image](http://imgur.com/Hqnxv25.jpg)
+![Image](../Screenshots/Actions/GetMultilevelGameObject_Info.png)
 
 ## GetObjectName.cs
-![Image](http://i.imgur.com/YBS0jfG.jpg)
+![Image](../Screenshots/Actions/GetObjectName_Info.png)

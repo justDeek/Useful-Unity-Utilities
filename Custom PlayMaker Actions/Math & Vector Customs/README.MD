@@ -1,14 +1,14 @@
 ## FloatFlip.cs
-![Image](http://imgur.com/p52C55s.jpg)
+![Image](../Screenshots/Actions/FloatFlip_Info.png)
 
 ## IntFlip.cs
-![Image](http://imgur.com/MSxZ1OR.jpg)
+![Image](../Screenshots/Actions/IntFlip_Info.png)
 
 ## IntRoundToNearest.cs
-![Image](http://imgur.com/CQ7eZq5.jpg)
+![Image](../Screenshots/Actions/IntRoundToNearest_Info.png)
 
 ## Vector2OperatorAdvanced.cs
-![Image](http://imgur.com/6Gdjoei.jpg)
+![Image](../Screenshots/Actions/Vector2OperatorAdvanced_Info.png)
 
 ## Vector3OperatorAdvanced.cs
-![Image](http://imgur.com/gOEOHOh.jpg)
+![Image](../Screenshots/Actions/Vector3OperatorAdvanced_Info.png)

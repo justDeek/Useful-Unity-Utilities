@@ -1,8 +1,8 @@
 ## GDEBoolTest.cs
-![Image](http://imgur.com/6pxt1LU.jpg)
+![Image](../Screenshots/Actions/GDEBoolTest_Info.png)
 
 ## GDECreateItem.cs
-![Image](http://imgur.com/iuSwJI2.jpg)
+![Image](../Screenshots/Actions/GDECreateItem_Info.png)
 
 GDELoadStringListCustom.cs
-![Image](http://imgur.com/j26tHqA.jpg)
+![Image](../Screenshots/Actions/GDELoadStringListCustom_Info.png)

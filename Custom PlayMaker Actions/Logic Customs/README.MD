@@ -1,8 +1,8 @@
 ## GameObjectCompareMulti.cs
-![Image](http://i.imgur.com/9tD2Z8n.jpg)
+![Image](../Screenshots/Actions/GameObjectCompareMulti_Info.png)
 
 ## GameObjectIsVisibleAlternative.cs
-![Image](http://imgur.com/KsKQWzs.jpg)
+![Image](../Screenshots/Actions/GameObjectIsVisibleAlternative_Info.png)
 
 ## GameObjectIsVisibleAlternative2D.cs
-![Image](http://imgur.com/TXzkaYo.jpg)
+![Image](../Screenshots/Actions/GameObjectIsVisibleAlternative2D_Info.png)

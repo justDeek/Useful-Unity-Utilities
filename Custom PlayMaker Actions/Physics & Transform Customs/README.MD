@@ -1,11 +1,11 @@
 ## EnableCollider.cs
-![Image](http://imgur.com/z4M5RxR.jpg)
+![Image](../Screenshots/Actions/EnableCollider_Info.png)
 
 ## EnableColliderMulti.cs
-![Image](http://imgur.com/AStzDTA.jpg)
+![Image](../Screenshots/Actions/EnableColliderMulti_Info.png)
 
 ## GetPositionAddOffset.cs
-![Image](http://imgur.com/2pHWb4O.jpg)
+![Image](../Screenshots/Actions/GetPositionAddOffset_Info.png)
 
 ## GetScaleAddOffset.cs
-![Image](http://imgur.com/FfFO9fV.jpg)
+![Image](../Screenshots/Actions/GetScaleAddOffset_Info.png)

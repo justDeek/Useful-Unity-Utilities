@@ -2,10 +2,7 @@
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using System.Linq;
-using System.Collections;
 using System.Collections.Generic;
-using HutongGames.PlayMaker.Actions;
-using HutongGames.PlayMaker.Ecosystem.Utils;
 using System.Diagnostics;
 
 public class CurrentSelectionMenu : MonoBehaviour
@@ -124,7 +121,7 @@ public class CurrentSelectionMenu : MonoBehaviour
  *******************************************/
 
 	[MenuItem("Current Selection/Parent/Select Parent &UP")]
-	public static void selectParent()
+	public static void SelectParent()
 	{
 		List<Object> currentSelection = new List<Object>{ };
 		Object[] tmpArray = new Object[]{ };
@@ -145,7 +142,7 @@ public class CurrentSelectionMenu : MonoBehaviour
 	}
 
 	[MenuItem("Current Selection/Parent/Parent: Select all Children &DOWN")]
-	public static void selectAllChildren()
+	public static void SelectAllChildren()
 	{
 		List<Object> childrenArray = new List<Object>{};
 		Object[] tmpArray = new Object[] {};
@@ -189,7 +186,7 @@ public class CurrentSelectionMenu : MonoBehaviour
 	}
 
   [MenuItem("Current Selection/Select previous GameObject #UP")]
-  public static void selectpreviousGO()
+  public static void SelectpreviousGO()
   {
     List<Object> currentSelection = new List<Object>{ };
     Object[] tmpArray = new Object[]{ };
@@ -217,7 +214,7 @@ public class CurrentSelectionMenu : MonoBehaviour
   }
 
   [MenuItem("Current Selection/Select next GameObject #DOWN")]
-  public static void selectNextGO()
+  public static void SelectNextGO()
   {
     List<Object> currentSelection = new List<Object>{ };
     Object[] tmpArray = new Object[]{ };
@@ -249,7 +246,7 @@ public class CurrentSelectionMenu : MonoBehaviour
  *******************************************/
 
   [MenuItem("Current Selection/Prefabs/Revert To Prefab %&y")]
-  static public void revertToPrefab()
+  static public void RevertToPrefab()
   {
       instance = Selection.gameObjects;
 
@@ -273,7 +270,7 @@ public class CurrentSelectionMenu : MonoBehaviour
   }
 
   [MenuItem("Current Selection/Prefabs/Apply Prefab Changes %#y")]
-  static public void applyPrefabChanges()
+  static public void ApplyPrefabChanges()
   {
       instance = Selection.gameObjects;
 
@@ -295,7 +292,7 @@ public class CurrentSelectionMenu : MonoBehaviour
   }
 
   [MenuItem("Current Selection/Prefabs/Disconnect From Prefab %#&y")]
-  static public void disconnectFromPrefab()
+  static public void DisconnectFromPrefab()
   {
       instance = Selection.gameObjects;
 

@@ -1,2 +1,2 @@
 ## AndroidNativeAudioNonRedundantFile.cs
-![Image](http://i.imgur.com/HSdjLhd.jpg)
+![Image](../Screenshots/Actions/AndroidNativeAudioNonRedundantFile_Info.png)

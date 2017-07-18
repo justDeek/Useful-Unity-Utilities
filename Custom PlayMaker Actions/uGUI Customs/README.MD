@@ -1,8 +1,8 @@
 ## DrawFullscreenColorAdvanced.cs
-![Image](http://imgur.com/Oe5v6wv.jpg)
+![Image](../Screenshots/Actions/DrawFullscreenColorAdvanced_Info.png)
 
 ## RemoveFullscreenColor.cs
-![Image](http://imgur.com/2tvhxpO.jpg)
+![Image](../Screenshots/Actions/RemoveFullscreenColor_Info.png)
 
 ## SetSpriteColorCustom.cs
-![alt text](http://i.imgur.com/FM5AKjF.jpg)
+![Image](../Screenshots/Actions/SetSpriteColorCustom_Info.png)

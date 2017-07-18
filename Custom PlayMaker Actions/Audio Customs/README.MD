@@ -1,4 +1,4 @@
 ## IntSwitchAudioClip.cs
-![Image](http://i.imgur.com/SNBW1Cm.jpg)
+![Image](../Screenshots/Actions/IntSwitchAudioClip_Info.png)
 
 

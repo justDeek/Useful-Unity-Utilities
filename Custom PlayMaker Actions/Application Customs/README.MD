@@ -1,2 +1,2 @@
 ## IsOnPlatformEvent.cs
-![Image](http://imgur.com/3DMy2Iv.jpg)
+![Image](../Screenshots/Actions/IsOnPlatformEvent_Info.png)

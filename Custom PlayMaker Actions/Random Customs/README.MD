@@ -1,14 +1,14 @@
 ## RandomFloatAroundRange.cs
-![Image](http://imgur.com/O6ypYYW.jpg)
+![Image](../Screenshots/Actions/RandomFloatAroundRange_Info.png)
 
 ## RandomIntAroundRange.cs
-![Image](http://imgur.com/lOXlITf.jpg)
+![Image](../Screenshots/Actions/RandomIntAroundRange_Info.png)
 
 ## RandomWaitCustom.cs
-![Image](http://i.imgur.com/b8sz4vt.jpg)
+![Image](../Screenshots/Actions/RandomWaitCustom_Info.png)
 
 ## SelectRandomAudioClip.cs
-![Image](http://i.imgur.com/WP05ug7.jpg)
+![Image](../Screenshots/Actions/SelectRandomAudioClip_Info.png)
 
 ## SelectRandomObject.cs
-![Image](http://i.imgur.com/zgSTl8j.jpg)
+![Image](../Screenshots/Actions/SelectRandomObject_Info.png)

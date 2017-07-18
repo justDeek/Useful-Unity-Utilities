@@ -1,14 +1,14 @@
 ## GetStringNumbers.cs
-![Image](http://imgur.com/7HBz5Fl.jpg)
+![Image](../Screenshots/Actions/GetStringNumbers_Info.png)
 
 ## StringContainsSwitch.cs
-![Image](http://imgur.com/b4xGxg9.jpg)
+![Image](../Screenshots/Actions/StringContainsSwitch_Info.png)
 
 ## StringRemoveChars.cs
-![Image](http://imgur.com/NmTd82e.jpg)
+![Image](../Screenshots/Actions/StringRemoveChars_Info.png)
 
 ## StringReplaceEachChar.cs
-![Image](http://imgur.com/Goifg6f.jpg)
+![Image](../Screenshots/Actions/StringReplaceEachChar_Info.png)
 
 ## StringSwitchCustom.cs
-![alt text](http://i.imgur.com/dWf8JGp.jpg)
+![Image](../Screenshots/Actions/StringSwitchCustom_Info.png)

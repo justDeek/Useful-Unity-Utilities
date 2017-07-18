@@ -1,17 +1,17 @@
 ## NguiGetWidgetDetails.cs
-![Image](http://imgur.com/f9dENfU.jpg)
+![Image](../Screenshots/Actions/NguiGetWidgetDetails_Info.png)
 
 ## NguiSetSpriteMultiple.cs
-![Image](http://imgur.com/klFMEUb.jpg)
+![Image](../Screenshots/Actions/NguiSetSpriteMultiple_Info.png)
 
 ## NguiSetWidgetAlphaMulti.cs
-![Image](http://imgur.com/Zg2Msl4.jpg)
+![Image](../Screenshots/Actions/NguiSetWidgetAlphaMulti_Info.png)
 
 ## NguiSetWidgetDetails.cs
-![Image](http://imgur.com/wIQWcRe.jpg)
+![Image](../Screenshots/Actions/NguiSetWidgetDetails_Info.png)
 
 ## NguiSpriteIsVisible.cs
-![Image](http://imgur.com/cGecJUn.jpg)
+![Image](../Screenshots/Actions/NguiSpriteIsVisible_Info.png)
 
 ## NguiToolsAddChildAdvanced.cs
-![Image](http://i.imgur.com/goDHTux.jpg)
+![Image](../Screenshots/Actions/NguiToolsAddChildAdvanced_Info.png)
