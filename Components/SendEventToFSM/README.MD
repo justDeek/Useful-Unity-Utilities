@@ -1,9 +1,9 @@
 ## SendEventToFSM.cs
-![Image](../Screenshots/Components/SendEventToFSM_Info.png)
+![Image](/Screenshots/Components/SendEventToFSM_Info.png)
 
 Send an OnStart-, OnClick-, OnPressUp- and/or OnPressDown-Event to the specified FSM, optionally set the value of an existing GameObject-Variable in that FSM to the GameObject this script is attached to, beforehand (to make checks where the signal came from, or use that one further, in the Target-FSM).
 
-![Image](../Screenshots/Components/SendEventToFSM_Info2.png)
+![Image](/Screenshots/Components/SendEventToFSM_Info2.png)
 
 The second image shows what the Target-FSM needs: The specified global Event(s) with matching name(s) and optionally the pre-existing variable, also with exact matching names.
 The GameObject this component is attached to also need a collider of any kind to register the click happening.
@@ -13,7 +13,7 @@ especially when you have a lot of similar GameObjects or instantiate a lot of pr
 since with this you don't need an FSM for every button but can have one global FSM for all children.
 
 ## SendEventToFSMAdvanced.cs
-![Image](../Screenshots/Components/SendEventToFSMAdvanced_Info.png)
+![Image](/Screenshots/Components/SendEventToFSMAdvanced_Info.png)
 
 ```
 Requires the SendEventToFSMInspector-Script in the Editor-Folder
