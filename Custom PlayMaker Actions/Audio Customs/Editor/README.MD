@@ -1,2 +1,2 @@
-## GetAudioClipByName.cs
-![Image](/Screenshots/Actions/GetAudioClipByName_Info.png)
+## GetAudioClipName.cs
+![Image](/Screenshots/Actions/GetAudioClipName_Info.png)
