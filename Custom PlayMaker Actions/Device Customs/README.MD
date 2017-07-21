@@ -5,4 +5,4 @@
 ![Image](/Screenshots/Actions/GetDeviceRollCustom_Info.png)
 
 ## SwipeGestureEventAdvanced.cs
-![Image](/Screenshots/Actions/SwipeGestureEventAdvanced_Info.jpg)
+![Image](/Screenshots/Actions/SwipeGestureEventAdvanced_Info.png)
