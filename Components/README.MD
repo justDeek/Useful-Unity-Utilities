@@ -1,5 +1,5 @@
 ## Comment.cs
-![Image](../Screenshots/Components/Comment_Info.png)
+![Image](./Screenshots/Components/Comment_Info.png)
 
 Add a String to any GameObject to make a note or comment. Optionally set "Display On Screen" to draw that Text at the position of the Owner-GameObject (in relation to the main camera).
 In addition can throw a Debug.Log() of that comment and / or remove the component at runtime.
