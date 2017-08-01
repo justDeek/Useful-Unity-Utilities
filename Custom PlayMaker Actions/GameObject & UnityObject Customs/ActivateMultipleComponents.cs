@@ -25,8 +25,8 @@ namespace HutongGames.PlayMaker.Actions
 
 		public override void Reset()
 		{
-			components = new FsmObject[1];
-			components[0] = null;
+			components = new FsmObject[3];
+			// components[0] = null;
 			Activate = false;
 			resetOnExit = false;
 		}

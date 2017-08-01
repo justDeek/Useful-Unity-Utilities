@@ -1,3 +1,6 @@
+## ActivateMultipleComponents.cs
+![Image](/Screenshots/Actions/ActivateMultipleComponents_Info.png)
+
 ## DestroyChildren.cs
 ![Image](/Screenshots/Actions/DestroyChildren_Info.png)
 
