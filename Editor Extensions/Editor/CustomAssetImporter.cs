@@ -9,7 +9,7 @@
 
 
 using UnityEngine;
-using UnityEditor;  // Most of the utilities we are going to use are contained in the UnityEditor namespace
+using UnityEditor;
 
 // We inherit from the AssetPostProcessor class which contains all the exposed variables and event triggers for asset importing pipeline
 using System.Runtime.InteropServices;
@@ -28,9 +28,9 @@ internal sealed class CustomAssetImporter : AssetPostprocessor {
 		var importer = assetImporter as TextureImporter;
 
 		// Set the texture import type drop-down to advanced so our changes reflect in the import settings inspector
-		importer.textureType = TextureImporterType.Sprite;
+		//importer.textureType = TextureImporterType.Sprite;
 		// Below line may cause problems with systems and plugins that utilize the textures (read/write them) like NGUI so comment it out based on your use-case
-		importer.isReadable = true;
+		// importer.isReadable = false; //true;
 		importer.filterMode = FilterMode.Point;
 		importer.mipmapEnabled = false;
 		//importer.textureFormat = TextureImporterFormat.AutomaticTruecolor; //worked in Unity 5.3, obsolete in 5.5

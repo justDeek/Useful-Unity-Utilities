@@ -16,3 +16,8 @@ A custom Menu for several useful Scene-based shortcuts:
 - Load Eigth Scene: Load the eigth Scene (Build Index = 7)
 - Load Ninth Scene: Load the ninth Scene (Build Index = 8)
 - Load Last Scene: Load the last Scene (last Build Index)
+
+```
+You should keep in mind that if you load scenes with these options you don't get a prompt for saving a changed scenes, 
+all changes will be discarded (wich can be boon or bane, depending on wheter you want it or not)
+```

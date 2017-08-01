@@ -13,6 +13,24 @@
 ## GDECreateItem.cs
 ![Image](/Screenshots/Actions/GDECreateItem_Info.png)
 
+## GDEGetRandomItem.cs
+![Image](/Screenshots/Actions/GDEGetRandomItem_Info.png)
+
+## GDEGetSchemaByItem.cs
+![Image](/Screenshots/Actions/GDEGetSchemaByItem_Info.png)
+
+## GDEHasItem.cs
+![Image](/Screenshots/Actions/GDEHasItem_Info.png)
+
+## GDELoadAllItemsBySchema.cs
+![Image](/Screenshots/Actions/GDELoadAllItemsBySchema_Info.png)
+
+## GDELoadAllKeysBySchema.cs
+![Image](/Screenshots/Actions/GDELoadAllKeysBySchema_Info.png)
+
+## GDELoadSchemaList.cs
+![Image](/Screenshots/Actions/GDELoadSchemaList_Info.png)
+
 ## GDELoadStringListCustom.cs
 ![Image](/Screenshots/Actions/GDELoadStringListCustom_Info.png)
 
