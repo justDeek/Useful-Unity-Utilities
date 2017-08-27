@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace HutongGames.PlayMaker.Actions
 {
 	[ActionCategory(ActionCategory.Enum)]
-	[Tooltip("Get a Random item from an Array.")]
+	[Tooltip("Get a Random item from an enum.")]
 	public class EnumGetRandom : FsmStateAction
 	{
 		[UIHint(UIHint.Variable)]
