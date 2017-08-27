@@ -13,6 +13,9 @@
 ## GDECreateItem.cs
 ![Image](/Screenshots/Actions/GDECreateItem_Info.png)
 
+## GDEFindItemByValue.cs
+![Image](/Screenshots/Actions/GDEFindItemByValue_Info.png)
+
 ## GDEGetRandomItem.cs
 ![Image](/Screenshots/Actions/GDEGetRandomItem_Info.png)
 

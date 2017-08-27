@@ -14,7 +14,9 @@ public class SetNGUILabelInspector : Editor {
 	}
 
 	public override void OnInspectorGUI() {
-		SetNGUILabel script = (SetNGUILabel)this.target;
+//Get script reference
+		SetNGUILabel script = (SetNGUILabel)target;
+//Get Icons
 		string currentScriptPath = AssetDatabase.GetAssetPath(MonoScript.FromScriptableObject(this));
 		currentScriptPath = currentScriptPath.Substring(0, currentScriptPath.LastIndexOf("/")); //get the folder of the current script
 		string icoCorrectPath = currentScriptPath + "/Correct.png";
@@ -28,11 +30,11 @@ public class SetNGUILabelInspector : Editor {
 		customLabel.stretchWidth = true;
 
 //Display grayed-out, read-only script-field
-    EditorGUI.BeginDisabledGroup(true);
-    serializedObject.Update();
-    SerializedProperty prop = serializedObject.FindProperty("m_Script");
-    EditorGUILayout.PropertyField(prop, true, new GUILayoutOption[0]);
-    EditorGUI.EndDisabledGroup();
+	EditorGUI.BeginDisabledGroup(true);
+	serializedObject.Update();
+	SerializedProperty prop = serializedObject.FindProperty("m_Script");
+	EditorGUILayout.PropertyField(prop, true);
+	EditorGUI.EndDisabledGroup();
 
 //Fold-Out: Raw String
 		showRawString = EditorGUILayout.Foldout(showRawString, "Raw String", true);
@@ -164,7 +166,7 @@ public class SetNGUILabelInspector : Editor {
 					isGDEPrevalent = false;
 				}
 			}
- 			string currentSchema = GDEItemManager.GetSchemaForItem(_targetItem);
+			string currentSchema = GDEItemManager.GetSchemaForItem(_targetItem);
 			if (currentSchema != null && currentSchema != "") {
 				customTextField.focused.textColor = Color.green;
 				customTextField.normal.textColor = Color.green;
@@ -182,8 +184,8 @@ public class SetNGUILabelInspector : Editor {
 			}
 
 			//Display Item- & Field-Name Text-Field
-			script.gdeItemName = (string)EditorGUILayout.TextField("Item Name", _targetItem, customTextField);
-			script.gdeFieldName = (string)EditorGUILayout.TextField("Field Name", _targetField, customSecondTextField);
+			script.gdeItemName = EditorGUILayout.TextField("Item Name", _targetItem, customTextField);
+			script.gdeFieldName = EditorGUILayout.TextField("Field Name", _targetField, customSecondTextField);
 
 			//Display "Has Result?"
 			GUILayout.BeginHorizontal();
@@ -218,7 +220,7 @@ public class SetNGUILabelInspector : Editor {
 	}
 
 	public void SwitchFolds() {
-		SetNGUILabel script = (SetNGUILabel)this.target;
+		SetNGUILabel script = (SetNGUILabel)target;
 
 		switch (currentFold) {
 			case 1: //Raw String

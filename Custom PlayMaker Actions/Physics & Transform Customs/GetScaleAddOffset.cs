@@ -19,6 +19,9 @@ namespace HutongGames.PlayMaker.Actions
 		[Tooltip("The GameObject to get the scale off of.")]
 		public FsmOwnerDefault gameObject;
 
+		[Tooltip("Use a Vector3 variable or specify each axis individually.")]
+		public FsmVector3 vector3Offset;
+
 		public FsmFloat xOffset;
 
 		public FsmFloat yOffset;
@@ -27,7 +30,6 @@ namespace HutongGames.PlayMaker.Actions
 
 		public Vector3Operation operation;
 
-		[RequiredField]
 		[UIHint(UIHint.Variable)]
 		[Tooltip("The starting scale with Offset.")]
 		public FsmVector3 storeVector3Result;
@@ -40,6 +42,7 @@ namespace HutongGames.PlayMaker.Actions
 		public override void Reset()
 		{
 			gameObject = null;
+			vector3Offset = new FsmVector3() { UseVariable = true };
 			xOffset = null;
 			yOffset = null;
 			zOffset = null;
@@ -71,6 +74,13 @@ namespace HutongGames.PlayMaker.Actions
 				return;
 			}
 
+			if (vector3Offset != null && !vector3Offset.IsNone)
+			{
+				xOffset.Value = vector3Offset.Value.x;
+				yOffset.Value = vector3Offset.Value.y;
+				zOffset.Value = vector3Offset.Value.z;
+			}
+
 			var scale = go.transform.localScale;
 			var input = new Vector3(xOffset.Value, yOffset.Value, zOffset.Value);
 
@@ -97,12 +107,12 @@ namespace HutongGames.PlayMaker.Actions
 					storeVector3Result.Value = divResult;
 					break;
 
-		  }
-
-			if (applyOffsetToGO == true)
-			{
-					go.transform.localScale = scale;
 			}
-	  }
-  }
+
+			if (applyOffsetToGO)
+			{
+				go.transform.localScale = storeVector3Result.Value;
+			}
+		}
+	}
 }

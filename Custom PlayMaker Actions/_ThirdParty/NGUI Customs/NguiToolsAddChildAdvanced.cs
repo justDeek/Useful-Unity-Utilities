@@ -35,12 +35,12 @@ namespace HutongGames.PlayMaker.Actions
 
 		public override void Reset()
 		{
-			parent = new FsmGameObject() {UseVariable=true};;
+			parent = new FsmGameObject() { UseVariable = true }; ;
 			childReference = null;
-			name = new FsmString() {UseVariable=true};
+			name = new FsmString() { UseVariable = true };
 			position = new FsmVector3 { UseVariable = true };
 			rotation = new FsmVector3 { UseVariable = true };
-			scale = new Vector3(1,1,1);
+			scale = new Vector3(1, 1, 1);
 			space = Space.Self;
 			storeChildInstance = null;
 		}
@@ -48,32 +48,20 @@ namespace HutongGames.PlayMaker.Actions
 		public override void OnEnter()
 		{
 			//if an GameObject Reference has been set, create that, otherwise create an Empty GameObject
-			if (!childReference.IsNone && childReference.Value != null) {
-				storeChildInstance.Value = NGUITools.AddChild(parent.Value, childReference.Value);
+			if (!childReference.IsNone && childReference.Value != null)
+			{
+				storeChildInstance.Value = parent.Value.AddChild(childReference.Value);
 
 				//If name has been set, use that as the name for the created GO, otherwise use the name of the set Reference
-				if (!name.IsNone)
-				{
-					storeChildInstance.Value.gameObject.name = name.Value;
-				}
-				else
-				{
-					storeChildInstance.Value.gameObject.name = childReference.Value.gameObject.name;
-				}
-
+				storeChildInstance.Value.gameObject.name = !name.IsNone ? name.Value : childReference.Value.gameObject.name;
 			}
 			else
 			{
-				var _go = new GameObject ("Empty GameObject");
+				var _go = new GameObject("Empty GameObject");
 				_go.transform.parent = parent.Value.transform;
-				if (!name.IsNone)
-				{
-					_go.name = name.Value;
-				}
-				else
-				{
-					_go.name = _go.gameObject.name;
-				}
+
+				_go.name = !name.IsNone ? name.Value : _go.gameObject.name;
+
 				storeChildInstance.Value = _go;
 				storeChildInstance.Value.layer = parent.Value.layer;
 			}
@@ -95,7 +83,7 @@ namespace HutongGames.PlayMaker.Actions
 			{
 				if (space == Space.Self)
 				{
-					storeChildInstance.Value.transform.localRotation = Quaternion.Euler (rotation.Value);
+					storeChildInstance.Value.transform.localRotation = Quaternion.Euler(rotation.Value);
 				}
 				else
 				{
@@ -103,17 +91,20 @@ namespace HutongGames.PlayMaker.Actions
 				}
 			}
 
-			if (!scale.IsNone) {
+			if (!scale.IsNone)
+			{
 				storeChildInstance.Value.transform.localScale = scale.Value;
 			}
 
 			UITable mTable = NGUITools.FindInParents<UITable>(storeChildInstance.Value);
-			if (mTable != null) {
+			if (mTable != null)
+			{
 				mTable.repositionNow = true;
 			}
 
 			UIGrid mGrid = NGUITools.FindInParents<UIGrid>(storeChildInstance.Value);
-			if (mGrid != null) {
+			if (mGrid != null)
+			{
 				mGrid.repositionNow = true;
 			}
 			Finish();

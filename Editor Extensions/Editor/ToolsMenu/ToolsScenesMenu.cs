@@ -1,37 +1,88 @@
-
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 
-public class ToolsScenesMenu : MonoBehaviour {
+[InitializeOnLoad]
+public class ToolsScenesMenu : MonoBehaviour
+{
 
-	static string scenePath;
+	private static string scenePath;
+	private static List<int> visitedScenes = new List<int>();
+	private static int currentListID;
 
+	private void Awake()
+	{
+		EditorSceneManager.activeSceneChanged += AddSceneToList;
+	}
+
+	static ToolsScenesMenu()
+	{
+		EditorSceneManager.activeSceneChanged += AddSceneToList;
+	}
+
+	private static void LoadScene(int buildID)
+	{
+		scenePath = SceneUtility.GetScenePathByBuildIndex(buildID);
+		if (!string.IsNullOrEmpty(scenePath))
+		{
+			if (Application.isPlaying)
+				SceneManager.LoadScene(scenePath, LoadSceneMode.Single);
+			else
+				EditorSceneManager.OpenScene(scenePath, OpenSceneMode.Single);
+
+			EditorSceneManager.activeSceneChanged += AddSceneToList;
+		}
+	}
+
+	private static void AddSceneToList(Scene lastScene, Scene currentScene)
+	{
+		if (currentScene != null)
+		{
+			if (visitedScenes.Count == 0)
+			{
+				Scene initScene = SceneManager.GetActiveScene();
+				visitedScenes.Add(initScene.buildIndex);
+				currentListID = 0;
+			}
+			else
+			{
+				if (visitedScenes[visitedScenes.Count - 1] != currentScene.buildIndex)
+				{
+					visitedScenes.Add(currentScene.buildIndex);
+					currentListID += 1;
+					//					Debug.Log(currentScene.name);
+					//					Debug.Log(currentListID);
+				}
+			}
+		}
+	}
 
 	// adds a menu item which gives a brief summary of currently open scenes (from the Unity Documentation)
 	[MenuItem("Tools/Scenes/Scene Summary")]
 	public static void SummarizeScenes()
 	{
-			string output = "";
-			if (EditorSceneManager.sceneCountInBuildSettings > 0)
+		string output = "";
+		if (EditorSceneManager.sceneCountInBuildSettings > 0)
+		{
+			for (int n = 0; n < EditorSceneManager.sceneCountInBuildSettings; ++n)
 			{
-					for (int n = 0; n < EditorSceneManager.sceneCountInBuildSettings; ++n)
-					{
-							Scene scene = EditorSceneManager.GetSceneByBuildIndex(n);
-							if (scene.IsValid()) {
-								output += scene.name;
-								output += scene.isLoaded ? " (Opened, " : " (Not Opened, ";
-								output += scene.isDirty ? "Dirty, " : "Clean, ";
-								output += scene.buildIndex >= 0 ? " in build)\n" : " NOT in build)\n";
-							}
-					}
+				Scene scene = EditorSceneManager.GetSceneByBuildIndex(n);
+				if (scene.IsValid())
+				{
+					output += scene.name;
+					output += scene.isLoaded ? " (Opened, " : " (Not Opened, ";
+					output += scene.isDirty ? "Dirty, " : "Clean, ";
+					output += scene.buildIndex >= 0 ? " in build)\n" : " NOT in build)\n";
+				}
 			}
-			else
-			{
-					output = "No open scenes.";
-			}
-			EditorUtility.DisplayDialog("Scene Summary", output, "Ok");
+		}
+		else
+		{
+			output = "No open scenes.";
+		}
+		EditorUtility.DisplayDialog("Scene Summary", output, "Ok");
 	}
 
 	//Open Previous Scene
@@ -46,8 +97,8 @@ public class ToolsScenesMenu : MonoBehaviour {
 	public static void OpenPreviousScene()
 	{
 		int currentBuildID = EditorSceneManager.GetActiveScene().buildIndex - 1;
-		scenePath = SceneUtility.GetScenePathByBuildIndex(currentBuildID);
-		EditorSceneManager.OpenScene(scenePath, OpenSceneMode.Single);
+
+		LoadScene(currentBuildID);
 	}
 
 	//Open Next Scene
@@ -62,8 +113,64 @@ public class ToolsScenesMenu : MonoBehaviour {
 	public static void OpenNextScene()
 	{
 		int currentBuildID = EditorSceneManager.GetActiveScene().buildIndex + 1;
-		scenePath = SceneUtility.GetScenePathByBuildIndex(currentBuildID);
-		EditorSceneManager.OpenScene(scenePath, OpenSceneMode.Single);
+
+		LoadScene(currentBuildID);
+	}
+
+	//Open Preceeding Scene
+	[MenuItem("Tools/Scenes/Open Preceding Scene #&,", true)]
+	private static bool OpenPrecedingSceneValidation()
+	{
+		if (visitedScenes.Count > 1 && currentListID > 1)
+			return true;
+		else
+			return false;
+	}
+
+	[MenuItem("Tools/Scenes/Open Preceding Scene #&,")]
+	public static void OpenPrecedingScene()
+	{
+		if (currentListID > 0)
+		{
+			currentListID -= 1;
+		}
+		scenePath = SceneUtility.GetScenePathByBuildIndex(visitedScenes[currentListID]);
+
+		if (!string.IsNullOrEmpty(scenePath) && EditorSceneManager.GetSceneByPath(scenePath) != EditorSceneManager.GetActiveScene())
+		{
+			if (Application.isPlaying)
+				SceneManager.LoadScene(scenePath, LoadSceneMode.Single);
+			else
+				EditorSceneManager.OpenScene(scenePath, OpenSceneMode.Single);
+		}
+	}
+
+	//Open Succeeding Scene
+	[MenuItem("Tools/Scenes/Open Succeeding Scene #&.", true)]
+	private static bool OpenSucceedingSceneValidation()
+	{
+		if (visitedScenes.Count > 0 && currentListID < visitedScenes.Count - 1)
+			return true;
+		else
+			return false;
+	}
+
+	[MenuItem("Tools/Scenes/Open Succeeding Scene #&.")]
+	public static void OpenSucceedingScene()
+	{
+		if (currentListID < visitedScenes.Count)
+		{
+			currentListID += 1;
+		}
+		scenePath = SceneUtility.GetScenePathByBuildIndex(visitedScenes[currentListID]);
+
+		if (!string.IsNullOrEmpty(scenePath) && EditorSceneManager.GetSceneByPath(scenePath) != EditorSceneManager.GetActiveScene())
+		{
+			if (Application.isPlaying)
+				SceneManager.LoadScene(scenePath, LoadSceneMode.Single);
+			else
+				EditorSceneManager.OpenScene(scenePath, OpenSceneMode.Single);
+		}
 	}
 
 	//Open First Scene
@@ -76,8 +183,7 @@ public class ToolsScenesMenu : MonoBehaviour {
 	[MenuItem("Tools/Scenes/Open First Scene #&1")]
 	public static void OpenFirstScene()
 	{
-	  scenePath = SceneUtility.GetScenePathByBuildIndex(0);
-	  EditorSceneManager.OpenScene(scenePath, OpenSceneMode.Single);
+		LoadScene(0);
 	}
 
 	//Open Second Scene
@@ -90,8 +196,7 @@ public class ToolsScenesMenu : MonoBehaviour {
 	[MenuItem("Tools/Scenes/Open Second Scene #&2")]
 	public static void OpenSecondScene()
 	{
-	  scenePath = SceneUtility.GetScenePathByBuildIndex(1);
-	  EditorSceneManager.OpenScene(scenePath, OpenSceneMode.Single);
+		LoadScene(1);
 	}
 
 	//Open Third Scene
@@ -104,8 +209,7 @@ public class ToolsScenesMenu : MonoBehaviour {
 	[MenuItem("Tools/Scenes/Open Third Scene #&3")]
 	public static void OpenThirdScene()
 	{
-	  scenePath = SceneUtility.GetScenePathByBuildIndex(2);
-	  EditorSceneManager.OpenScene(scenePath, OpenSceneMode.Single);
+		LoadScene(2);
 	}
 
 	//Open Fourth Scene
@@ -118,8 +222,7 @@ public class ToolsScenesMenu : MonoBehaviour {
 	[MenuItem("Tools/Scenes/Open Fourth Scene #&4")]
 	public static void OpenFourthScene()
 	{
-	  scenePath = SceneUtility.GetScenePathByBuildIndex(3);
-	  EditorSceneManager.OpenScene(scenePath, OpenSceneMode.Single);
+		LoadScene(3);
 	}
 
 	//Open Fifth Scene
@@ -132,8 +235,7 @@ public class ToolsScenesMenu : MonoBehaviour {
 	[MenuItem("Tools/Scenes/Open Fifth Scene #&5")]
 	public static void OpenFifthScene()
 	{
-	  scenePath = SceneUtility.GetScenePathByBuildIndex(4);
-	  EditorSceneManager.OpenScene(scenePath, OpenSceneMode.Single);
+		LoadScene(4);
 	}
 
 	//Open Sixth Scene
@@ -146,8 +248,7 @@ public class ToolsScenesMenu : MonoBehaviour {
 	[MenuItem("Tools/Scenes/Open Sixth Scene #&6")]
 	public static void OpenSixthScene()
 	{
-	  scenePath = SceneUtility.GetScenePathByBuildIndex(5);
-	  EditorSceneManager.OpenScene(scenePath, OpenSceneMode.Single);
+		LoadScene(5);
 	}
 
 	//Open Seventh Scene
@@ -160,8 +261,7 @@ public class ToolsScenesMenu : MonoBehaviour {
 	[MenuItem("Tools/Scenes/Open Seventh Scene #&7")]
 	public static void OpenSeventhScene()
 	{
-		scenePath = SceneUtility.GetScenePathByBuildIndex(6);
-		EditorSceneManager.OpenScene(scenePath, OpenSceneMode.Single);
+		LoadScene(6);
 	}
 
 	//Open Eigth Scene
@@ -174,8 +274,7 @@ public class ToolsScenesMenu : MonoBehaviour {
 	[MenuItem("Tools/Scenes/Open Eigth Scene #&8")]
 	public static void OpenEigthScene()
 	{
-		scenePath = SceneUtility.GetScenePathByBuildIndex(7);
-		EditorSceneManager.OpenScene(scenePath, OpenSceneMode.Single);
+		LoadScene(7);
 	}
 
 	//Open Ninth Scene
@@ -188,8 +287,7 @@ public class ToolsScenesMenu : MonoBehaviour {
 	[MenuItem("Tools/Scenes/Open Ninth Scene #&9")]
 	public static void OpenNinthScene()
 	{
-		scenePath = SceneUtility.GetScenePathByBuildIndex(8);
-		EditorSceneManager.OpenScene(scenePath, OpenSceneMode.Single);
+		LoadScene(8);
 	}
 
 	//Open Last Scene
@@ -204,8 +302,8 @@ public class ToolsScenesMenu : MonoBehaviour {
 	public static void OpenLastScene()
 	{
 		int tmp = EditorSceneManager.sceneCountInBuildSettings - 1;
-		scenePath = SceneUtility.GetScenePathByBuildIndex(tmp);
-		EditorSceneManager.OpenScene(scenePath, OpenSceneMode.Single);
+
+		LoadScene(tmp);
 	}
 
 }

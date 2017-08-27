@@ -3,11 +3,11 @@ using UnityEngine;
 
 [CanEditMultipleObjects]
 [CustomEditor(typeof(NGUIEffects), true)]
-public class NGUIEffectsInspector : UIWidgetInspector
+public class NGUIEffectsInspector : UISpriteInspector //UIWidgetInspector
 {
 	// UISprite mSprite;
 
-	void OnDrawGizmos ()
+	void OnDrawGizmos()
 	{
 		NGUIEffects script = (NGUIEffects)this.target;
 		GameObject go = (GameObject)script.gameObject;
@@ -18,14 +18,15 @@ public class NGUIEffectsInspector : UIWidgetInspector
 		if (drawGizmos.boolValue && NGUITools.GetActive(be) && UnityEditor.Selection.activeGameObject == go)
 		{
 			//Draw Shadow3D Gizmos
-			if (script.effectStyle == NGUIEffects.Effect.Shadow3D) {
+			if (script.effectStyle == NGUIEffects.Effect.Shadow3D)
+			{
 				Gizmos.color = Color.green;
 				Gizmos.DrawIcon(new Vector3(effectSource.vector3Value.x, effectSource.vector3Value.y, go.transform.position.z - (effectDistance.vector3Value.z / 100)), "NGUIShadow3DSource", true);
 			}
 		}
 	}
 
-	protected override void DrawCustomProperties ()
+	protected override void DrawCustomProperties()
 	{
 		SerializedProperty sp = serializedObject.FindProperty("mSpriteName");
 		GUILayout.BeginHorizontal();
@@ -36,10 +37,11 @@ public class NGUIEffectsInspector : UIWidgetInspector
 		{
 			NGUIEditorTools.DrawProperty("", serializedObject, "mEffectColor", GUILayout.MinWidth(10f));
 			GUILayout.EndHorizontal();
-//Offset
+			//Offset
 			GUILayout.BeginHorizontal();
 			{
-				if (sp.enumValueIndex != 0) { //if Effect is not 'None'
+				if (sp.enumValueIndex != 0)
+				{ //if Effect is not 'None'
 					GUILayout.Label(" ", GUILayout.Width(5f));
 					GUILayout.Label("Offset", GUILayout.Width(50f));
 					NGUIEditorTools.SetLabelWidth(20f);
@@ -48,17 +50,19 @@ public class NGUIEffectsInspector : UIWidgetInspector
 					NGUIEditorTools.DrawProperty("Z", serializedObject, "mEffectDistance.z", GUILayout.MinWidth(20f));
 					NGUIEditorTools.DrawPadding();
 					NGUIEditorTools.SetLabelWidth(60f);
-					if (GUILayout.Button("X", GUILayout.Width(20f), GUILayout.Height(14f))) {
+					if (GUILayout.Button("X", GUILayout.Width(20f), GUILayout.Height(14f)))
+					{
 						SerializedProperty onEffectDistance = serializedObject.FindProperty("mEffectDistance");
 						onEffectDistance.vector3Value = Vector3.zero;
 					}
 				}
 			}
 			GUILayout.EndHorizontal();
-//Source
+			//Source
 			GUILayout.BeginHorizontal();
 			{
-				if (sp.enumValueIndex == 2) { //if Effect is 'Shadow3D'
+				if (sp.enumValueIndex == 2)
+				{ //if Effect is 'Shadow3D'
 					GUILayout.Label(" ", GUILayout.Width(5f));
 					GUILayout.Label("Source", GUILayout.Width(50f));
 					NGUIEditorTools.SetLabelWidth(20f);
@@ -66,17 +70,19 @@ public class NGUIEffectsInspector : UIWidgetInspector
 					NGUIEditorTools.DrawProperty("Y", serializedObject, "mEffectSource.y", GUILayout.MinWidth(40f));
 					NGUIEditorTools.DrawPadding();
 					NGUIEditorTools.SetLabelWidth(60f);
-					if (GUILayout.Button("X", GUILayout.Width(20f), GUILayout.Height(14f))) {
+					if (GUILayout.Button("X", GUILayout.Width(20f), GUILayout.Height(14f)))
+					{
 						SerializedProperty onEffectSource = serializedObject.FindProperty("mEffectSource");
 						onEffectSource.vector2Value = Vector2.zero;
 					}
 				}
 			}
 			GUILayout.EndHorizontal();
-//Scale
+			//Scale
 			GUILayout.BeginHorizontal();
 			{
-				if (sp.enumValueIndex != 0) {
+				if (sp.enumValueIndex != 0)
+				{
 					GUILayout.Label(" ", GUILayout.Width(5f));
 					GUILayout.Label("Scale", GUILayout.Width(50f));
 					NGUIEditorTools.SetLabelWidth(20f);
@@ -84,7 +90,8 @@ public class NGUIEffectsInspector : UIWidgetInspector
 					NGUIEditorTools.DrawProperty("Y", serializedObject, "mEffectScale.y", GUILayout.MinWidth(40f));
 					NGUIEditorTools.DrawPadding();
 					NGUIEditorTools.SetLabelWidth(60f);
-					if (GUILayout.Button("X", GUILayout.Width(20f), GUILayout.Height(14f))) {
+					if (GUILayout.Button("X", GUILayout.Width(20f), GUILayout.Height(14f)))
+					{
 						SerializedProperty onEffectScale = serializedObject.FindProperty("mEffectScale");
 						onEffectScale.vector2Value = Vector2.one;
 					}
@@ -105,7 +112,5 @@ public class NGUIEffectsInspector : UIWidgetInspector
 		// }
 		// NGUIEditorTools.RepaintSprites();
 		base.DrawCustomProperties();
-
-		//return;
 	}
 }

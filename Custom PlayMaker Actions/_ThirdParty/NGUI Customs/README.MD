@@ -15,3 +15,6 @@
 
 ## NguiToolsAddChildAdvanced.cs
 ![Image](/Screenshots/Actions/NguiToolsAddChildAdvanced_Info.png)
+
+## NguiToolsDestroyMulti.cs
+![Image](/Screenshots/Actions/NguiToolsDestroyMulti_Info.png)

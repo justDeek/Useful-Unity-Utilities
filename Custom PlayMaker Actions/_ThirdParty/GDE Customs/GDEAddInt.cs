@@ -15,14 +15,13 @@ namespace HutongGames.PlayMaker.Actions
         public FsmInt intToAdd;
         public FsmBool save;
 
-        private FsmInt prevalentInt;
+        private int prevalentInt;
 
         public override void Reset()
         {
             base.Reset();
             intToAdd = 1;
             save = true;
-            prevalentInt = null;
         }
 
         public override void OnEnter()
@@ -34,17 +33,19 @@ namespace HutongGames.PlayMaker.Actions
                 {
                     int val;
                     data.TryGetInt(FieldName.Value, out val);
-                    prevalentInt.Value = val;
-    				    }
-    				prevalentInt.Value = GDEDataManager.GetInt(ItemName.Value, FieldName.Value, prevalentInt.Value) + intToAdd.Value;
-            GDEDataManager.SetInt(ItemName.Value, FieldName.Value, prevalentInt.Value);
-            if (save.Value)
-            {
-              GDEDataManager.Save();
-            }
+                    prevalentInt = val;
+                }
 
+                prevalentInt = GDEDataManager.GetInt(ItemName.Value, FieldName.Value, prevalentInt);
+                prevalentInt += intToAdd.Value;
+                GDEDataManager.SetInt(ItemName.Value, FieldName.Value, prevalentInt);
+
+                if (save.Value)
+                {
+                    GDEDataManager.Save();
+                }
             }
-            catch(UnityException ex)
+            catch (UnityException ex)
             {
                 LogError(ex.ToString());
             }
