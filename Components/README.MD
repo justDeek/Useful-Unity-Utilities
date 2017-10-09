@@ -6,15 +6,17 @@ In addition can throw a Debug.Log() of that comment and / or remove the componen
 
 ## DisableOnAwake.cs
 ![Image](/Screenshots/Components/DisableOnAwake_Info.png)
+
 ```
 - Requires you to add the tag 'RemoveAtRuntime' to Unity and the corresponding GameObjects
+```
 
 Partner-Script to **DontDestroyDeleteDuplicates** wich disables all GameObjects tagged with `RemoveAtRuntime` in the current Scene on Awake.
 
 ## DontDestroyDeleteDuplicates.cs
 ![Image](/Screenshots/Components/DontDestroyDeleteDuplicates_Info.png)
 
-```diff
+```
 - Requires you to add the tag 'Persistent' to Unity and the corresponding GameObjects
 ```
 
@@ -25,6 +27,7 @@ GOs in several scenes for testing purposes but only want one copy to be persiste
 
 ## FollowMouseMovement
 ![Image](/Screenshots/Components/FollowMouseMovement_Info.png)
+
 ```
 - Requires you to add the tag 'UICamera' to Unity and set the camera that renders the objects with this script attached to it; 
 - alternatively replace all "UICamCamera.ScreenToWorldPoint" parts with "Camera.main.ScreenToWorldPoint" to automatically get the Camera with the tag 'Main Camera' on it
