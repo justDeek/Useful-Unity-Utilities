@@ -34,7 +34,15 @@ When this script is enabled it actively follows the current mouse-/touch-positio
 ## FPSCounter.cs
 ![Image](/Screenshots/Components/FPSCounter_Info.png)
 
-A modification of the Standard Assets' FPSCounter that is converted to OnGUI instead of uGUI (draws directly on screen instead of requiring a Canvas and uGUI-Components).
+A modification of the FPSCounter from Vacuum Shader's Curved World asset that is converted to OnGUI instead of uGUI (draws directly on screen instead of requiring a Canvas and uGUI-Components).
+
+## RemoveAtRuntime.cs
+![Image](/Screenshots/Components/RemoveAtRuntime_Info.png)
+
+Removes the GameObject this is attached to immediately on scene load without letting it execute anything that is not in Awake().
+Useful to remove GOs that are used for debugging at runtime or in build.
+Optionally remove all GOs which name contains "OBSOLETE" (best to only use one of this component per scene or on
+a GameObject that's persistent throughout all scenes).
 
 ## TextureScrolling.cs
 ![Image](/Screenshots/Components/TextureScrolling_Info.png)

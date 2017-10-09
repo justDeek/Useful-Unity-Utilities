@@ -2,23 +2,21 @@ using UnityEditor;
 using UnityEngine;
 
 [CanEditMultipleObjects]
-[CustomEditor(typeof(NGUIEffects), true)]
-public class NGUIEffectsInspector : UISpriteInspector //UIWidgetInspector
+[CustomEditor(typeof(UISprite), true)]
+public class NGUIEffectsInspector : UIWidgetInspector
 {
-	// UISprite mSprite;
-
 	void OnDrawGizmos()
 	{
-		NGUIEffects script = (NGUIEffects)this.target;
+		UISprite script = (UISprite)this.target;
 		GameObject go = (GameObject)script.gameObject;
 		Behaviour be = (Behaviour)script;
 		SerializedProperty effectSource = serializedObject.FindProperty("mEffectSource");
 		SerializedProperty effectDistance = serializedObject.FindProperty("mEffectDistance");
 		SerializedProperty drawGizmos = serializedObject.FindProperty("drawGizmos");
-		if (drawGizmos.boolValue && NGUITools.GetActive(be) && UnityEditor.Selection.activeGameObject == go)
+		if(drawGizmos.boolValue && NGUITools.GetActive(be) && UnityEditor.Selection.activeGameObject == go)
 		{
 			//Draw Shadow3D Gizmos
-			if (script.effectStyle == NGUIEffects.Effect.Shadow3D)
+			if(script.effectStyle == UISprite.Effect.Shadow3D)
 			{
 				Gizmos.color = Color.green;
 				Gizmos.DrawIcon(new Vector3(effectSource.vector3Value.x, effectSource.vector3Value.y, go.transform.position.z - (effectDistance.vector3Value.z / 100)), "NGUIShadow3DSource", true);
@@ -31,7 +29,7 @@ public class NGUIEffectsInspector : UISpriteInspector //UIWidgetInspector
 		SerializedProperty sp = serializedObject.FindProperty("mSpriteName");
 		GUILayout.BeginHorizontal();
 		GUILayout.Label("Effect", GUILayout.Width(76f));
-		sp = NGUIEditorTools.DrawProperty("", serializedObject, "mEffectStyle", GUILayout.MinWidth(16f));
+		sp = NGUIEditorTools.DrawProperty("", serializedObject, "effectStyle", GUILayout.MinWidth(16f));
 
 		EditorGUI.BeginDisabledGroup(!sp.hasMultipleDifferentValues && !sp.boolValue);
 		{
@@ -40,7 +38,7 @@ public class NGUIEffectsInspector : UISpriteInspector //UIWidgetInspector
 			//Offset
 			GUILayout.BeginHorizontal();
 			{
-				if (sp.enumValueIndex != 0)
+				if(sp.enumValueIndex != 0)
 				{ //if Effect is not 'None'
 					GUILayout.Label(" ", GUILayout.Width(5f));
 					GUILayout.Label("Offset", GUILayout.Width(50f));
@@ -50,7 +48,7 @@ public class NGUIEffectsInspector : UISpriteInspector //UIWidgetInspector
 					NGUIEditorTools.DrawProperty("Z", serializedObject, "mEffectDistance.z", GUILayout.MinWidth(20f));
 					NGUIEditorTools.DrawPadding();
 					NGUIEditorTools.SetLabelWidth(60f);
-					if (GUILayout.Button("X", GUILayout.Width(20f), GUILayout.Height(14f)))
+					if(GUILayout.Button("X", GUILayout.Width(20f), GUILayout.Height(14f)))
 					{
 						SerializedProperty onEffectDistance = serializedObject.FindProperty("mEffectDistance");
 						onEffectDistance.vector3Value = Vector3.zero;
@@ -61,7 +59,7 @@ public class NGUIEffectsInspector : UISpriteInspector //UIWidgetInspector
 			//Source
 			GUILayout.BeginHorizontal();
 			{
-				if (sp.enumValueIndex == 2)
+				if(sp.enumValueIndex == 2)
 				{ //if Effect is 'Shadow3D'
 					GUILayout.Label(" ", GUILayout.Width(5f));
 					GUILayout.Label("Source", GUILayout.Width(50f));
@@ -70,7 +68,7 @@ public class NGUIEffectsInspector : UISpriteInspector //UIWidgetInspector
 					NGUIEditorTools.DrawProperty("Y", serializedObject, "mEffectSource.y", GUILayout.MinWidth(40f));
 					NGUIEditorTools.DrawPadding();
 					NGUIEditorTools.SetLabelWidth(60f);
-					if (GUILayout.Button("X", GUILayout.Width(20f), GUILayout.Height(14f)))
+					if(GUILayout.Button("X", GUILayout.Width(20f), GUILayout.Height(14f)))
 					{
 						SerializedProperty onEffectSource = serializedObject.FindProperty("mEffectSource");
 						onEffectSource.vector2Value = Vector2.zero;
@@ -81,7 +79,7 @@ public class NGUIEffectsInspector : UISpriteInspector //UIWidgetInspector
 			//Scale
 			GUILayout.BeginHorizontal();
 			{
-				if (sp.enumValueIndex != 0)
+				if(sp.enumValueIndex != 0)
 				{
 					GUILayout.Label(" ", GUILayout.Width(5f));
 					GUILayout.Label("Scale", GUILayout.Width(50f));
@@ -90,7 +88,7 @@ public class NGUIEffectsInspector : UISpriteInspector //UIWidgetInspector
 					NGUIEditorTools.DrawProperty("Y", serializedObject, "mEffectScale.y", GUILayout.MinWidth(40f));
 					NGUIEditorTools.DrawPadding();
 					NGUIEditorTools.SetLabelWidth(60f);
-					if (GUILayout.Button("X", GUILayout.Width(20f), GUILayout.Height(14f)))
+					if(GUILayout.Button("X", GUILayout.Width(20f), GUILayout.Height(14f)))
 					{
 						SerializedProperty onEffectScale = serializedObject.FindProperty("mEffectScale");
 						onEffectScale.vector2Value = Vector2.one;

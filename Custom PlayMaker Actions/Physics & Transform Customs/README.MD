@@ -9,3 +9,6 @@
 
 ## GetScaleAddOffset.cs
 ![Image](/Screenshots/Actions/GetScaleAddOffset_Info.png)
+
+## SetPositionMulti.cs
+![Image](/Screenshots/Actions/SetPositionMulti_Info.png)

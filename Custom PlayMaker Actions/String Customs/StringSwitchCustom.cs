@@ -1,6 +1,4 @@
 
-using UnityEngine;
-
 namespace HutongGames.PlayMaker.Actions
 {
 	[ActionCategory(ActionCategory.String)]
@@ -13,9 +11,11 @@ namespace HutongGames.PlayMaker.Actions
 		[CompoundArray("String Switches", "Compare String", "Send Event")]
 		public FsmString[] compareTo;
 		public FsmEvent[] sendEvent;
-		[HutongGames.PlayMaker.Tooltip("Event to raise if no matches are found")]
+
+		[Tooltip("Event to raise if no matches are found")]
 		public FsmEvent NoMatchEvent;
-		public bool everyFrame;
+
+		public FsmBool everyFrame;
 
 		public override void Reset()
 		{
@@ -30,7 +30,7 @@ namespace HutongGames.PlayMaker.Actions
 		{
 			DoStringSwitch();
 
-			if (!everyFrame)
+			if (!everyFrame.Value)
 				Finish();
 		}
 
@@ -41,10 +41,10 @@ namespace HutongGames.PlayMaker.Actions
 
 		void DoStringSwitch()
 		{
-//			if (stringVariable.IsNone) {
-//
-//			}
-
+			if (stringVariable.IsNone)
+			{
+				return;
+			}
 
 			for (int i = 0; i < compareTo.Length; i++)
 			{
@@ -55,10 +55,9 @@ namespace HutongGames.PlayMaker.Actions
 				}
 
 			}
-			if(NoMatchEvent != null)
+			if (NoMatchEvent != null)
 			{
 				Fsm.Event(NoMatchEvent);
-				return;
 			}
 		}
 	}

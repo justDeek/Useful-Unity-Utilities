@@ -2,29 +2,36 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace UnityStandardAssets.Utility
+namespace VacuumShaders.CurvedWorld.Demo 
 {
+    [AddComponentMenu("VacuumShaders/Curved World/Example/FPS Counter")]
+    [RequireComponent(typeof(Text))]
     public class FPSCounter : MonoBehaviour
     {
+        //////////////////////////////////////////////////////////////////////////////
+        //                                                                          // 
+        //Variables                                                                 //                
+        //                                                                          //               
+        //////////////////////////////////////////////////////////////////////////////
         const float fpsMeasurePeriod = 0.5f;
         private int m_FpsAccumulator = 0;
         private float m_FpsNextPeriod = 0;
         private int m_CurrentFps;
         const string display = "{0} FPS";
-        private string fps = "";
-
-        void OnGUI() {
-          GUI.color = Color.cyan;
-          GUI.Label(new Rect(10,10,100,20), fps);
-        }
-
+        Text uiText;
+        //////////////////////////////////////////////////////////////////////////////
+        //                                                                          // 
+        //Unity Functions                                                           //                
+        //                                                                          //               
+        //////////////////////////////////////////////////////////////////////////////
         private void Start()
         {
             m_FpsNextPeriod = Time.realtimeSinceStartup + fpsMeasurePeriod;
+            uiText = GetComponent<Text>();
         }
 
 
-        void Update()
+        private void Update()
         {
             // measure average frames per second
             m_FpsAccumulator++;
@@ -33,7 +40,8 @@ namespace UnityStandardAssets.Utility
                 m_CurrentFps = (int) (m_FpsAccumulator/fpsMeasurePeriod);
                 m_FpsAccumulator = 0;
                 m_FpsNextPeriod += fpsMeasurePeriod;
-                fps = string.Format(display, m_CurrentFps);
+                
+                uiText.text = string.Format(display, m_CurrentFps);
             }
         }
     }

@@ -1,5 +1,4 @@
 
-using System;
 using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions
@@ -7,17 +6,18 @@ namespace HutongGames.PlayMaker.Actions
 	[ActionCategory(ActionCategory.StateMachine)]
 	[ActionTarget(typeof(PlayMakerFSM), "eventTarget")]
 	[ActionTarget(typeof(GameObject), "eventTarget")]
-	[Tooltip("Sets a value of the specified type in another FSM, then sends an Event to it after an optional delay (combines 'Send Event' and 'Set Fsm Variable' for convenience & efficiency).")]
-	public class SendEventSetValue : FsmStateAction
+	[Tooltip("Sets multiple values of the specified types in another FSM, then sends an Event to it after an optional delay (combines 'Send Event' and 'Set Fsm Variable' for convenience & efficiency).")]
+	public class SendEventSetMulti : FsmStateAction
 	{
 		[Tooltip("Where to send the event.")]
 		public FsmEventTarget eventTarget;
 
+		[CompoundArray("Variable Amount", "Variable Name", "Set Value")]
 		[Tooltip("The name of the variable in the target FSM.")]
-		public FsmString variableName;
+		public FsmString[] variableName;
 
 		[Tooltip("The new value for the specified variable.")]
-		public FsmVar setValue;
+		public FsmVar[] setValue;
 
 		[RequiredField]
 		[Tooltip("The event to send. NOTE: Events must be marked Global to send between FSMs.")]
@@ -32,18 +32,17 @@ namespace HutongGames.PlayMaker.Actions
 
 		private PlayMakerFSM targetFsm;
 		private NamedVariable targetVariable;
-		private INamedVariable sourceVariable;
 
 		private GameObject cachedGameObject;
 		private string cachedFsmName;
-		private string cachedVariableName;
 
 		private DelayedEvent delayedEvent;
 
 		public override void Reset()
 		{
 			eventTarget = null;
-			setValue = new FsmVar();
+			variableName = new FsmString[2];
+			setValue = null;
 			sendEvent = null;
 			delay = null;
 			everyFrame = false;
@@ -86,12 +85,6 @@ namespace HutongGames.PlayMaker.Actions
 
 		private void DoSetFsmVariable()
 		{
-			setValue.UpdateValue();
-			if (setValue.IsNone || string.IsNullOrEmpty(variableName.Value))
-			{
-				return;
-			}
-
 			var go = Fsm.GetOwnerDefaultTarget(eventTarget.gameObject);
 
 			if (go == null)
@@ -112,27 +105,27 @@ namespace HutongGames.PlayMaker.Actions
 				cachedFsmName = fsmName;
 			}
 
-			if (variableName.Value != cachedVariableName)
+			for (int i = 0; i < variableName.Length; i++)
 			{
-				setValue.UpdateValue();
-				targetVariable = targetFsm.FsmVariables.FindVariable(setValue.Type, variableName.Value);
-				cachedVariableName = variableName.Value;
-			}
+				//ignore values that are not set/defined
+				setValue[i].UpdateValue();
+				if (setValue[i].IsNone || string.IsNullOrEmpty(variableName[i].Value))
+				{
+					continue;
+				}
 
-			if (targetVariable == null)
-			{
-				LogWarning("Missing Variable: " + variableName.Value);
-				return;
+				if (targetFsm.FsmVariables.Contains(variableName[i].Value))
+				{
+					targetVariable = targetFsm.FsmVariables.GetVariable(variableName[i].Value);
+				}
+				else
+				{
+					LogError(targetFsm.name + " doesn't contain variable " + variableName[i].Value);
+					return;
+				}
+				setValue[i].UpdateValue();
+				setValue[i].ApplyValueTo(targetVariable);
 			}
-			setValue.UpdateValue();
-			setValue.ApplyValueTo(targetVariable);
 		}
-
-#if UNITY_EDITOR
-		public override string AutoName()
-		{
-			return ("Set FSM Variable: " + ActionHelpers.GetValueLabel(variableName));
-		}
-#endif
 	}
 }

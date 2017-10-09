@@ -4,6 +4,9 @@
 ## NguiSetSpriteMultiple.cs
 ![Image](/Screenshots/Actions/NguiSetSpriteMultiple_Info.png)
 
+## NguiSetSpriteSize.cs
+![Image](/Screenshots/Actions/NguiSetSpriteSize_Info.png)
+
 ## NguiSetWidgetAlphaMulti.cs
 ![Image](/Screenshots/Actions/NguiSetWidgetAlphaMulti_Info.png)
 
