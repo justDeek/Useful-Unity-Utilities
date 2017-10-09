@@ -14,8 +14,6 @@ Implementation (has to be repeated on every NGUI update/re-install):
 3. copy the following content (everything inside 'CopyToUISprite') to the end of UISprite (after OnFill(), of course uncommented)
 4. (Optionally:) Add the content of "Put In Assets-Gizmos Folder" in the Gizmos folder under Assets (if not there, create it; it helps you visualize the light source when having Shadow 3D selected)
 It integrates itself between UIBasicSprite and UISprite, so that it can be placed between the Gradient- and Color-Tint-Options
-(I chose to implant the effects options inside UISprite instead of it being a component which you would have to add to every GameObject you want
- them to be active, because I think it's more convenient to always have the option on your existing UISprite components)
 
 Currently included:
 - Shadow: Drops a shadow of the Sprite under it with any color, at the specified offset and with the specified scale

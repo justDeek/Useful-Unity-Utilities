@@ -1,5 +1,5 @@
 ## DebugVariableOnScreen.cs
-![Image](/Screenshots/Components/DebugVariableOnScreen_Info.png)
+![Image](/Screenshots/Actions/DebugVariableOnScreen_Info.png)
 
 ## SendEventMulti.cs
 ![Image](/Screenshots/Actions/SendEventMulti_Info.png)
