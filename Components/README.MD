@@ -37,7 +37,8 @@ When this script is enabled it actively follows the current mouse-/touch-positio
 ## FPSCounter.cs
 ![Image](/Screenshots/Components/FPSCounter_Info.png)
 
-A modification of the FPSCounter from Vacuum Shader's Curved World asset that is converted to OnGUI instead of uGUI (draws directly on screen instead of requiring a Canvas and uGUI-Components).
+A modification of the FPSCounter from the Standard Assets that is converted to OnGUI instead of uGUI (draws directly on screen instead of requiring a Canvas and uGUI-Components).
+Optionally specify the color of the label, it's position and the size of the rect it is in.
 
 ## RemoveAtRuntime.cs
 ![Image](/Screenshots/Components/RemoveAtRuntime_Info.png)
