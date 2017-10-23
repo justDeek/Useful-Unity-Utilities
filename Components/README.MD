@@ -56,3 +56,5 @@ The possible directions are: Horizontal, vertical, both (diagonal) or none (does
 
 I used it for a seamlessly scrolling background in a Character-Introduction-Screen. 
 That background had a Quad-MeshFilter, a Mesh-Renderer with any Material that has a Texture-Field with Offset (like `Unlit/Masked Colored`) and this script on it to.
+
+Added option to set Update Type and ignore TimeScale, though FixedUpdate doesn't seem to work with like 0 TimeScale.

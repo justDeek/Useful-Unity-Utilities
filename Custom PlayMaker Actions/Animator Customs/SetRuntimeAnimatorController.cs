@@ -17,8 +17,14 @@ namespace HutongGames.PlayMaker.Actions
 		[Tooltip("The new controller to insert into the Animator.")]
 		public FsmObject setController;
 
+		//[Tooltip("Change the Wrap Mode of the Animation (if it should play only once, forever, back and forth, ...).")]
+		//public WrapMode _wrapMode;
+
+		[Tooltip("Enable/Disable the component before playing.")]
+		public FsmBool enable;
+
 		[Tooltip("Repeat every frame. Useful when using normalizedTime to manually control the animation.")]
-		public bool everyFrame;
+		public FsmBool everyFrame;
 
 		Animator _animator;
 
@@ -26,6 +32,7 @@ namespace HutongGames.PlayMaker.Actions
 		{
 			gameObject = null;
 			setController = null;
+			enable = true;
 			everyFrame = false;
 		}
 
@@ -34,7 +41,7 @@ namespace HutongGames.PlayMaker.Actions
 			// get the animator component
 			var go = Fsm.GetOwnerDefaultTarget(gameObject);
 
-			if (go == null)
+			if(go == null)
 			{
 				Finish();
 				return;
@@ -43,7 +50,7 @@ namespace HutongGames.PlayMaker.Actions
 			_animator = go.GetComponent<Animator>();
 
 			DoAnimatorPlay();
-			if (!everyFrame)
+			if(!everyFrame.Value)
 			{
 				Finish();
 			}
@@ -56,10 +63,12 @@ namespace HutongGames.PlayMaker.Actions
 
 		void DoAnimatorPlay()
 		{
-			if (_animator != null)
-			{
-				_animator.runtimeAnimatorController = (RuntimeAnimatorController)setController.Value;
-			}
+			if(!_animator)
+				return;
+
+			_animator.enabled = enable.Value;
+
+			_animator.runtimeAnimatorController = (RuntimeAnimatorController)setController.Value;
 		}
 	}
 }

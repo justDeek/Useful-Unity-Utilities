@@ -32,21 +32,20 @@ namespace HutongGames.PlayMaker.Actions
 			var guiColor = GUI.color;
 
 
-			if (isVisible.Value)
+			if(isVisible.Value)
 			{
 				guiColor.a = storePrevAlpha;
 				GUI.color = guiColor;
-				GUI.DrawTexture(new Rect(0,0,Screen.width, Screen.height), ActionHelpers.WhiteTexture);
+				GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), ActionHelpers.WhiteTexture);
 
-				if (preview.Value)
+				if(preview.Value)
 					GUI.color = color.Value;
-				
-			}
-			else
+
+			} else
 			{
 				guiColor.a = 0;
 				GUI.color = guiColor;
-				GUI.DrawTexture(new Rect(0,0,0,0), ActionHelpers.WhiteTexture);
+				GUI.DrawTexture(new Rect(0, 0, 0, 0), ActionHelpers.WhiteTexture);
 			}
 
 			storePrevAlpha = guiColor.a;
