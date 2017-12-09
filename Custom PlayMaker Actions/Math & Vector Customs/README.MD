@@ -7,6 +7,12 @@
 ## IntRoundToNearest.cs
 ![Image](/Screenshots/Actions/IntRoundToNearest_Info.png)
 
+## RandomFloatOnSlope.cs
+![Image](/Screenshots/Actions/RandomFloatOnSlope_Info.png)
+
+## RandomPointOnSlope.cs
+![Image](/Screenshots/Actions/RandomPointOnSlope_Info.png)
+
 ## RandomWeightedVector3.cs
 ![Image](/Screenshots/Actions/RandomWeightedVector3_Info.png)
 

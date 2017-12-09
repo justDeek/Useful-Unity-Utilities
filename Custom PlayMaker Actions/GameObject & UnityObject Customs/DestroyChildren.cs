@@ -25,9 +25,24 @@ namespace HutongGames.PlayMaker.Actions
 
 		static void DoDestroyChildren(GameObject go)
 		{
-			if (go != null)
+			if(go != null)
 			{
-				go.transform.DestroyChildren ();
+				go.transform.DestroyChildren();
+				Transform t = go.transform;
+
+				bool isPlaying = Application.isPlaying;
+
+				while(t.childCount != 0)
+				{
+					Transform child = t.GetChild(0);
+
+					if(isPlaying)
+					{
+						child.parent = null;
+						UnityEngine.Object.Destroy(child.gameObject);
+					} else
+						UnityEngine.Object.DestroyImmediate(child.gameObject);
+				}
 			}
 		}
 	}

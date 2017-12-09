@@ -71,8 +71,10 @@ namespace HutongGames.PlayMaker.Actions
 		{
 			typeOfField = new string[FieldName.Length];
 			GoThroughAllData();
-
-			if (!doesSchemaExist) {
+			UnityEngine.Debug.Log(Schema.Value);
+			UnityEngine.Debug.Log(schema.Value);
+			if(!doesSchemaExist)
+			{
 				UnityEngine.Debug.LogError("Schema doesn't exist!");
 				return;
 			}
@@ -80,22 +82,22 @@ namespace HutongGames.PlayMaker.Actions
 			try
 			{
 				GDEDataManager.RegisterItem(schema.Value, ItemName.Value);
-				for (int i = 0; i < FieldName.Length; i++)
+				for(int i = 0; i < FieldName.Length; i++)
 				{
 					setValue[i].UpdateValue(); //(See PlayMaker Documentation "Using FSM Variables")
-					if (!setValue[i].IsNone || !string.IsNullOrEmpty(FieldName[i].Value))
+					if(!setValue[i].IsNone || !string.IsNullOrEmpty(FieldName[i].Value))
 					{
-						if (!containsFieldName)
+						if(!containsFieldName)
 						{
 							UnityEngine.Debug.LogError("Schema doesn't contain the specified Field Name!");
 							return;
 						}
-						if (setValue[i].Type.ToString() != typeOfField[i])
+						if(setValue[i].Type.ToString() != typeOfField[i])
 						{
 							UnityEngine.Debug.LogError("The specified Field Name \"" + FieldName[i].Value + "\" is of type \"" + typeOfField + "\" and doesn't match Type \"" + setValue[i].Type.ToString() + "\"!");
 							return;
 						}
-						switch (setValue[i].Type.ToString())
+						switch(setValue[i].Type.ToString())
 						{
 							case "Int":
 								GDEDataManager.SetInt(ItemName.Value, FieldName[i].Value, setValue[i].intValue);
@@ -138,48 +140,50 @@ namespace HutongGames.PlayMaker.Actions
 						}
 					}
 				}
-				
+
 				//save option
-				if (save.Value)
+				if(save.Value)
 					GDEDataManager.Save();
-					// #if UNITY_EDITOR
-					// GDEDataManager.SaveToDisk(); //for debugging purposes
-					// #endif
-			}
-			catch(UnityException ex)
+				// #if UNITY_EDITOR
+				// GDEDataManager.SaveToDisk(); //for debugging purposes
+				// #endif
+			} catch(UnityException ex)
 			{
-				for (int i = 0; i < FieldName.Length; i++)
+				for(int i = 0; i < FieldName.Length; i++)
 				{
 					LogError(string.Format(GDMConstants.ErrorSettingValue, GDMConstants.StringType, ItemName.Value, FieldName[i].Value));
 				}
 				LogError(ex.ToString());
-			}
-			finally
+			} finally
 			{
 				Finish();
 			}
 		}
 
-		public void GoThroughAllData() {
+		public void GoThroughAllData()
+		{
 			foreach(KeyValuePair<string, object> pair in GDEDataManager.DataDictionary)
 			{
-				if (pair.Key.StartsWith(GDMConstants.SchemaPrefix))
-						continue;
+				if(pair.Key.StartsWith(GDMConstants.SchemaPrefix))
+					continue;
 
 				Dictionary<string, object> currentDataSet = pair.Value as Dictionary<string, object>;
 
 				currentDataSet.TryGetString(GDMConstants.SchemaKey, out currentSchema);
 				//skip all Data that is not in the specified Schema
-				if (currentSchema != schema.Value) {
+				if(currentSchema != schema.Value)
+				{
 					continue;
-				} else {
+				} else
+				{
 					doesSchemaExist = true;
 				}
 				//go through all Values to check if FieldName is prevalent & get its Type
-				foreach (var subPair in currentDataSet) {
-					for (int i = 0; i < FieldName.Length; i++)
+				foreach(var subPair in currentDataSet)
+				{
+					for(int i = 0; i < FieldName.Length; i++)
 					{
-						if (subPair.Key.ToString().Equals(string.Concat("_gdeType_", FieldName[i].Value)))
+						if(subPair.Key.ToString().Equals(string.Concat("_gdeType_", FieldName[i].Value)))
 						{
 							containsFieldName = true;
 							typeOfField[i] = subPair.Value.ToString();
@@ -190,16 +194,16 @@ namespace HutongGames.PlayMaker.Actions
 			}
 		}
 
-		#if UNITY_EDITOR
+#if UNITY_EDITOR
 		public override string AutoName()
 		{
-			for (int i = 0; i < FieldName.Length; i++)
+			for(int i = 0; i < FieldName.Length; i++)
 			{
 				return ("Set FSM Variable: " + ActionHelpers.GetValueLabel(FieldName[i]));
 			}
 			return null;
 		}
-		#endif
+#endif
 	}
 }
 

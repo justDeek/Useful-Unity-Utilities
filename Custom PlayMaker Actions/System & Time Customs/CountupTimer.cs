@@ -4,16 +4,21 @@ using UnityEngine;
 namespace HutongGames.PlayMaker.Actions
 {
 	[ActionCategory(ActionCategory.Time)]
-	[Tooltip("Counts up as long as in current state and ends when leaving the current state or when the bool 'Stop' is set to true.")]
+	[Tooltip("Counts up as long as in current state and ends when leaving the current state.")]
 	public class CountupTimer : FsmStateAction
 	{
 		[RequiredField]
 		[UIHint(UIHint.Variable)]
 		[Tooltip("Time since state start.")]
 		public FsmFloat storeTime;
+		[Tooltip("Count up TimeScale independent.")]
 		public FsmBool realTime;
-		[Tooltip("Stops the timer when true.")]
-		public FsmBool stop;
+		[Tooltip("Pauses the timer when true. Resumes when false again.")]
+		public FsmBool pause;
+		[Tooltip("Setting this to true sets the timer back to 0 while counting up. Will set itself back to false once it has reset.")]
+		public FsmBool reset;
+		[Tooltip("Sets the timer back to 0 when entering this state. Otherwise continues where left of.")]
+		public FsmBool restartOnEnter;
 
 		private float startTime;
 		private float timer;
@@ -22,26 +27,41 @@ namespace HutongGames.PlayMaker.Actions
 		{
 			storeTime = 0f;
 			realTime = false;
-			stop = false;
+			pause = false;
+			reset = false;
+			restartOnEnter = true;
 		}
 
-		public override void OnEnter() {
+		public override void OnEnter()
+		{
 			startTime = FsmTime.RealtimeSinceStartup;
-			timer = 0f;
+			if(restartOnEnter.Value)
+			{
+				timer = 0f;
+			}
 		}
 
 		public override void OnUpdate()
 		{
-			if (!stop.Value) {
-				if (realTime.Value) {
-					timer = FsmTime.RealtimeSinceStartup - startTime;
-				}
-				else
-				{
-					timer += Time.deltaTime;
-				}
-				storeTime.Value = timer;
+			if(pause.Value)
+			{
+				return;
 			}
+
+			if(reset.Value)
+			{
+				timer = 0f;
+				reset.Value = false;
+			}
+
+			if(realTime.Value)
+			{
+				timer = FsmTime.RealtimeSinceStartup - startTime;
+			} else
+			{
+				timer += Time.deltaTime;
+			}
+			storeTime.Value = timer;
 		}
 	}
 }
