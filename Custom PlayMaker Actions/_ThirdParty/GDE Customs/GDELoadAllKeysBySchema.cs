@@ -43,53 +43,63 @@ namespace HutongGames.PlayMaker.Actions
 			string currentKey = "";
 			foreach(KeyValuePair<string, object> pair in GDEDataManager.DataDictionary)
 			{
-				if (pair.Key.StartsWith(GDMConstants.SchemaPrefix))
+				if(pair.Key.StartsWith(GDMConstants.SchemaPrefix))
 					continue;
 
 				Dictionary<string, object> currentDataSet = pair.Value as Dictionary<string, object>;
 
 				//skip if not in the specified schema
-        if (schema.Value != null && schema.Value != "") {
-          //get Schema of current Item
-          currentDataSet.TryGetString(GDMConstants.SchemaKey, out currentSchema);
-          //check if current Schema equals specified one
-          if (!(currentSchema == schema.Value)) {
-            continue;
-          }
-        }
+				if(schema.Value != null && schema.Value != "")
+				{
+					//get Schema of current Item
+					currentDataSet.TryGetString(GDMConstants.SchemaKey, out currentSchema);
+					//check if current Schema equals specified one
+					if(!(currentSchema == schema.Value))
+					{
+						continue;
+					}
+				}
 
-				foreach (var subPair in currentDataSet)
+				foreach(var subPair in currentDataSet)
 				{
 					currentKey = subPair.Key;
-					if (!currentKey.Contains("_gdeType_") && !currentKey.Contains("_gdeSchema")) {
-						if (!allKeys.Contains(subPair.Key)) {
+					if(!currentKey.Contains("_gdeType_") && !currentKey.Contains("_gdeSchema"))
+					{
+						if(!allKeys.Contains(subPair.Key))
+						{
 							allKeys.Add(subPair.Key);
 						}
-					} else {
+					} else
+					{
 						continue;
 					}
 				}
 			}
 
-			if (Fsm.GetOwnerDefaultTarget(gameObject).GetComponent<PlayMakerArrayListProxy>() != null) {
-				PlayMakerArrayListProxy _proxy = GetArrayListProxyPointer(Fsm.GetOwnerDefaultTarget(gameObject),reference.Value,false);
+			if(Fsm.GetOwnerDefaultTarget(gameObject).GetComponent<PlayMakerArrayListProxy>() != null)
+			{
+				PlayMakerArrayListProxy _proxy = GetArrayListProxyPointer(Fsm.GetOwnerDefaultTarget(gameObject), reference.Value, false);
 				_proxy.AddRange(allKeys, string.Empty);
 			}
 
-			if (viaProxyReference != null)
+			if(viaProxyReference != null)
 				viaProxyReference.AddRange(allKeys, string.Empty);
 
-			if (storeAsString != null) {
-				foreach (string key in allKeys) {
-					if (key == allKeys.ToArray().GetValue(allKeys.ToArray().Length - 1)) {
+			if(storeAsString != null)
+			{
+				foreach(string key in allKeys)
+				{
+					if(key == allKeys.ToArray().GetValue(allKeys.ToArray().Length - 1).ToString())
+					{
 						storeAsString.Value = string.Concat(storeAsString.Value + key);
-					} else {
+					} else
+					{
 						storeAsString.Value = string.Concat(storeAsString.Value + key + ", ");
 					}
 				}
 			}
 
-			if (storeAsStringArray != null)
+			if(storeAsStringArray != null)
 				storeAsStringArray.Values = allKeys.ToArray();
 
 			Finish();

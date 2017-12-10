@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections.Generic;
 using GameDataEditor;
 
@@ -11,26 +10,28 @@ namespace HutongGames.PlayMaker.Actions
 	[Tooltip("Create an Item in the specified Schema and optionally set it's Value.")]
 	public class GDECreateItem : FsmStateAction
 	{
-		//[RequiredField]
+		[RequiredField]
 		[Tooltip("Specify the existing Schema this Item should belong to.")]
-		private FsmString schema = "";
+		public FsmString schema = "";
 
-		//[RequiredField]
-		//[Tooltip("The name of the variable in the target FSM.")]
-		private FsmString ItemName = "";
+		[RequiredField]
+		[Tooltip("The name of the variable in the target FSM.")]
+		public FsmString itemName = "";
 
 		[CompoundArray("Key Amount", "Field Name", "Set Value")]
 
+		[RequiredField]
 		[Tooltip("The name of the variable in the target FSM.")]
-		public FsmString[] FieldName = new FsmString[0];
+		public FsmString[] FieldName;
 
 		[Tooltip("Optionally apply the desired value to the created Item under the specified Field-Name.")]
-		public FsmVar[] setValue = new FsmVar[0];
+		public FsmVar[] setValue;
 
 		[Tooltip("Should be saved afterwards? If not you can still save later, otherwise changes will be discarded when restarting the game/project.")]
 		public FsmBool save;
 
 		bool doesSchemaExist;
+		bool containsItemName;
 		bool containsFieldName;
 		string currentSchema = "";
 		string[] typeOfField;
@@ -48,31 +49,34 @@ namespace HutongGames.PlayMaker.Actions
 			}
 		}
 
-		public FsmString ItemName1
+		public FsmString ItemName
 		{
 			get
 			{
-				return ItemName;
+				return itemName;
 			}
 
 			set
 			{
-				ItemName = value;
+				itemName = value;
 			}
 		}
 
 		public override void Reset()
 		{
-			schema = null;
+			Schema = null;
+			ItemName = null;
+			FieldName = new FsmString[0];
+			setValue = new FsmVar[0];
 			save = true;
 		}
 
 		public override void OnEnter()
 		{
 			typeOfField = new string[FieldName.Length];
+
 			GoThroughAllData();
-			UnityEngine.Debug.Log(Schema.Value);
-			UnityEngine.Debug.Log(schema.Value);
+
 			if(!doesSchemaExist)
 			{
 				UnityEngine.Debug.LogError("Schema doesn't exist!");
@@ -81,20 +85,33 @@ namespace HutongGames.PlayMaker.Actions
 
 			try
 			{
-				GDEDataManager.RegisterItem(schema.Value, ItemName.Value);
+				GDEDataManager.RegisterItem(Schema.Value, ItemName.Value);
 				for(int i = 0; i < FieldName.Length; i++)
 				{
-					setValue[i].UpdateValue(); //(See PlayMaker Documentation "Using FSM Variables")
+					//update FsmVar-Value before usage (see PlayMaker Documentation "Using FSM Variables")
+					setValue[i].UpdateValue();
+
 					if(!setValue[i].IsNone || !string.IsNullOrEmpty(FieldName[i].Value))
 					{
-						if(!containsFieldName)
+						if(containsItemName)
 						{
-							UnityEngine.Debug.LogError("Schema doesn't contain the specified Field Name!");
+							UnityEngine.Debug.LogError("GDE already contains Item \"" + ItemName.Value + "\"!");
 							return;
 						}
+
+						if(!containsFieldName)
+						{
+							UnityEngine.Debug.LogError("Schema doesn't contain the specified Field Name \""
+														+ FieldName[i].Value + "\"!");
+							return;
+						}
+
 						if(setValue[i].Type.ToString() != typeOfField[i])
 						{
-							UnityEngine.Debug.LogError("The specified Field Name \"" + FieldName[i].Value + "\" is of type \"" + typeOfField + "\" and doesn't match Type \"" + setValue[i].Type.ToString() + "\"!");
+							UnityEngine.Debug.LogError("The specified Field Name \""
+														+ FieldName[i].Value + "\" is of type \""
+														+ typeOfField[i] + "\" and doesn't match specified type \""
+														+ setValue[i].Type.ToString() + "\"!");
 							return;
 						}
 						switch(setValue[i].Type.ToString())
@@ -141,12 +158,10 @@ namespace HutongGames.PlayMaker.Actions
 					}
 				}
 
-				//save option
+				//save changes to GDE
 				if(save.Value)
 					GDEDataManager.Save();
-				// #if UNITY_EDITOR
-				// GDEDataManager.SaveToDisk(); //for debugging purposes
-				// #endif
+
 			} catch(UnityException ex)
 			{
 				for(int i = 0; i < FieldName.Length; i++)
@@ -164,20 +179,33 @@ namespace HutongGames.PlayMaker.Actions
 		{
 			foreach(KeyValuePair<string, object> pair in GDEDataManager.DataDictionary)
 			{
+				//skip irrelevant data
 				if(pair.Key.StartsWith(GDMConstants.SchemaPrefix))
+				{
 					continue;
+				}
 
+				//get current data set as Dictionary
 				Dictionary<string, object> currentDataSet = pair.Value as Dictionary<string, object>;
 
 				currentDataSet.TryGetString(GDMConstants.SchemaKey, out currentSchema);
+
 				//skip all Data that is not in the specified Schema
-				if(currentSchema != schema.Value)
+				if(currentSchema != Schema.Value)
 				{
 					continue;
 				} else
 				{
 					doesSchemaExist = true;
 				}
+
+				//check if Item already exists
+				if(pair.Key == ItemName.Value)
+				{
+					containsItemName = true;
+					return;
+				}
+
 				//go through all Values to check if FieldName is prevalent & get its Type
 				foreach(var subPair in currentDataSet)
 				{
@@ -192,18 +220,19 @@ namespace HutongGames.PlayMaker.Actions
 					}
 				}
 			}
+			return;
 		}
 
-#if UNITY_EDITOR
-		public override string AutoName()
-		{
-			for(int i = 0; i < FieldName.Length; i++)
-			{
-				return ("Set FSM Variable: " + ActionHelpers.GetValueLabel(FieldName[i]));
-			}
-			return null;
-		}
-#endif
+		//#if UNITY_EDITOR
+		//		public override string AutoName()
+		//		{
+		//			for(int i = 0; i < FieldName.Length; i++)
+		//			{
+		//				return ("Set FSM Variable: " + ActionHelpers.GetValueLabel(FieldName[i]));
+		//			}
+		//			return null;
+		//		}
+		//#endif
 	}
 }
 
