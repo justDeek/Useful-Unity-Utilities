@@ -4,7 +4,7 @@ using UnityEngine;
 namespace HutongGames.PlayMaker.Actions
 {
 	[ActionCategory(ActionCategory.GameObject)]
-	[Tooltip("Destroys all children from the Game Object.")]
+	[Tooltip("Destroys all children from the specified GameObject.")]
 	public class DestroyChildren : FsmStateAction
 	{
 		[RequiredField]
@@ -23,11 +23,10 @@ namespace HutongGames.PlayMaker.Actions
 			Finish();
 		}
 
-		static void DoDestroyChildren(GameObject go)
+		public void DoDestroyChildren(GameObject go)
 		{
 			if(go != null)
 			{
-				go.transform.DestroyChildren();
 				Transform t = go.transform;
 
 				bool isPlaying = Application.isPlaying;

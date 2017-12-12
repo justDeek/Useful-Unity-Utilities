@@ -1,19 +1,25 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class DisableOnAwake : MonoBehaviour {
+/// <summary>
+/// Disables every GameObject tagged as "RemoveAtRuntime" (tag has to be created if it doesn't exist)
+/// </summary>
+public class DisableOnAwake : MonoBehaviour
+{
+	void Awake()
+	{
+		GameObject[] allTaggedGOs = GameObject.FindGameObjectsWithTag("RemoveAtRuntime");
 
-	void Awake () {
-		/* Disables every GameObject tagged as "RemoveAtRuntime" (Disabling prevents Lag-Spikes especially on mobile,
-		 * since Destroy() can be very demanding and the disabled GOs get removed on scene change) 
-		 */
-		foreach (GameObject searchGOByTag in GameObject.FindGameObjectsWithTag ("RemoveAtRuntime"))
+		if(allTaggedGOs.Length == 0)
 		{
-//			if (searchGOByTag != null)
-//			{
-				searchGOByTag.SetActive (false);
-//			}
+			return;
+		}
+
+		foreach(GameObject go in allTaggedGOs)
+		{
+			if(go != null)
+			{
+				go.SetActive(false);
+			}
 		}
 	}
-
 }
