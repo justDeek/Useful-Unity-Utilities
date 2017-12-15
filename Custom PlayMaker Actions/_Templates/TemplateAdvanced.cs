@@ -1,0 +1,64 @@
+﻿// (c) Copyright HutongGames, LLC 2010-2017. All rights reserved.
+// Author : 'Your Playmaker username'
+// supportUrl : 'url to the playmaker forum thread when available'
+/*--- __ECO__ __PLAYMAKER__ __ACTION__
+EcoMetaStart
+{
+"script dependancies":[
+						"Assets/PlayMaker Custom Actions/__Internal/FsmStateActionAdvanced.cs"
+					  ]
+}
+EcoMetaEnd
+---*/
+
+using UnityEngine;
+
+namespace HutongGames.PlayMaker.Actions
+{
+	[ActionCategory(ActionCategory.Logic)]
+	[Tooltip("<Insert action description>")]
+	public class TemplateAdvanced : FsmStateActionAdvanced
+	{
+		[RequiredField]
+		[Tooltip("<Insert variable description>")]
+		public FsmOwnerDefault gameObject;
+
+		//-- insert further required variables --
+
+		public override void Reset()
+		{
+			base.Reset();
+
+			gameObject = null;
+			//-- insert reset values for variables --//
+		}
+
+		public override void OnEnter()
+		{
+			GameObject go = Fsm.GetOwnerDefaultTarget(gameObject);
+
+			if(!go)
+			{
+				UnityEngine.Debug.LogError("GameObject is null!");
+				return;
+			}
+
+			DoTemplate();
+
+			if(!everyFrame)
+			{
+				Finish();
+			}
+		}
+
+		public override void OnActionUpdate()
+		{
+			DoTemplate();
+		}
+
+		private void DoTemplate()
+		{
+			//-- Your main code goes in here --//
+		}
+	}
+}

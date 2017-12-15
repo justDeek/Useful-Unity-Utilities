@@ -3,7 +3,7 @@ namespace HutongGames.PlayMaker.Actions
 {
 	[ActionCategory(ActionCategory.Logic)]
 	[Tooltip("Sends an Event based on the value of an Integer Variable.")]
-	public class IntSwitch : FsmStateAction
+	public class IntSwitchAdvanced : FsmStateAction
 	{
 		[RequiredField]
 		[UIHint(UIHint.Variable)]

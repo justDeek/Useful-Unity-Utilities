@@ -12,4 +12,3 @@ A broad variety of custom Actions for the [PlayMaker Unity-Asset](https://www.as
 ## 3. Editor Extensions
 
 Contains scripts that add to the functionality of the Unity Editor (like Windows or Options) or run in the background. Those that are in the `Editor`-Folder need to be in any `Editor`-Folder under `Assets` to function properly (preferably `Assets\Editor`).
-(Currently empty).
