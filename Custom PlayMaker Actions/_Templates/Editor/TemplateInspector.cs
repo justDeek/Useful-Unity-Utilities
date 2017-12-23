@@ -19,25 +19,29 @@ public class TemplateInspector : CustomActionEditor
 	//gets called once when the target script has been enabled
 	public override void OnEnable()
 	{
+		//get action and FSM reference
+		action = target as Template;
 
+		if(action.Fsm == null || action.Fsm.FsmComponent == null)
+		{
+			return;
+		}
+
+		thisFSM = action.Fsm.FsmComponent;
 	}
 
 	//gets called when interacting with the action window or if something has changed
 	public override bool OnGUI()
 	{
-		///Get action and FSM reference
-		action = target as Template;
+		//reset isDirty
+		isDirty = false;
 
-		if(action.Fsm == null || action.Fsm.FsmComponent == null)
-		{
-			return false;
-		}
-		thisFSM = action.Fsm.FsmComponent;
+		//draw default inspector (action-content) if you only want to add to it
+		isDirty = DrawDefaultInspector();
+		//OR only draw single fields (name has to be the exact same as the variable in the base script):
+		//EditField("gameObject");
 
-		//optionally draw the default inspector (action-content) if you only want to add to it
-		base.DrawDefaultInspector();
-
-		//-- Your main code goes in here --//
+		//-- Your main code goes in here ( or before DrawDefaultInspector() ) --//
 
 		//needs to be at the end and tells OnGUI if something has changed
 		return isDirty || GUI.changed;

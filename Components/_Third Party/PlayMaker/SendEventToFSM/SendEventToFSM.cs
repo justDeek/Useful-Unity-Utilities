@@ -12,6 +12,11 @@ public class SendEventToFSM : MonoBehaviour
 	public void Start()
 	{
 		if(targetFSM == null)
+		{
+			targetFSM = GetComponent<PlayMakerFSM>();
+		}
+
+		if(targetFSM == null)
 			Debug.LogError("TargetFSM missing in " + this.gameObject.name);
 
 		if(onStartEvent != null || onStartEvent != "")

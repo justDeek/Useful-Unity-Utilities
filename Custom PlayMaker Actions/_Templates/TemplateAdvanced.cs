@@ -1,6 +1,4 @@
 ﻿// (c) Copyright HutongGames, LLC 2010-2017. All rights reserved.
-// Author : 'Your Playmaker username'
-// supportUrl : 'url to the playmaker forum thread when available'
 /*--- __ECO__ __PLAYMAKER__ __ACTION__
 EcoMetaStart
 {

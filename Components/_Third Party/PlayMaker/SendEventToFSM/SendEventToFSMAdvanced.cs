@@ -1,3 +1,4 @@
+using HutongGames.PlayMaker;
 using UnityEngine;
 using System;
 
@@ -8,39 +9,59 @@ using System;
 /// </summary>
 public class SendEventToFSMAdvanced : MonoBehaviour
 {
-	public PlayMakerFSM targetFSM;
-	[UnityEngine.Tooltip("Specify FSM Name if the GameObject has more than one FSM. Leave empty to use the first found.")]
-	public string specificFSMName;
+	public enum Methods
+	{
+		OnAwake,
+		OnStart,
+		OnEnable,
+		OnDisable,
+		OnDestroy,
+		OnMouseEnter,
+		OnMouseOver,
+		OnMouseExit,
+		OnMouseDown,
+		OnMouseDrag,
+		OnMouseUp,
+		OnCollisionEnter,
+		OnCollisionEnter2D,
+		OnCollisionStay,
+		OnCollisionStay2D,
+		OnCollisionExit,
+		OnCollisionExit2D,
+		OnTriggerEnter,
+		OnTriggerEnter2D,
+		OnTriggerStay,
+		OnTriggerStay2D,
+		OnTriggerExit,
+		OnTriggerExit2D,
+		OnUpdate,
+		OnLateUpdate,
+		OnFixedUpdate,
+		OnApplicationFocus,
+		OnApplicationPause,
+		OnApplicationQuit,
+		OnBecameVisible,
+		OnBecameInvisible,
+		OnConnectedToServer,
+		OnDisconnectedFromServer,
 
-  public string onClickEvent;
-	public string onPressDownEvent;
-	public string onPressUpEvent;
-	[UnityEngine.Tooltip("Optionally set a PlayerPrefs to retrieve in the Target FSM. Leave empty to skip this.")]
-	public string playerPrefsKey;
-	[UnityEngine.Tooltip("Leave empty to set the name of the GameObject this Script is attached to.")]
-	public string playerPrefsValue;
-
-	public enum FSMVariableTypes{
-		None,
-		Float,
-		Int,
-		Bool,
-		GameObject,
-		String,
-		Vector2,
-		Vector3,
-		Color,
-		Rect,
-		Material,
-		Texture,
-		Quaternion,
-		Object,
-		Array,
-		Enum
 	}
 
+	public PlayMakerFSM targetFSM;
+	[UnityEngine.Tooltip("Optionally specify the FSM name if the GameObject has more than one FSM attached. Leave empty to use the first one found.")]
+	public string fsmName;
+
+	public Methods chosenEvent = Methods.OnMouseDown;
+	public string eventName = "";
+
+	public string onClickEvent;
+	public string onPressDownEvent;
+	public string onPressUpEvent;
+	//the name of the FSMVariable in the targetFSM that is supposed to be overriden
+	public string variableName;
+
 	//declare and set default enum values
-	public FSMVariableTypes sendValue = FSMVariableTypes.None;
+	public VariableType setValue = VariableType.Unknown;
 	public float onFSMFloat;
 	public int onFSMInt;
 	public bool onFSMBool;
@@ -48,7 +69,7 @@ public class SendEventToFSMAdvanced : MonoBehaviour
 	public string onFSMString;
 	public Vector2 onFSMVector2;
 	public Vector3 onFSMVector3;
-	public Color onFSMColor;
+	public Color onFSMColor = Color.white;
 	public Rect onFSMRect;
 	public Material onFSMMaterial;
 	public Texture onFSMTexture;
@@ -56,228 +77,219 @@ public class SendEventToFSMAdvanced : MonoBehaviour
 	public UnityEngine.Object onFSMObject;
 	public Array onFSMArray;
 	public Enum onFSMEnum;
+	public int currVarID = 0;
 
-	//the name of the FSMVariable in the targetFSM that is supposed to be overriden
-	public string variableName;
+	#region MethodCalls
+	public void Awake() { if(chosenEvent == Methods.OnAwake) SendFsmEvent(); }
+	public void Start() { if(chosenEvent == Methods.OnStart) SendFsmEvent(); }
+	public void OnEnable() { if(chosenEvent == Methods.OnEnable) SendFsmEvent(); }
+	public void OnDisable() { if(chosenEvent == Methods.OnDisable) SendFsmEvent(); }
+	public void OnDestroy() { if(chosenEvent == Methods.OnDestroy) SendFsmEvent(); }
+	public void OnMouseEnter() { if(chosenEvent == Methods.OnMouseEnter) SendFsmEvent(); }
+	public void OnMouseOver() { if(chosenEvent == Methods.OnMouseOver) SendFsmEvent(); }
+	public void OnMouseExit() { if(chosenEvent == Methods.OnMouseExit) SendFsmEvent(); }
+	public void OnMouseDrag() { if(chosenEvent == Methods.OnMouseDrag) SendFsmEvent(); }
+	public void OnMouseDown() { if(chosenEvent == Methods.OnMouseDown) SendFsmEvent(); }
+	public void OnMouseUp() { if(chosenEvent == Methods.OnMouseUp) SendFsmEvent(); }
+	public void OnCollisionEnter(Collision coll) { if(chosenEvent == Methods.OnCollisionEnter) SendFsmEvent(); }
+	public void OnCollisionEnter2D(Collision2D coll2D) { if(chosenEvent == Methods.OnCollisionEnter2D) SendFsmEvent(); }
+	public void OnCollisionStay(Collision coll) { if(chosenEvent == Methods.OnCollisionStay) SendFsmEvent(); }
+	public void OnCollisionStay2D(Collision2D coll2D) { if(chosenEvent == Methods.OnCollisionStay2D) SendFsmEvent(); }
+	public void OnCollisionExit(Collision coll) { if(chosenEvent == Methods.OnCollisionExit) SendFsmEvent(); }
+	public void OnCollisionExit2D(Collision2D coll2D) { if(chosenEvent == Methods.OnCollisionExit2D) SendFsmEvent(); }
+	public void OnTriggerEnter(Collider coll) { if(chosenEvent == Methods.OnTriggerEnter) SendFsmEvent(); }
+	public void OnTriggerEnter2D(Collider2D coll2D) { if(chosenEvent == Methods.OnTriggerEnter2D) SendFsmEvent(); }
+	public void OnTriggerStay(Collider coll) { if(chosenEvent == Methods.OnTriggerStay) SendFsmEvent(); }
+	public void OnTriggerStay2D(Collider2D coll2D) { if(chosenEvent == Methods.OnTriggerStay2D) SendFsmEvent(); }
+	public void OnTriggerExit(Collider coll) { if(chosenEvent == Methods.OnTriggerExit) SendFsmEvent(); }
+	public void OnTriggerExit2D(Collider2D coll2D) { if(chosenEvent == Methods.OnTriggerExit2D) SendFsmEvent(); }
+	public void Update() { if(chosenEvent == Methods.OnUpdate) SendFsmEvent(); }
+	public void LateUpdate() { if(chosenEvent == Methods.OnLateUpdate) SendFsmEvent(); }
+	public void FixedUpdate() { if(chosenEvent == Methods.OnFixedUpdate) SendFsmEvent(); }
+	public void OnApplicationFocus(bool hasFocus) { if(chosenEvent == Methods.OnApplicationFocus) SendFsmEvent(); }
+	public void OnApplicationPause(bool pauseStatus) { if(chosenEvent == Methods.OnApplicationPause) SendFsmEvent(); }
+	public void OnApplicationQuit() { if(chosenEvent == Methods.OnApplicationQuit) SendFsmEvent(); }
+	public void OnBecameVisible() { if(chosenEvent == Methods.OnBecameVisible) SendFsmEvent(); }
+	public void OnBecameInvisible() { if(chosenEvent == Methods.OnBecameInvisible) SendFsmEvent(); }
+	public void OnConnectedToServer() { if(chosenEvent == Methods.OnConnectedToServer) SendFsmEvent(); }
+	public void OnDisconnectedFromServer(NetworkDisconnection info) { if(chosenEvent == Methods.OnDisconnectedFromServer) SendFsmEvent(); }
+	#endregion
 
-	void OnClick()
+	//main code that gets executed on the specified method
+	void SendFsmEvent()
 	{
+		if(targetFSM == null)
+			targetFSM = GetComponent<PlayMakerFSM>();
+
+		if(targetFSM == null)
+		{
+			Debug.LogError("TargetFSM missing in " + this.gameObject.name);
+			return;
+		}
+
 		//if an FSM-Name was specified, use that to search for the corresponding FSM
-		if (specificFSMName != "")
-			targetFSM = PlayMakerFSM.FindFsmOnGameObject (targetFSM.gameObject, specificFSMName);
+		if(fsmName != "")
+			targetFSM = PlayMakerFSM.FindFsmOnGameObject(targetFSM.gameObject, fsmName);
 
-		//check if targetFSM is empty
-		if (targetFSM == null)
-			throw new Exception("NGUISendEventToFSM: targetFSM == null");
+		SetFsmVariable();
+		targetFSM.Fsm.Event(targetFSM.Fsm.EventTarget, eventName);
+	}
 
-		//check if onClickEvent is empty
-		if (string.IsNullOrEmpty(onClickEvent))
-			throw new Exception("NGUISendEventToFSM: onClickEvent - IsNullOrEmpty");
-
-		//create or set PlayerPrefs Key if not left empty
-		if (!string.IsNullOrEmpty(playerPrefsKey))
-		{
-			if (string.IsNullOrEmpty(playerPrefsValue))
-				playerPrefsValue = this.gameObject.name;
-
-			//set the PlayerPrefs Key
-			PlayerPrefs.SetString (playerPrefsKey, playerPrefsValue);
-		}
-
-		//check wich Type was set and send value accordingly
-		switch (sendValue)
-		{
-		case FSMVariableTypes.None:
-
-			break;
-		case FSMVariableTypes.Float:
-			var fsmFloat = targetFSM.FsmVariables.GetFsmFloat (variableName);
-			if (fsmFloat != null)
-			{
-				fsmFloat.Value = onFSMFloat;
-			}
-			else
-			{
-				Debug.LogWarning("Could not find variable: " + variableName);
-			}
-			break;
-		case FSMVariableTypes.Int:
-			var fsmInt = targetFSM.FsmVariables.GetFsmInt (variableName);
-			if (fsmInt != null)
-			{
-				fsmInt.Value = onFSMInt;
-			}
-			else
-			{
-				Debug.LogWarning("Could not find variable: " + variableName);
-			}
-			break;
-		case FSMVariableTypes.Bool:
-			var fsmBool = targetFSM.FsmVariables.GetFsmBool (variableName);
-			if (fsmBool != null)
-			{
-				fsmBool.Value = onFSMBool;
-			}
-			else
-			{
-				Debug.LogWarning("Could not find variable: " + variableName);
-			}
-			break;
-		case FSMVariableTypes.GameObject:
-			var fsmGameObject = targetFSM.FsmVariables.GetFsmGameObject (variableName);
-			if (fsmGameObject != null)
-			{
-				fsmGameObject.Value = onFSMGameObject;
-			}
-			else
-			{
-				Debug.LogWarning("Could not find variable: " + variableName);
-			}
-			break;
-		case FSMVariableTypes.String:
-			var fsmString = targetFSM.FsmVariables.GetFsmString (variableName);
-			if (fsmString != null)
-			{
-				fsmString.Value = onFSMString;
-			}
-			else
-			{
-				Debug.LogWarning("Could not find variable: " + variableName);
-			}
-			break;
-		case FSMVariableTypes.Vector2:
-			var fsmVector2 = targetFSM.FsmVariables.GetFsmVector2 (variableName);
-			if (fsmVector2 != null)
-			{
-				fsmVector2.Value = onFSMVector2;
-			}
-			else
-			{
-				Debug.LogWarning("Could not find variable: " + variableName);
-			}
-			break;
-		case FSMVariableTypes.Vector3:
-			var fsmVector3 = targetFSM.FsmVariables.GetFsmVector3 (variableName);
-			if (fsmVector3 != null)
-			{
-				fsmVector3.Value = onFSMVector3;
-			}
-			else
-			{
-				Debug.LogWarning("Could not find variable: " + variableName);
-			}
-			break;
-		case FSMVariableTypes.Color:
-			var fsmColor = targetFSM.FsmVariables.GetFsmColor (variableName);
-			if (fsmColor != null)
-			{
-				fsmColor.Value = onFSMColor;
-			}
-			else
-			{
-				Debug.LogWarning("Could not find variable: " + variableName);
-			}
-			break;
-		case FSMVariableTypes.Rect:
-			var fsmRect = targetFSM.FsmVariables.GetFsmRect (variableName);
-			if (fsmRect != null)
-			{
-				fsmRect.Value = onFSMRect;
-			}
-			else
-			{
-				Debug.LogWarning("Could not find variable: " + variableName);
-			}
-			break;
-		case FSMVariableTypes.Material:
-			var fsmMaterial = targetFSM.FsmVariables.GetFsmMaterial (variableName);
-			if (fsmMaterial != null)
-			{
-				fsmMaterial.Value = onFSMMaterial;
-			}
-			else
-			{
-				Debug.LogWarning("Could not find variable: " + variableName);
-			}
-			break;
-		case FSMVariableTypes.Texture:
-			var fsmTexture = targetFSM.FsmVariables.GetFsmTexture (variableName);
-			if (fsmTexture != null)
-			{
-				fsmTexture.Value = onFSMTexture;
-			}
-			else
-			{
-				Debug.LogWarning("Could not find variable: " + variableName);
-			}
-			break;
-		case FSMVariableTypes.Quaternion:
-			var fsmQuaternion = targetFSM.FsmVariables.GetFsmQuaternion (variableName);
-			if (fsmQuaternion != null)
-			{
-				//fsmQuaternion.Value = onFSMQuaternion;
-			}
-			else
-			{
-				Debug.LogWarning("Could not find variable: " + variableName);
-			}
-			break;
-		case FSMVariableTypes.Object:
-			var fsmObject = targetFSM.FsmVariables.GetFsmObject (variableName);
-			if (fsmObject != null)
-			{
-				fsmObject.Value = onFSMObject;
-			}
-			else
-			{
-				Debug.LogWarning("Could not find variable: " + variableName);
-			}
-			break;
-		case FSMVariableTypes.Array:
-			var fsmArray = targetFSM.FsmVariables.GetFsmArray (variableName);
-			if (fsmArray != null)
-			{
-				//fsmArray.Values = onFSMArray;
-			}
-			else
-			{
-				Debug.LogWarning("Could not find variable: " + variableName);
-			}
-			break;
-		case FSMVariableTypes.Enum:
-			var fsmEnum = targetFSM.FsmVariables.GetFsmEnum (variableName);
-			if (fsmEnum != null)
-			{
-				//fsmEnum.Value = onFSMEnum;
-			}
-			else
-			{
-				Debug.LogWarning("Could not find variable: " + variableName);
-			}
-			break;
-
-		}
-
-		//send the event
-		targetFSM.Fsm.Event(targetFSM.Fsm.EventTarget, onClickEvent.ToString ());
-  }
-
-	void OnPress(bool pressed)
+	void SetFsmVariable()
 	{
-		if (onPressUpEvent != null || onPressUpEvent != "")
+		//check wich type was set and send value accordingly
+		switch(setValue)
 		{
-			var fsmGameObject = targetFSM.FsmVariables.GetFsmGameObject(variableName);
-			if (fsmGameObject != null)
-			{
-				fsmGameObject.Value = this.gameObject;
-			}
-		}
-
-		if (pressed)
-		{
-			targetFSM.Fsm.Event(targetFSM.Fsm.EventTarget, onPressDownEvent.ToString ());
-		}else{
-			targetFSM.Fsm.Event(targetFSM.Fsm.EventTarget, onPressUpEvent.ToString ());
+			case VariableType.Float:
+				var fsmFloat = targetFSM.FsmVariables.GetFsmFloat(variableName);
+				if(fsmFloat != null)
+				{
+					fsmFloat.Value = onFSMFloat;
+				} else
+				{
+					Debug.LogWarning("Could not find variable: " + variableName);
+				}
+				break;
+			case VariableType.Int:
+				var fsmInt = targetFSM.FsmVariables.GetFsmInt(variableName);
+				if(fsmInt != null)
+				{
+					fsmInt.Value = onFSMInt;
+				} else
+				{
+					Debug.LogWarning("Could not find variable: " + variableName);
+				}
+				break;
+			case VariableType.Bool:
+				var fsmBool = targetFSM.FsmVariables.GetFsmBool(variableName);
+				if(fsmBool != null)
+				{
+					fsmBool.Value = onFSMBool;
+				} else
+				{
+					Debug.LogWarning("Could not find variable: " + variableName);
+				}
+				break;
+			case VariableType.GameObject:
+				var fsmGameObject = targetFSM.FsmVariables.GetFsmGameObject(variableName);
+				if(fsmGameObject != null)
+				{
+					fsmGameObject.Value = onFSMGameObject;
+				} else
+				{
+					Debug.LogWarning("Could not find variable: " + variableName);
+				}
+				break;
+			case VariableType.String:
+				var fsmString = targetFSM.FsmVariables.GetFsmString(variableName);
+				if(fsmString != null)
+				{
+					fsmString.Value = onFSMString;
+				} else
+				{
+					Debug.LogWarning("Could not find variable: " + variableName);
+				}
+				break;
+			case VariableType.Vector2:
+				var fsmVector2 = targetFSM.FsmVariables.GetFsmVector2(variableName);
+				if(fsmVector2 != null)
+				{
+					fsmVector2.Value = onFSMVector2;
+				} else
+				{
+					Debug.LogWarning("Could not find variable: " + variableName);
+				}
+				break;
+			case VariableType.Vector3:
+				var fsmVector3 = targetFSM.FsmVariables.GetFsmVector3(variableName);
+				if(fsmVector3 != null)
+				{
+					fsmVector3.Value = onFSMVector3;
+				} else
+				{
+					Debug.LogWarning("Could not find variable: " + variableName);
+				}
+				break;
+			case VariableType.Color:
+				var fsmColor = targetFSM.FsmVariables.GetFsmColor(variableName);
+				if(fsmColor != null)
+				{
+					fsmColor.Value = onFSMColor;
+				} else
+				{
+					Debug.LogWarning("Could not find variable: " + variableName);
+				}
+				break;
+			case VariableType.Rect:
+				var fsmRect = targetFSM.FsmVariables.GetFsmRect(variableName);
+				if(fsmRect != null)
+				{
+					fsmRect.Value = onFSMRect;
+				} else
+				{
+					Debug.LogWarning("Could not find variable: " + variableName);
+				}
+				break;
+			case VariableType.Material:
+				var fsmMaterial = targetFSM.FsmVariables.GetFsmMaterial(variableName);
+				if(fsmMaterial != null)
+				{
+					fsmMaterial.Value = onFSMMaterial;
+				} else
+				{
+					Debug.LogWarning("Could not find variable: " + variableName);
+				}
+				break;
+			case VariableType.Texture:
+				var fsmTexture = targetFSM.FsmVariables.GetFsmTexture(variableName);
+				if(fsmTexture != null)
+				{
+					fsmTexture.Value = onFSMTexture;
+				} else
+				{
+					Debug.LogWarning("Could not find variable: " + variableName);
+				}
+				break;
+			case VariableType.Quaternion:
+				var fsmQuaternion = targetFSM.FsmVariables.GetFsmQuaternion(variableName);
+				if(fsmQuaternion != null)
+				{
+					fsmQuaternion.Value = onFSMQuaternion;
+				} else
+				{
+					Debug.LogWarning("Could not find variable: " + variableName);
+				}
+				break;
+			case VariableType.Object:
+				var fsmObject = targetFSM.FsmVariables.GetFsmObject(variableName);
+				if(fsmObject != null)
+				{
+					fsmObject.Value = onFSMObject;
+				} else
+				{
+					Debug.LogWarning("Could not find variable: " + variableName);
+				}
+				break;
+			case VariableType.Array:
+				var fsmArray = targetFSM.FsmVariables.GetFsmArray(variableName);
+				if(fsmArray != null)
+				{
+					//fsmArray.Values = onFSMArray;
+				} else
+				{
+					Debug.LogWarning("Could not find variable: " + variableName);
+				}
+				break;
+			case VariableType.Enum:
+				var fsmEnum = targetFSM.FsmVariables.GetFsmEnum(variableName);
+				if(fsmEnum != null)
+				{
+					//fsmEnum.Value = onFSMEnum;
+				} else
+				{
+					Debug.LogWarning("Could not find variable: " + variableName);
+				}
+				break;
 		}
 	}
 }

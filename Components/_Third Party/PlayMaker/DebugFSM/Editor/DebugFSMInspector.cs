@@ -31,14 +31,17 @@ public class DebugFSMInspector : Editor
 		}
 		GUILayout.EndHorizontal();
 
-		base.DrawDefaultInspector();
-
 		if(script.debugStateNames)
 		{
 			script.traceBackAmount = EditorGUILayout.IntField("Trace-Back Amount", script.traceBackAmount);
 		} else if(script.debugVariables)
 		{
-			script.startFrom = EditorGUILayout.IntField("Start From", script.startFrom);
+			script.startFrom = EditorGUILayout.IntField("Start From Variable #", script.startFrom);
 		}
+
+		EditorGUILayout.Separator();
+		EditorGUILayout.Separator();
+
+		base.DrawDefaultInspector();
 	}
 }
