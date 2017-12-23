@@ -1,9 +1,13 @@
+// License: Attribution 4.0 International (CC BY 4.0)
+/*--- __ECO__ __PLAYMAKER__ __ACTION__ ---*/
+// Author : Deek
 
 using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions
 {
 	[ActionCategory(ActionCategory.Physics)]
+	[HelpUrl("http://hutonggames.com/playmakerforum/index.php?topic=15458.0")]
 	[Tooltip("Enable or disable a Collider or Collider2D on a GamObject. Optionally set all colliders found on the gameobject Target.")]
 	public class EnableCollider : FsmStateAction
 	{
@@ -35,25 +39,28 @@ namespace HutongGames.PlayMaker.Actions
 		void DoEnableCollider()
 		{
 			GameObject go = Fsm.GetOwnerDefaultTarget(gameObject);
-			if (go == null) return;
+			if(go == null) return;
 
 
-			if (applyToAllColliders.Value)
+			if(applyToAllColliders.Value)
 			{
 				// Find all of the colliders on the gameobject and set them all to be enabled.
-				Collider[] cols = go.GetComponents<Collider> ();
-				foreach (Collider c in cols) {
+				Collider[] cols = go.GetComponents<Collider>();
+				foreach(Collider c in cols)
+				{
 					c.enabled = enable.Value;
 				}
 
 				// Find all of the 2D colliders on the gameobject and set them all to be enabled.
-				Collider2D[] cols2D = go.GetComponents<Collider2D> ();
-				foreach (Collider2D c in cols2D) {
+				Collider2D[] cols2D = go.GetComponents<Collider2D>();
+				foreach(Collider2D c in cols2D)
+				{
 					c.enabled = enable.Value;
 				}
-			}else{
-				if (go.GetComponent<Collider>() != null)go.GetComponent<Collider>().enabled  = enable.Value;
-				if (go.GetComponent<Collider2D>() != null)go.GetComponent<Collider2D>().enabled  = enable.Value;
+			} else
+			{
+				if(go.GetComponent<Collider>() != null) go.GetComponent<Collider>().enabled = enable.Value;
+				if(go.GetComponent<Collider2D>() != null) go.GetComponent<Collider2D>().enabled = enable.Value;
 			}
 		}
 	}

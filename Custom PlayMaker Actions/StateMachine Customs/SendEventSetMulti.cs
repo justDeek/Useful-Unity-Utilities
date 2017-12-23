@@ -1,3 +1,6 @@
+// License: Attribution 4.0 International (CC BY 4.0)
+/*--- __ECO__ __PLAYMAKER__ __ACTION__ ---*/
+// Author : Deek
 
 using UnityEngine;
 
@@ -6,6 +9,7 @@ namespace HutongGames.PlayMaker.Actions
 	[ActionCategory(ActionCategory.StateMachine)]
 	[ActionTarget(typeof(PlayMakerFSM), "eventTarget")]
 	[ActionTarget(typeof(GameObject), "eventTarget")]
+	[HelpUrl("http://hutonggames.com/playmakerforum/index.php?topic=15458.0")]
 	[Tooltip("Sets multiple values of the specified types in another FSM, then sends an Event to it after an optional delay (combines 'Send Event' and 'Set Fsm Variable' for convenience & efficiency).")]
 	public class SendEventSetMulti : FsmStateAction
 	{
@@ -52,15 +56,14 @@ namespace HutongGames.PlayMaker.Actions
 		{
 			DoSetFsmVariable();
 
-			if (delay.Value < 0.001f)
+			if(delay.Value < 0.001f)
 			{
 				Fsm.Event(eventTarget, sendEvent);
-				if (!everyFrame)
+				if(!everyFrame)
 				{
 					Finish();
 				}
-			}
-			else
+			} else
 			{
 				delayedEvent = Fsm.DelayedEvent(eventTarget, sendEvent, delay.Value);
 			}
@@ -70,14 +73,13 @@ namespace HutongGames.PlayMaker.Actions
 		{
 			DoSetFsmVariable();
 
-			if (!everyFrame)
+			if(!everyFrame)
 			{
-				if (DelayedEvent.WasSent(delayedEvent))
+				if(DelayedEvent.WasSent(delayedEvent))
 				{
 					Finish();
 				}
-			}
-			else
+			} else
 			{
 				Fsm.Event(eventTarget, sendEvent);
 			}
@@ -87,17 +89,17 @@ namespace HutongGames.PlayMaker.Actions
 		{
 			var go = Fsm.GetOwnerDefaultTarget(eventTarget.gameObject);
 
-			if (go == null)
+			if(go == null)
 			{
 				return;
 			}
 
 			string fsmName = eventTarget.fsmName.Value;
 
-			if (go != cachedGameObject || fsmName != cachedFsmName)
+			if(go != cachedGameObject || fsmName != cachedFsmName)
 			{
 				targetFsm = ActionHelpers.GetGameObjectFsm(go, fsmName);
-				if (targetFsm == null)
+				if(targetFsm == null)
 				{
 					return;
 				}
@@ -105,20 +107,19 @@ namespace HutongGames.PlayMaker.Actions
 				cachedFsmName = fsmName;
 			}
 
-			for (int i = 0; i < variableName.Length; i++)
+			for(int i = 0; i < variableName.Length; i++)
 			{
 				//ignore values that are not set/defined
 				setValue[i].UpdateValue();
-				if (setValue[i].IsNone || string.IsNullOrEmpty(variableName[i].Value))
+				if(setValue[i].IsNone || string.IsNullOrEmpty(variableName[i].Value))
 				{
 					continue;
 				}
 
-				if (targetFsm.FsmVariables.Contains(variableName[i].Value))
+				if(targetFsm.FsmVariables.Contains(variableName[i].Value))
 				{
 					targetVariable = targetFsm.FsmVariables.GetVariable(variableName[i].Value);
-				}
-				else
+				} else
 				{
 					LogError(targetFsm.name + " doesn't contain variable " + variableName[i].Value);
 					return;

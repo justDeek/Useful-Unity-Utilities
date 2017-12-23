@@ -1,9 +1,14 @@
-﻿using System;
+﻿// License: Attribution 4.0 International (CC BY 4.0)
+/*--- __ECO__ __PLAYMAKER__ __ACTION__ ---*/
+// Author : Deek
+
+using System;
 using System.Collections.Generic;
 
 namespace HutongGames.PlayMaker.Actions
 {
 	[ActionCategory(ActionCategory.Enum)]
+	[HelpUrl("http://hutonggames.com/playmakerforum/index.php?topic=15458.0")]
 	[Tooltip("Get a Random item from an enum.")]
 	public class EnumGetRandom : FsmStateAction
 	{
@@ -24,7 +29,7 @@ namespace HutongGames.PlayMaker.Actions
 		{
 			DoGetRandomValue();
 
-			if (!everyFrame)
+			if(!everyFrame)
 			{
 				Finish();
 			}
@@ -42,7 +47,7 @@ namespace HutongGames.PlayMaker.Actions
 			//get Type
 			var enumType = enumVariable.Value.GetType();
 
-			foreach (var singleItem in Enum.GetValues(enumType))
+			foreach(var singleItem in Enum.GetValues(enumType))
 			{
 				allEnumItems.Add(singleItem);
 			}

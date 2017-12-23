@@ -1,10 +1,12 @@
-
-using UnityEngine;
+// License: Attribution 4.0 International (CC BY 4.0)
+/*--- __ECO__ __PLAYMAKER__ __ACTION__ ---*/
+// Author : Deek
 
 namespace HutongGames.PlayMaker.Actions
 {
-	[ActionCategory(ActionCategory.Logic)]
-	[Tooltip("Compares 1 Game Object against multiple and sends Events based on the result.")]
+	[ActionCategory(ActionCategory.GameObject)]
+	[HelpUrl("http://hutonggames.com/playmakerforum/index.php?topic=15458.0")]
+	[Tooltip("Compares one GameObject against multiple and sends events based on the result.")]
 	public class GameObjectCompareMulti : FsmStateAction
 	{
 		[RequiredField]
@@ -45,7 +47,7 @@ namespace HutongGames.PlayMaker.Actions
 		{
 			DoGameObjectCompare();
 
-			if (!everyFrame)
+			if(!everyFrame)
 			{
 				Finish();
 			}
@@ -60,14 +62,14 @@ namespace HutongGames.PlayMaker.Actions
 		{
 
 			// exit if objects are null
-			if ((gameObjectVariable == null) || (compareTos == null) || (compareEvents == null))
+			if((gameObjectVariable == null) || (compareTos == null) || (compareEvents == null))
 				return;
 
 			// loop until we find a match
 			int j = compareTos.Length;
-			for (int i = 0; i < j; i++)
+			for(int i = 0; i < j; i++)
 			{
-				if (gameObjectVariable.Value == compareTos[i].Value)
+				if(gameObjectVariable.Value == compareTos[i].Value)
 				{
 					// fire the event
 					Fsm.Event(compareEvents[i]);
@@ -77,7 +79,7 @@ namespace HutongGames.PlayMaker.Actions
 			}
 
 			// nothing found, so fire a No-Match-Event
-			if (noMatchEvent != null)
+			if(noMatchEvent != null)
 			{
 				storeResult.Value = false;
 				Fsm.Event(noMatchEvent);

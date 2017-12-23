@@ -1,3 +1,6 @@
+// License: Attribution 4.0 International (CC BY 4.0)
+/*--- __ECO__ __PLAYMAKER__ __ACTION__ ---*/
+// Author : Deek
 
 using UnityEngine;
 
@@ -6,6 +9,7 @@ namespace HutongGames.PlayMaker.Actions
 	[ActionCategory(ActionCategory.StateMachine)]
 	[ActionTarget(typeof(PlayMakerFSM), "eventTarget")]
 	[ActionTarget(typeof(GameObject), "eventTarget")]
+	[HelpUrl("http://hutonggames.com/playmakerforum/index.php?topic=15458.0")]
 	[Tooltip("Sends an Event after a random delay. NOTE: To send events between FSMs they must be marked as Global in the Events Browser.")]
 	public class SendEventRandomDelay : FsmStateAction
 	{
@@ -43,12 +47,11 @@ namespace HutongGames.PlayMaker.Actions
 		{
 			time = Random.Range(delayMin.Value, delayMax.Value);
 
-			if (time < 0.001f)
+			if(time < 0.001f)
 			{
 				Fsm.Event(eventTarget, sendEvent);
 				Finish();
-			}
-			else
+			} else
 			{
 				startTime = FsmTime.RealtimeSinceStartup;
 				timer = 0f;
@@ -58,16 +61,15 @@ namespace HutongGames.PlayMaker.Actions
 
 		public override void OnUpdate()
 		{
-			if (realTime.Value)
+			if(realTime.Value)
 			{
 				timer = FsmTime.RealtimeSinceStartup - startTime;
-			}
-			else
+			} else
 			{
 				timer += Time.deltaTime;
 			}
 
-			if (timer >= time)
+			if(timer >= time)
 			{
 				Fsm.Event(eventTarget, sendEvent);
 			}

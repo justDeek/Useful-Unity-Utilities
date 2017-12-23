@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions
 {
-	[ActionCategory(ActionCategory.Vector2)]
+	[ActionCategory("Random")]
 	[Tooltip("Returns a random point between two Vector3 variables. Useful for 2.5D games, e.g. if you want GameObjects to spawn further down the farther away they are or vice versa.")]
 	public class RandomPointOnSlope : FsmStateAction
 	{

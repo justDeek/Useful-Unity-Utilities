@@ -1,9 +1,13 @@
+// License: Attribution 4.0 International (CC BY 4.0)
+/*--- __ECO__ __PLAYMAKER__ __ACTION__ ---*/
+// Author : Deek
 
 using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions
 {
 	[ActionCategory(ActionCategory.Time)]
+	[HelpUrl("http://hutonggames.com/playmakerforum/index.php?topic=15458.0")]
 	[Tooltip("Counts up as long as in current state and ends when leaving the current state.")]
 	public class CountupTimer : FsmStateAction
 	{

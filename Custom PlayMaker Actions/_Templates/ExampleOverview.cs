@@ -10,6 +10,7 @@ using UnityEngine;
 namespace HutongGames.PlayMaker.Actions
 {
 	[ActionCategory("<Custom Category Name>")]
+	[ActionTarget(typeof(GameObject), "gameObject")]
 	[Tooltip("Contains various useful examples for creating custom actions.")]
 	[HelpUrl("<alternative link to forum when not using the Ecosystem tags>")]
 	public class ExampleOverview : FsmStateAction

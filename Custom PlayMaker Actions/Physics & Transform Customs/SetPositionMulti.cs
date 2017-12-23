@@ -1,9 +1,13 @@
+// License: Attribution 4.0 International (CC BY 4.0)
+/*--- __ECO__ __PLAYMAKER__ __ACTION__ ---*/
+// Author : Deek
 
 using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions
 {
 	[ActionCategory(ActionCategory.Transform)]
+	[HelpUrl("http://hutonggames.com/playmakerforum/index.php?topic=15458.0")]
 	[Tooltip("Sets the Position of multiple Game Object to one Vector3.")]
 	public class SetPositionMulti : FsmStateAction
 	{
@@ -36,7 +40,7 @@ namespace HutongGames.PlayMaker.Actions
 
 		public override void OnEnter()
 		{
-			if (!everyFrame && !lateUpdate)
+			if(!everyFrame && !lateUpdate)
 			{
 				DoSetPosition();
 				Finish();
@@ -45,7 +49,7 @@ namespace HutongGames.PlayMaker.Actions
 
 		public override void OnUpdate()
 		{
-			if (!lateUpdate)
+			if(!lateUpdate)
 			{
 				DoSetPosition();
 			}
@@ -53,12 +57,12 @@ namespace HutongGames.PlayMaker.Actions
 
 		public override void OnLateUpdate()
 		{
-			if (lateUpdate)
+			if(lateUpdate)
 			{
 				DoSetPosition();
 			}
 
-			if (!everyFrame)
+			if(!everyFrame)
 			{
 				Finish();
 			}
@@ -66,31 +70,29 @@ namespace HutongGames.PlayMaker.Actions
 
 		void DoSetPosition()
 		{
-			for (int i = 0; i < gameObject.Length; i++)
+			for(int i = 0; i < gameObject.Length; i++)
 			{
 				go = gameObject[i].Value;
 
-				if (go == null)
+				if(go == null)
 				{
 					continue;
 				}
 
 				Vector3 position;
 
-				if (vector.IsNone)
+				if(vector.IsNone)
 				{
 					position = space == Space.World ? go.transform.position : go.transform.localPosition;
-				}
-				else
+				} else
 				{
 					position = vector.Value;
 				}
 
-				if (space == Space.World)
+				if(space == Space.World)
 				{
 					go.transform.position = position;
-				}
-				else
+				} else
 				{
 					go.transform.localPosition = position;
 				}

@@ -1,7 +1,11 @@
+// License: Attribution 4.0 International (CC BY 4.0)
+/*--- __ECO__ __PLAYMAKER__ __ACTION__ ---*/
+// Author : Deek
 
 namespace HutongGames.PlayMaker.Actions
 {
 	[ActionCategory(ActionCategory.Enum)]
+	[HelpUrl("http://hutonggames.com/playmakerforum/index.php?topic=15458.0")]
 	[Tooltip("Pick a random weighted Enum picked from an array of specified Enums.")]
 	public class RandomWeightedEnum : FsmStateAction
 	{
@@ -36,23 +40,22 @@ namespace HutongGames.PlayMaker.Actions
 
 		void PickRandom()
 		{
-			if (amount.Length == 0)
+			if(amount.Length == 0)
 			{
 				return;
 			}
 
-			if (Repeat.Value)
+			if(Repeat.Value)
 			{
 				randomIndex = ActionHelpers.GetRandomWeightedIndex(weights);
 				result.Value = amount[randomIndex].Value;
 
-			}
-			else
+			} else
 			{
 				do
 				{
 					randomIndex = ActionHelpers.GetRandomWeightedIndex(weights);
-				} while (randomIndex == lastIndex);
+				} while(randomIndex == lastIndex);
 
 				lastIndex = randomIndex;
 				result.Value = amount[randomIndex].Value;

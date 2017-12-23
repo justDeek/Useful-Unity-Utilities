@@ -1,9 +1,13 @@
-﻿
+﻿// License: Attribution 4.0 International (CC BY 4.0)
+/*--- __ECO__ __PLAYMAKER__ __ACTION__ ---*/
+// Author : Deek
+
 using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions
 {
 	[ActionCategory(ActionCategory.Animator)]
+	[HelpUrl("http://hutonggames.com/playmakerforum/index.php?topic=15458.0")]
 	[Tooltip("Get the runtimeAnimatorController of an Animator Component.")]
 	public class GetRuntimeAnimatorController : FsmStateAction
 	{
@@ -35,7 +39,7 @@ namespace HutongGames.PlayMaker.Actions
 			// get the animator component
 			var go = Fsm.GetOwnerDefaultTarget(gameObject);
 
-			if (go == null)
+			if(go == null)
 			{
 				Finish();
 				return;
@@ -44,7 +48,7 @@ namespace HutongGames.PlayMaker.Actions
 			_animator = go.GetComponent<Animator>();
 
 			DoAnimatorPlay();
-			if (!everyFrame)
+			if(!everyFrame)
 			{
 				Finish();
 			}
@@ -57,11 +61,11 @@ namespace HutongGames.PlayMaker.Actions
 
 		void DoAnimatorPlay()
 		{
-			if (_animator != null)
+			if(_animator != null)
 			{
 				getController.Value = _animator.runtimeAnimatorController;
 
-				if (getController.Value == null)
+				if(getController.Value == null)
 				{
 					LogWarning("Animator " + _animator.name + " doesn't have a runtimeAnimatorController!");
 				}

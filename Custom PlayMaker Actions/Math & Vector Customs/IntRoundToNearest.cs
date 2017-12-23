@@ -1,9 +1,13 @@
+// License: Attribution 4.0 International (CC BY 4.0)
+/*--- __ECO__ __PLAYMAKER__ __ACTION__ ---*/
+// Author : Deek
+
 using System;
 
 namespace HutongGames.PlayMaker.Actions
 {
-
 	[ActionCategory(ActionCategory.Math)]
+	[HelpUrl("http://hutonggames.com/playmakerforum/index.php?topic=15458.0")]
 	[Tooltip("Rounds an Int Variable to the specified base up or down. If the given Int is 36 and the Base is 10, then the result is 40. Useful for HealthManager or consticted Slider.")]
 	public class IntRoundToNearest : FsmStateAction
 	{
@@ -26,7 +30,7 @@ namespace HutongGames.PlayMaker.Actions
 		{
 			intVariable = null;
 			baseValue = null;
-			result = new FsmInt() {UseVariable = true};
+			result = new FsmInt() { UseVariable = true };
 			everyFrame = false;
 		}
 
@@ -34,7 +38,7 @@ namespace HutongGames.PlayMaker.Actions
 		public override void OnEnter()
 		{
 			DoRound();
-			if (!everyFrame)
+			if(!everyFrame)
 			{
 				Finish();
 			}

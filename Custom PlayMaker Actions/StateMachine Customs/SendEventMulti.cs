@@ -1,5 +1,7 @@
+// License: Attribution 4.0 International (CC BY 4.0)
+/*--- __ECO__ __PLAYMAKER__ __ACTION__ ---*/
+// Author : Deek
 
-using System;
 using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions
@@ -7,6 +9,7 @@ namespace HutongGames.PlayMaker.Actions
 	[ActionCategory(ActionCategory.StateMachine)]
 	[ActionTarget(typeof(PlayMakerFSM), "eventTarget")]
 	[ActionTarget(typeof(GameObject), "eventTarget")]
+	[HelpUrl("http://hutonggames.com/playmakerforum/index.php?topic=15458.0")]
 	[Tooltip("Sends an Event to multiple GameObjects. (useful if you don't want to broadcast an Event or don't want several similar 'Send Event'-Actions). Sends the Event only to the first FSM Component on that GameObject.")]
 	public class SendEventMulti : FsmStateAction
 	{
@@ -37,18 +40,22 @@ namespace HutongGames.PlayMaker.Actions
 		public override void OnEnter()
 		{
 			//Go through all GameObjects in the Array
-			foreach (var i in eventTarget) {
+			foreach(var i in eventTarget)
+			{
 
 				//get the FSM-Component of the current GO
-				var comp = i.Value.GetComponent<PlayMakerFSM> ();
+				var comp = i.Value.GetComponent<PlayMakerFSM>();
 
-				if (delay.Value < 0.001f) {
-					comp.Fsm.Event (sendEvent);
-					if (!everyFrame) {
-						Finish ();
+				if(delay.Value < 0.001f)
+				{
+					comp.Fsm.Event(sendEvent);
+					if(!everyFrame)
+					{
+						Finish();
 					}
-				} else {
-					comp.Fsm.DelayedEvent (sendEvent, delay.Value);
+				} else
+				{
+					comp.Fsm.DelayedEvent(sendEvent, delay.Value);
 				}
 			}
 
@@ -56,18 +63,18 @@ namespace HutongGames.PlayMaker.Actions
 
 		public override void OnUpdate()
 		{
-			if (!everyFrame)
+			if(!everyFrame)
 			{
-				if (DelayedEvent.WasSent(delayedEvent))
+				if(DelayedEvent.WasSent(delayedEvent))
 				{
 					Finish();
 				}
-			}
-			else
+			} else
 			{
-				foreach (var i in eventTarget) {
-					var comp = i.Value.GetComponent<PlayMakerFSM> ();
-					comp.Fsm.Event (sendEvent);
+				foreach(var i in eventTarget)
+				{
+					var comp = i.Value.GetComponent<PlayMakerFSM>();
+					comp.Fsm.Event(sendEvent);
 				}
 
 			}

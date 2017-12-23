@@ -1,9 +1,13 @@
-﻿
+﻿// License: Attribution 4.0 International (CC BY 4.0)
+/*--- __ECO__ __PLAYMAKER__ __ACTION__ ---*/
+// Author : Deek
+
 using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions
 {
 	[ActionCategory(ActionCategory.GUI)]
+	[HelpUrl("http://hutonggames.com/playmakerforum/index.php?topic=15458.0")]
 	[Tooltip("Fills the screen with a Color (as long as in current State). NOTE: Uses OnGUI so you need a PlayMakerGUI component in the scene. Added functionality to toggle visibility and disable the preview (filling the Game-Window). Automatically updates every Frame.")]
 	public class DrawFullscreenColorAdvanced : FsmStateAction
 	{
@@ -39,7 +43,13 @@ namespace HutongGames.PlayMaker.Actions
 				GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), ActionHelpers.WhiteTexture);
 
 				if(preview.Value)
+				{
 					GUI.color = color.Value;
+				} else
+				{
+					if(Application.isPlaying)
+						GUI.color = color.Value;
+				}
 
 			} else
 			{

@@ -1,7 +1,11 @@
+// License: Attribution 4.0 International (CC BY 4.0)
+/*--- __ECO__ __PLAYMAKER__ __ACTION__ ---*/
+// Author : Deek
 
 namespace HutongGames.PlayMaker.Actions
 {
 	[ActionCategory(ActionCategory.String)]
+	[HelpUrl("http://hutonggames.com/playmakerforum/index.php?topic=15458.0")]
 	[Tooltip("Tests a String against Multiple to see if it is within one of them.")]
 	public class StringContainsSwitch : FsmStateAction
 	{
@@ -28,7 +32,7 @@ namespace HutongGames.PlayMaker.Actions
 		{
 			DoStringContainsSwitch();
 
-			if (!everyFrame)
+			if(!everyFrame)
 				Finish();
 		}
 
@@ -39,9 +43,9 @@ namespace HutongGames.PlayMaker.Actions
 
 		void DoStringContainsSwitch()
 		{
-			for (int i = 0; i < compareTo.Length; i++)
+			for(int i = 0; i < compareTo.Length; i++)
 			{
-				if (stringVariable.Value.Contains(compareTo[i].Value))
+				if(stringVariable.Value.Contains(compareTo[i].Value))
 				{
 					Fsm.Event(sendEvent[i]);
 					return;

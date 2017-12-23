@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions
 {
-	[ActionCategory(ActionCategory.Math)]
+	[ActionCategory("Random")]
 	[Tooltip("Insert two ranges and a value on the first range to get that percentage on the second one. Useful for 2.5D games, e.g. if you want GameObjects to spawn further down the farther away they are or vice versa, thus creating an imaginary slope.")]
 	public class RandomFloatOnSlope : FsmStateAction
 	{

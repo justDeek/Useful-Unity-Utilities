@@ -1,9 +1,13 @@
+// License: Attribution 4.0 International (CC BY 4.0)
+/*--- __ECO__ __PLAYMAKER__ __ACTION__ ---*/
+// Author : Deek
 
 using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions
 {
 	[ActionCategory(ActionCategory.Device)]
+	[HelpUrl("http://hutonggames.com/playmakerforum/index.php?topic=15458.0")]
 	[Tooltip("Sends an event when a swipe is detected. Advanced: Store the speed, distance and duration of the swipe (inedepent of 'Min Swipe Distance').")]
 	public class SwipeGestureEventAdvanced : FsmStateAction
 	{
@@ -58,54 +62,54 @@ namespace HutongGames.PlayMaker.Actions
 
 		public override void OnUpdate()
 		{
-			foreach (Touch touch in Input.touches)
+			foreach(Touch touch in Input.touches)
 			{
-				switch (touch.phase)
+				switch(touch.phase)
 				{
-				case TouchPhase.Began:
+					case TouchPhase.Began:
 
-					touchHasStarted = true;
-					touchStartPos = touch.position;
-					touchStartTime = FsmTime.RealtimeSinceStartup;
-
-					break;
-
-				case TouchPhase.Ended:
-
-					Vector2 touchEndPos = Input.mousePosition;
-					touchEndPos = Camera.main.ScreenToWorldPoint(touchEndPos);
-
-					var force = touchEndPos - touchStartPos;
-		      force /= (Time.time - touchStartTime);
-					getForce.Value = force;
-
-					if (touchHasStarted)
-					{
-						TestForSwipeGesture(touch);
-						touchHasStarted = false;
-					}
-
-					break;
-
-				case TouchPhase.Canceled:
-
-					touchHasStarted = false;
-
-					break;
-
-				case TouchPhase.Stationary:
-
-					if (touchHasStarted)
-					{
+						touchHasStarted = true;
 						touchStartPos = touch.position;
 						touchStartTime = FsmTime.RealtimeSinceStartup;
-					}
 
-					break;
+						break;
 
-				case TouchPhase.Moved:
+					case TouchPhase.Ended:
 
-					break;
+						Vector2 touchEndPos = Input.mousePosition;
+						touchEndPos = Camera.main.ScreenToWorldPoint(touchEndPos);
+
+						var force = touchEndPos - touchStartPos;
+						force /= (Time.time - touchStartTime);
+						getForce.Value = force;
+
+						if(touchHasStarted)
+						{
+							TestForSwipeGesture(touch);
+							touchHasStarted = false;
+						}
+
+						break;
+
+					case TouchPhase.Canceled:
+
+						touchHasStarted = false;
+
+						break;
+
+					case TouchPhase.Stationary:
+
+						if(touchHasStarted)
+						{
+							touchStartPos = touch.position;
+							touchStartTime = FsmTime.RealtimeSinceStartup;
+						}
+
+						break;
+
+					case TouchPhase.Moved:
+
+						break;
 				}
 			}
 		}
@@ -118,7 +122,7 @@ namespace HutongGames.PlayMaker.Actions
 			getSwipeDuration.Value = FsmTime.RealtimeSinceStartup - touchStartTime;
 			getSwipeSpeed.Value = getSwipeDistance.Value / getSwipeDuration.Value;
 
-			if (getSwipeDistance.Value > minSwipeDistancePixels)
+			if(getSwipeDistance.Value > minSwipeDistancePixels)
 			{
 				float dy = lastPos.y - touchStartPos.y;
 				float dx = lastPos.x - touchStartPos.x;
@@ -127,19 +131,16 @@ namespace HutongGames.PlayMaker.Actions
 
 				angle = (360 + angle - 45) % 360;
 
-				if (angle < 90)
+				if(angle < 90)
 				{
 					Fsm.Event(swipeRightEvent);
-				}
-				else if (angle < 180)
+				} else if(angle < 180)
 				{
 					Fsm.Event(swipeDownEvent);
-				}
-				else if (angle < 270)
+				} else if(angle < 270)
 				{
 					Fsm.Event(swipeLeftEvent);
-				}
-				else
+				} else
 				{
 					Fsm.Event(swipeUpEvent);
 				}

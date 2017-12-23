@@ -1,9 +1,13 @@
+// License: Attribution 4.0 International (CC BY 4.0)
+/*--- __ECO__ __PLAYMAKER__ __ACTION__ ---*/
+// Author : Deek
 
 using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions
 {
 	[ActionCategory(ActionCategory.Transform)]
+	[HelpUrl("http://hutonggames.com/playmakerforum/index.php?topic=15458.0")]
 	[Tooltip("Get the scale of a Game Object and add an offset to that Vector. Optionally applies that offset to the GameObject.")]
 	public class GetScaleAddOffset : FsmStateAction
 	{
@@ -55,7 +59,7 @@ namespace HutongGames.PlayMaker.Actions
 		public override void OnEnter()
 		{
 			DoGetScale();
-			if (!everyFrame)
+			if(!everyFrame)
 			{
 				Finish();
 			}
@@ -69,12 +73,12 @@ namespace HutongGames.PlayMaker.Actions
 		void DoGetScale()
 		{
 			var go = Fsm.GetOwnerDefaultTarget(gameObject);
-			if (go == null)
+			if(go == null)
 			{
 				return;
 			}
 
-			if (vector3Offset != null && !vector3Offset.IsNone)
+			if(vector3Offset != null && !vector3Offset.IsNone)
 			{
 				xOffset.Value = vector3Offset.Value.x;
 				yOffset.Value = vector3Offset.Value.y;
@@ -84,7 +88,7 @@ namespace HutongGames.PlayMaker.Actions
 			var scale = go.transform.localScale;
 			var input = new Vector3(xOffset.Value, yOffset.Value, zOffset.Value);
 
-			switch (operation)
+			switch(operation)
 			{
 				case Vector3Operation.Add:
 					storeVector3Result.Value = scale + input;
@@ -109,7 +113,7 @@ namespace HutongGames.PlayMaker.Actions
 
 			}
 
-			if (applyOffsetToGO)
+			if(applyOffsetToGO)
 			{
 				go.transform.localScale = storeVector3Result.Value;
 			}

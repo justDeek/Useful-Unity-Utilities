@@ -4,6 +4,12 @@
 ## DestroyChildren.cs
 ![Image](/Screenshots/Actions/DestroyChildren_Info.png)
 
+## EnableChildren.cs
+![Image](/Screenshots/Actions/EnableChildren_Info.png)
+
+## GameObjectCompareMulti.cs
+![Image](/Screenshots/Actions/GameObjectCompareMulti_Info.png)
+
 ## GetGameObjectSibling.cs
 ![Image](/Screenshots/Actions/GetGameObjectSibling_Info.png)
 

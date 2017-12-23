@@ -1,8 +1,13 @@
+// License: Attribution 4.0 International (CC BY 4.0)
+/*--- __ECO__ __PLAYMAKER__ __ACTION__ ---*/
+// Author : Deek
+
 using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions
 {
 	[ActionCategory(ActionCategory.Audio)]
+	[HelpUrl("http://hutonggames.com/playmakerforum/index.php?topic=15458.0")]
 	[Tooltip("Retrieve the progress (in %) of the specified AudioSource. Optionally sends an Event when past the specified percentage.")]
 	public class GetAudioProgress : ComponentAction<AudioSource>
 	{
@@ -37,7 +42,7 @@ namespace HutongGames.PlayMaker.Actions
 		public override void OnEnter()
 		{
 			var go = Fsm.GetOwnerDefaultTarget(gameObject);
-			if (UpdateCache(go))
+			if(UpdateCache(go))
 			{
 				_audioClip = audio.clip as AudioClip;
 				length = _audioClip.length;
@@ -50,9 +55,9 @@ namespace HutongGames.PlayMaker.Actions
 			time = audio.time;
 			currentProgress.Value = (time / length) * 100;
 
-			if (onPercentage.Value > 0)
+			if(onPercentage.Value > 0)
 			{
-				if (currentProgress.Value > onPercentage.Value)
+				if(currentProgress.Value > onPercentage.Value)
 				{
 					Fsm.Event(sendEvent);
 					Finish();

@@ -1,32 +1,36 @@
+// License: Attribution 4.0 International (CC BY 4.0)
+/*--- __ECO__ __PLAYMAKER__ __ACTION__ ---*/
+// Author : Deek
 
 using System.Text.RegularExpressions;
 
 namespace HutongGames.PlayMaker.Actions
 {
 	[ActionCategory(ActionCategory.String)]
+	[HelpUrl("http://hutonggames.com/playmakerforum/index.php?topic=15458.0")]
 	[Tooltip("Replace each char in a given String with the specified one. Useful to obfuscate confidential or not yet unlocked text. Optionally removes spaces.")]
 	public class StringReplaceEachChar : FsmStateAction
 	{
 		[RequiredField]
-    [Tooltip("The String to replace each char of.")]
+		[Tooltip("The String to replace each char of.")]
 		public FsmString startString;
 
 		[RequiredField]
 		[Tooltip("The String that should replace every char of the Start String")]
-    public FsmString replaceWith;
+		public FsmString replaceWith;
 
 		[RequiredField]
 		[UIHint(UIHint.Variable)]
 		[Tooltip("Store the final String in a variable. Can be the same as the Start String to override it or a new one to keep them separate and be able to revert these changes.")]
-    public FsmString storeResult;
+		public FsmString storeResult;
 
 		[Tooltip("If set gets rid of spaces if the string consists of several words.")]
 		public FsmBool removeEmptySpace;
 
-    [Tooltip("Repeat every frame while the state is active.")]
+		[Tooltip("Repeat every frame while the state is active.")]
 		public FsmBool everyFrame;
 
-    //private string result;
+		//private string result;
 
 		public override void Reset()
 		{
@@ -41,9 +45,9 @@ namespace HutongGames.PlayMaker.Actions
 		{
 			DoBuildString();
 
-			if (!everyFrame.Value)
+			if(!everyFrame.Value)
 			{
-			    Finish();
+				Finish();
 			}
 		}
 
@@ -56,7 +60,7 @@ namespace HutongGames.PlayMaker.Actions
 		{
 			var tmp = new Regex("\\S").Replace(startString.Value, replaceWith.Value);
 
-			if (removeEmptySpace.Value)
+			if(removeEmptySpace.Value)
 			{
 				tmp = Regex.Replace(tmp, " ", string.Empty); //alt.: @"^\s*$[\r\n]*"
 			}

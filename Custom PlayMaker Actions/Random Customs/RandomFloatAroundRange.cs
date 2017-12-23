@@ -1,9 +1,14 @@
+// License: Attribution 4.0 International (CC BY 4.0)
+/*--- __ECO__ __PLAYMAKER__ __ACTION__ ---*/
+// Author : Deek
+
 using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions
 {
 
-	[ActionCategory(ActionCategory.Logic)]
+	[ActionCategory("Random")]
+	[HelpUrl("http://hutonggames.com/playmakerforum/index.php?topic=15458.0")]
 	[Tooltip("Receive a random float value around a specified range. If the range is set to 1 and the starting float is 0.5, the result can be anything between -0.5 and 1.5. Useful to get variations from fixed values like attack damage, drop chances and combination success rates.")]
 	public class RandomFloatAroundRange : FsmStateAction
 	{
@@ -44,7 +49,7 @@ namespace HutongGames.PlayMaker.Actions
 		public override void OnEnter()
 		{
 			DoGetRandomFromRange();
-			if (!everyFrame)
+			if(!everyFrame)
 				Finish();
 		}
 
@@ -56,17 +61,16 @@ namespace HutongGames.PlayMaker.Actions
 
 		public void DoGetRandomFromRange()
 		{
-			if (!unsigned)
+			if(!unsigned)
 			{
 				min = startFloat.Value - range.Value;
 				max = startFloat.Value + range.Value;
-				result.Value = Random.Range(min,max);
-			}
-			else
+				result.Value = Random.Range(min, max);
+			} else
 			{
 				min = startFloat.Value;
 				max = startFloat.Value + range.Value;
-				result.Value = Random.Range(min,max);
+				result.Value = Random.Range(min, max);
 			}
 		}
 	}

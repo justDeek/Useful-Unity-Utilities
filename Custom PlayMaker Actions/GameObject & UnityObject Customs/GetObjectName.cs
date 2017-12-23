@@ -1,7 +1,11 @@
+// License: Attribution 4.0 International (CC BY 4.0)
+/*--- __ECO__ __PLAYMAKER__ __ACTION__ ---*/
+// Author : Deek
 
 namespace HutongGames.PlayMaker.Actions
 {
 	[ActionCategory(ActionCategory.GameObject)]
+	[HelpUrl("http://hutonggames.com/playmakerforum/index.php?topic=15458.0")]
 	[Tooltip("Gets the name of an Object and stores it in a String Variable.")]
 	public class GetObjectName : FsmStateAction
 	{
@@ -18,7 +22,7 @@ namespace HutongGames.PlayMaker.Actions
 
 		public override void Reset()
 		{
-			specifyObject = new FsmObject { UseVariable = true};
+			specifyObject = new FsmObject { UseVariable = true };
 			storeName = null;
 			everyFrame = false;
 		}
@@ -27,7 +31,7 @@ namespace HutongGames.PlayMaker.Actions
 		{
 			DoGetObjectName();
 
-			if (!everyFrame)
+			if(!everyFrame)
 			{
 				Finish();
 			}
@@ -40,9 +44,14 @@ namespace HutongGames.PlayMaker.Actions
 
 		void DoGetObjectName()
 		{
-			var go = specifyObject.Value;
+			if(!specifyObject.Value)
+			{
+				LogError("Object is null!");
+			}
 
-			storeName.Value = go != null ? go.name : "";
+			var obj = specifyObject.Value;
+
+			storeName.Value = obj.name;
 		}
 	}
 }

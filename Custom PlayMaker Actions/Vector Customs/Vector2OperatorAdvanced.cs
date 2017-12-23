@@ -1,9 +1,13 @@
+// License: Attribution 4.0 International (CC BY 4.0)
+/*--- __ECO__ __PLAYMAKER__ __ACTION__ ---*/
+// Author : Deek
 
 using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions
 {
 	[ActionCategory(ActionCategory.Vector2)]
+	[HelpUrl("http://hutonggames.com/playmakerforum/index.php?topic=15458.0")]
 	[Tooltip("Performs most possible operations on 2 Vector2: Dot product, Distance, Angle, Add, Subtract, Multiply, Divide, Min, Max. Advanced version lets you choose the Update type (when to perform the action).")]
 	public class Vector2OperatorAdvanced : FsmStateActionAdvanced
 	{
@@ -62,7 +66,7 @@ namespace HutongGames.PlayMaker.Actions
 			var v1 = vector1.Value;
 			var v2 = vector2.Value;
 
-			switch (operation)
+			switch(operation)
 			{
 				case Vector2Operation.DotProduct:
 					storeFloatResult.Value = Vector2.Dot(v1, v2);

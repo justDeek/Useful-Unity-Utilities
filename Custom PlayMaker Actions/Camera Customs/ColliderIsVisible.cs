@@ -1,31 +1,34 @@
+// License: Attribution 4.0 International (CC BY 4.0)
+/*--- __ECO__ __PLAYMAKER__ __ACTION__ ---*/
+// Author : Deek
 
-using System;
 using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions
 {
-	[ActionCategory(ActionCategory.Logic)]
-    [ActionTarget(typeof(GameObject), "gameObject")]
-	[Tooltip("Tests if a Game Object is visible. This will return true even if just a portion of the GO is visible. Checks if the collider bounds of the GameObject are outside the camera frustum planes.")]
-	public class GameObjectIsVisibleAlternative : FsmStateAction
+	[ActionCategory(ActionCategory.Camera)]
+	[ActionTarget(typeof(GameObject), "gameObject")]
+	[HelpUrl("http://hutonggames.com/playmakerforum/index.php?topic=15458.0")]
+	[Tooltip("Tests if the Collider2D on a GameObject is visible. This will return true even if just a portion of the collider is visible (checks if the Collider bounds are outside the camera frustum planes).")]
+	public class ColliderIsVisible : FsmStateAction
 	{
 		[RequiredField]
 		[CheckForComponent(typeof(Collider))]
-    [Tooltip("The GameObject to test.")]
+		[Tooltip("The GameObject to test the collider of.")]
 		public FsmOwnerDefault gameObject;
 
 		[RequiredField]
-		[Tooltip("The Camera to check the GameObject from.")]
+		[Tooltip("The Camera to check against the collider.")]
 		public FsmGameObject camera;
 
-        [Tooltip("Event to send if the GameObject is visible.")]
+		[Tooltip("Event to send if the collider is visible.")]
 		public FsmEvent trueEvent;
 
-        [Tooltip("Event to send if the GameObject is not visible.")]
+		[Tooltip("Event to send if the collider is not visible.")]
 		public FsmEvent falseEvent;
 
 		[UIHint(UIHint.Variable)]
-        [Tooltip("Store the result in a bool variable.")]
+		[Tooltip("Store the result in a bool variable.")]
 		public FsmBool storeResult;
 
 		private GameObject go = null;
@@ -47,7 +50,7 @@ namespace HutongGames.PlayMaker.Actions
 		{
 			DoIsVisible();
 
-			if (!everyFrame)
+			if(!everyFrame)
 			{
 				Finish();
 			}
@@ -62,11 +65,10 @@ namespace HutongGames.PlayMaker.Actions
 		{
 			go = Fsm.GetOwnerDefaultTarget(gameObject);
 			Plane[] planes = GeometryUtility.CalculateFrustumPlanes(camera.Value.GetComponent<Camera>());
-			if (GeometryUtility.TestPlanesAABB(planes , go.GetComponent<Collider>().bounds))
+			if(GeometryUtility.TestPlanesAABB(planes, go.GetComponent<Collider>().bounds))
 			{
 				result = true;
-			}
-			else
+			} else
 			{
 				result = false;
 			}

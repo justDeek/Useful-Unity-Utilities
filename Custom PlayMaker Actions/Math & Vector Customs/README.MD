@@ -12,12 +12,3 @@
 
 ## RandomPointOnSlope.cs
 ![Image](/Screenshots/Actions/RandomPointOnSlope_Info.png)
-
-## RandomWeightedVector3.cs
-![Image](/Screenshots/Actions/RandomWeightedVector3_Info.png)
-
-## Vector2OperatorAdvanced.cs
-![Image](/Screenshots/Actions/Vector2OperatorAdvanced_Info.png)
-
-## Vector3OperatorAdvanced.cs
-![Image](/Screenshots/Actions/Vector3OperatorAdvanced_Info.png)

@@ -1,9 +1,13 @@
+// License: Attribution 4.0 International (CC BY 4.0)
+/*--- __ECO__ __PLAYMAKER__ __ACTION__ ---*/
+// Author : Deek
 
 using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions
 {
 	[ActionCategory(ActionCategory.Audio)]
+	[HelpUrl("http://hutonggames.com/playmakerforum/index.php?topic=15458.0")]
 	[Tooltip("Get an AudioClip based on the value of an Integer Variable.")]
 	public class IntSwitchAudioClip : FsmStateAction
 	{
@@ -34,7 +38,7 @@ namespace HutongGames.PlayMaker.Actions
 		{
 			DoIntSwitch();
 
-			if (!everyFrame)
+			if(!everyFrame)
 				Finish();
 		}
 
@@ -45,14 +49,14 @@ namespace HutongGames.PlayMaker.Actions
 
 		void DoIntSwitch()
 		{
-			if (intVariable.IsNone)
+			if(intVariable.IsNone)
 				return;
 
-			for (int i = 0; i < compareTo.Length; i++)
+			for(int i = 0; i < compareTo.Length; i++)
 			{
-				if (intVariable.Value == compareTo[i].Value)
+				if(intVariable.Value == compareTo[i].Value)
 				{
-					result = assignedAudioClip [i];
+					result = assignedAudioClip[i];
 					return;
 				}
 			}

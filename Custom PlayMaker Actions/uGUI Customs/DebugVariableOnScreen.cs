@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions
 {
-	[ActionCategory(ActionCategory.Debug)]
+	[ActionCategory(ActionCategory.GUI)]
 	[Tooltip("Display the value of any FSM Variable on screen at runtime at the specified position. Optionally constrain the label size. NOTE: Uses OnGUI so you need a PlayMakerGUI component in the scene.")]
 	public class DebugVariableOnScreen : FsmStateAction
 	{

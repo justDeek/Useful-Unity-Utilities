@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions
 {
-	[ActionCategory(ActionCategory.Math)]
+	[ActionCategory("Random")]
 	[Tooltip("Pick a random weighted Vector3 picked from an array of Vector3's.")]
 	public class RandomWeightedVector3 : FsmStateAction
 	{
@@ -37,23 +37,22 @@ namespace HutongGames.PlayMaker.Actions
 
 		void PickRandom()
 		{
-			if (amount.Length == 0)
+			if(amount.Length == 0)
 			{
 				return;
 			}
 
-			if (Repeat.Value)
+			if(Repeat.Value)
 			{
 				randomIndex = ActionHelpers.GetRandomWeightedIndex(weights);
 				result.Value = amount[randomIndex].Value;
 
-			}
-			else
+			} else
 			{
 				do
 				{
 					randomIndex = ActionHelpers.GetRandomWeightedIndex(weights);
-				} while (randomIndex == lastIndex);
+				} while(randomIndex == lastIndex);
 
 				lastIndex = randomIndex;
 				result.Value = amount[randomIndex].Value;

@@ -5,6 +5,7 @@ using UnityEngine;
 namespace HutongGames.PlayMaker.Actions
 {
 	[ActionCategory("Android Native Audio")]
+	[HelpUrl("http://hutonggames.com/playmakerforum/index.php?topic=15458.0")]
 	[Tooltip("Lets you load a local StreamingAssets AudioClip into an AudioSource at runtime.")]
 	public class AndroidNativeAudioNonRedundantFile : FsmStateAction
 	{
@@ -49,11 +50,11 @@ namespace HutongGames.PlayMaker.Actions
 		public override void Reset()
 		{
 			filePath = null;
-			storeObject = new FsmObject(){UseVariable=true};
+			storeObject = new FsmObject() { UseVariable = true };
 			isCompressed = false;
 			allowStreaming = false;
 			is3D = false;
-			audioSource = new FsmGameObject(){UseVariable=true};
+			audioSource = new FsmGameObject() { UseVariable = true };
 			play = false;
 			isDone = null;
 			isError = null;
@@ -70,7 +71,7 @@ namespace HutongGames.PlayMaker.Actions
 			// 	allowStreaming.Value = false;
 			// }
 
-			if (string.IsNullOrEmpty(filePath.Value))
+			if(string.IsNullOrEmpty(filePath.Value))
 			{
 				Debug.LogWarning("No Filepath specified!");
 				Finish();
@@ -78,37 +79,37 @@ namespace HutongGames.PlayMaker.Actions
 
 			wwwObject = new WWW("file:" + Application.streamingAssetsPath + filePath.Value);
 
-			if (wwwObject == null)
+			if(wwwObject == null)
 			{
 				Debug.LogWarning("WWW Object is Null!");
 				Finish();
 			}
 
-			while (!wwwObject.isDone)
+			while(!wwwObject.isDone)
 			{
 			}
 
-			if (isCompressed.Value)
+			if(isCompressed.Value)
 			{
-				storeObject.Value = wwwObject.GetAudioClipCompressed (is3D.Value, AudioType.UNKNOWN); //MP3 files would be AudioType.MPEG
+				storeObject.Value = wwwObject.GetAudioClipCompressed(is3D.Value, AudioType.UNKNOWN); //MP3 files would be AudioType.MPEG
 			} else
 			{
-				storeObject.Value = wwwObject.GetAudioClip (is3D.Value, allowStreaming.Value, AudioType.UNKNOWN);
+				storeObject.Value = wwwObject.GetAudioClip(is3D.Value, allowStreaming.Value, AudioType.UNKNOWN);
 			}
 
-			if (!audioSource.IsNone)
+			if(!audioSource.IsNone)
 			{
 				var audioSourceGO = audioSource.Value.GetComponent<AudioSource>();
-				if (audioSourceGO != null)
+				if(audioSourceGO != null)
 				{
 					audioSourceGO.clip = (AudioClip)storeObject.Value;
-					if (play.Value)
-						audioSourceGO.Play ();
+					if(play.Value)
+						audioSourceGO.Play();
 				}
 			}
 
 			// //check if any error occured and send events accordingly
-			 Fsm.Event(string.IsNullOrEmpty(wwwObject.error) ? isDone : isError);
+			Fsm.Event(string.IsNullOrEmpty(wwwObject.error) ? isDone : isError);
 
 			Finish();
 

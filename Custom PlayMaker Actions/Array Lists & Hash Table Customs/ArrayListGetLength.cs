@@ -1,9 +1,13 @@
+// License: Attribution 4.0 International (CC BY 4.0)
+/*--- __ECO__ __PLAYMAKER__ __ACTION__ ---*/
+// Author : Deek
 
 using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions
 {
 	[ActionCategory("ArrayMaker/ArrayList")]
+	[HelpUrl("http://hutonggames.com/playmakerforum/index.php?topic=15458.0")]
 	[Tooltip("Returns the length of the specified Array List Proxy Component.")]
 	public class ArrayListGetLength : ArrayListActions
 	{
@@ -38,17 +42,16 @@ namespace HutongGames.PlayMaker.Actions
 		public override void OnEnter()
 		{
 
-			if ( ! SetUpArrayListProxyPointer(Fsm.GetOwnerDefaultTarget(gameObject), reference.Value) )
+			if(!SetUpArrayListProxyPointer(Fsm.GetOwnerDefaultTarget(gameObject), reference.Value))
 			{
 				Debug.LogWarning("Couldn't find the Array List Proxy Component!");
 				Finish();
 			}
 
-			if (subtract1 = true)
+			if(subtract1 = true)
 			{
 				length.Value = proxy.arrayList.Count - 1;
-			}
-			else
+			} else
 			{
 				length.Value = proxy.arrayList.Count;
 			}

@@ -1,11 +1,14 @@
-// using UnityEngine;
-//using System.Text.RegularExpressions;
+// License: Attribution 4.0 International (CC BY 4.0)
+/*--- __ECO__ __PLAYMAKER__ __ACTION__ ---*/
+// Author : Deek
+
 using System;
 using System.Linq;
 
 namespace HutongGames.PlayMaker.Actions
 {
 	[ActionCategory(ActionCategory.String)]
+	[HelpUrl("http://hutonggames.com/playmakerforum/index.php?topic=15458.0")]
 	[Tooltip("Get all numbers in the given String.")]
 	public class GetStringNumbers : FsmStateAction
 	{
@@ -30,9 +33,9 @@ namespace HutongGames.PlayMaker.Actions
 		public override void Reset()
 		{
 			startString = null;
-			storeNumbersAsInt = new FsmInt() {UseVariable = true};
-			storeNumbersAsFloat = new FsmFloat() {UseVariable = true};
-			storeNumbersAsString = new FsmString() {UseVariable = true};
+			storeNumbersAsInt = new FsmInt() { UseVariable = true };
+			storeNumbersAsFloat = new FsmFloat() { UseVariable = true };
+			storeNumbersAsString = new FsmString() { UseVariable = true };
 			everyFrame = false;
 			tmpString = null;
 		}
@@ -41,9 +44,9 @@ namespace HutongGames.PlayMaker.Actions
 		{
 			DoGetNumbers();
 
-			if (!everyFrame.Value)
+			if(!everyFrame.Value)
 			{
-			    Finish();
+				Finish();
 			}
 		}
 

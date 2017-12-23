@@ -2,12 +2,12 @@
 using System.IO;
 using UnityEngine;
 using UnityEditor;
-using System.Collections;
 using System;
 
 namespace HutongGames.PlayMaker.Actions
 {
 	[ActionCategory(ActionCategory.Audio)]
+	[HelpUrl("http://hutonggames.com/playmakerforum/index.php?topic=15458.0")]
 	[Tooltip("Returns the Name of the provided AudioClip. Optionally includes the extension.")]
 	public class GetAudioClipName : FsmStateAction
 	{
@@ -34,22 +34,21 @@ namespace HutongGames.PlayMaker.Actions
 		public override void OnEnter()
 		{
 			//Get the File-Name and trim the ObjectType at the end
-			audioClipName = audioClip.ToString ().TrimEnd (" (UnityEngine.AudioClip)".ToCharArray ());
-			if (includeFileExtension)
+			audioClipName = audioClip.ToString().TrimEnd(" (UnityEngine.AudioClip)".ToCharArray());
+			if(includeFileExtension)
 			{
 				//Get Extension from Path starting after "Assets" and save it in a String
 				String extension = "";
-				if (atPath.Value != null && atPath.Value != "")
+				if(atPath.Value != null && atPath.Value != "")
 				{
 					extension = Path.GetExtension(atPath.Value);
-				}
-				else
+				} else
 				{
-					extension = Path.GetExtension (AssetDatabase.GetAssetPath (assetObject:audioClip.Value).ToString ().TrimStart ("Assets".ToCharArray ()));
+					extension = Path.GetExtension(AssetDatabase.GetAssetPath(assetObject: audioClip.Value).ToString().TrimStart("Assets".ToCharArray()));
 				}
 
 				//Combine AudioClip-Name with the File-Extension
-				audioClipName = String.Concat (audioClipName, extension);
+				audioClipName = String.Concat(audioClipName, extension);
 			}
 			Finish();
 		}

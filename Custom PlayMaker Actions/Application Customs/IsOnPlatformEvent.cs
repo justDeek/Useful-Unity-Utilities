@@ -1,10 +1,11 @@
-
-using System;
-using UnityEngine;
+// License: Attribution 4.0 International (CC BY 4.0)
+/*--- __ECO__ __PLAYMAKER__ __ACTION__ ---*/
+// Author : Deek
 
 namespace HutongGames.PlayMaker.Actions
 {
 	[ActionCategory(ActionCategory.Application)]
+	[HelpUrl("http://hutonggames.com/playmakerforum/index.php?topic=15458.0")]
 	[Tooltip("The counterpart to 'PlatformDependentEvents'. Sends an Event if or if not on the specified Platforms.")]
 	public class IsOnPlatformEvent : FsmStateAction
 	{
@@ -86,47 +87,47 @@ namespace HutongGames.PlayMaker.Actions
 
 			foreach(platformDependentFlags _flag in platforms)
 			{
-				#if UNITY_EDITOR
-					if(_flag == platformDependentFlags.UNITY_EDITOR )  isOnEditor = true;
-				#endif
+#if UNITY_EDITOR
+				if(_flag == platformDependentFlags.UNITY_EDITOR) isOnEditor = true;
+#endif
 
-				#if UNITY_EDITOR_WIN
-					if(_flag == platformDependentFlags.UNITY_EDITOR_WIN )  isOnEditorWin = true;
-				#endif
+#if UNITY_EDITOR_WIN
+				if(_flag == platformDependentFlags.UNITY_EDITOR_WIN) isOnEditorWin = true;
+#endif
 
-				#if UNITY_EDITOR_OSX
+#if UNITY_EDITOR_OSX
 					if(_flag == platformDependentFlags.UNITY_EDITOR_OSX )  isOnEditorOSX = true;
-				#endif
+#endif
 
-				#if UNITY_STANDALONE_OSX
+#if UNITY_STANDALONE_OSX
 					if(_flag == platformDependentFlags.UNITY_STANDALONE_OSX )  isOnStandaloneOSX = true;
-				#endif
+#endif
 
-				#if UNITY_DASHBOARD_WIDGET
+#if UNITY_DASHBOARD_WIDGET
 					if(_flag == platformDependentFlags.UNITY_DASHBOARD_WIDGET )  isOnDashboardWidget = true;
-				#endif
+#endif
 
-				#if UNITY_STANDALONE_WIN
-					if(_flag == platformDependentFlags.UNITY_STANDALONE_WIN )  isOnStandaloneWin = true;
-				#endif
+#if UNITY_STANDALONE_WIN
+				if(_flag == platformDependentFlags.UNITY_STANDALONE_WIN) isOnStandaloneWin = true;
+#endif
 
-				#if UNITY_STANDALONE_LINUX
+#if UNITY_STANDALONE_LINUX
 					if(_flag == platformDependentFlags.UNITY_STANDALONE_LINUX )  isOnStandaloneLinux = true;
-				#endif
+#endif
 
-				#if UNITY_STANDALONE
-					if(_flag == platformDependentFlags.UNITY_STANDALONE )  isOnStandalone = true;
-				#endif
+#if UNITY_STANDALONE
+				if(_flag == platformDependentFlags.UNITY_STANDALONE) isOnStandalone = true;
+#endif
 
-				#if UNITY_WEBPLAYER
+#if UNITY_WEBPLAYER
 					if(_flag == platformDependentFlags.UNITY_WEBPLAYER )  isOnWebplayer = true;
-				#endif
+#endif
 
-				#if UNITY_WII
+#if UNITY_WII
 					if(_flag == platformDependentFlags.UNITY_WII )  isOnWii = true;
-				#endif
+#endif
 
-				#if UNITY_IPHONE || UNITY_IOS
+#if UNITY_IPHONE || UNITY_IOS
 					if (Enum.Equals(platforms[i],platformDependentFlags.UNITY_IPHONE ) )
 					{
 						UnityEngine.Debug.Log("---------- WE FIRE "+onEvent.Name);
@@ -139,66 +140,65 @@ namespace HutongGames.PlayMaker.Actions
 						 isOnIOS = true;
 						return;
 					}
-				#endif
+#endif
 
-				#if UNITY_ANDROID
+#if UNITY_ANDROID
 					if(_flag == platformDependentFlags.UNITY_ANDROID )  isOnAndroid = true;
-				#endif
+#endif
 
-				#if UNITY_PS3
+#if UNITY_PS3
 					if(_flag == platformDependentFlags.UNITY_PS3 )  isOnPS3 = true;
-				#endif
+#endif
 
-				#if UNITY_XBOX360
+#if UNITY_XBOX360
 					if(_flag == platformDependentFlags.UNITY_XBOX360 )  isOnXBOX360 = true;
-				#endif
+#endif
 
-				#if UNITY_NACL
+#if UNITY_NACL
 					if(_flag == platformDependentFlags.UNITY_NACL )  isOnNACL = true;
-				#endif
+#endif
 
-				#if UNITY_FLASH
+#if UNITY_FLASH
 					if(_flag == platformDependentFlags.UNITY_FLASH )  isOnFlash = true;
-				#endif
+#endif
 
-				#if UNITY_BLACKBERRY
+#if UNITY_BLACKBERRY
 					if(_flag == platformDependentFlags.UNITY_BLACKBERRY )  isOnBlackberry = true;
-				#endif
+#endif
 
-				#if UNITY_WP8
+#if UNITY_WP8
 					if(_flag == platformDependentFlags.UNITY_WP8 )  isOnWP8 = true;
-				#endif
+#endif
 
-				#if UNITY_METRO
+#if UNITY_METRO
 					if(_flag == platformDependentFlags.UNITY_METRO )  isOnMetro = true;
-				#endif
+#endif
 
-				#if UNITY_WINRT
+#if UNITY_WINRT
 					if(_flag == platformDependentFlags.UNITY_WINRT )  isOnWinRT = true;
-				#endif
+#endif
 
-				#if UNITY_PS4
+#if UNITY_PS4
 					if(_flag == platformDependentFlags.UNITY_PS4 )  isOnPS4 = true;
-				#endif
+#endif
 
-				#if UNITY_XBOXONE
+#if UNITY_XBOXONE
 					if(_flag == platformDependentFlags.UNITY_XBOXONE )  isOnXBoxOne = true;
-				#endif
+#endif
 
-				#if UNITY_TIZEN
+#if UNITY_TIZEN
 					if(_flag == platformDependentFlags.UNITY_TIZEN )  isOnTizen = true;
-				#endif
+#endif
 
-				#if UNITY_WEBGL
+#if UNITY_WEBGL
 					if(_flag == platformDependentFlags.UNITY_WEBGL )  isOn = true;
-				#endif
+#endif
 			}
 
-			if (isOnEditor || isOnEditorWin || isOnEditorOSX || isOnStandalone || isOnStandaloneOSX || isOnStandaloneWin || isOnStandaloneLinux || isOnDashboardWidget || isOnWebplayer || isOnWii || isOnIPhone || isOnIOS || isOnPS3 || isOnPS4 || isOnAndroid || isOnXBOX360 || isOnXBoxOne || isOnNACL || isOnFlash || isOnBlackberry || isOnWP8 || isOnMetro || isOnWinRT || isOnTizen || isOnWebGL)
+			if(isOnEditor || isOnEditorWin || isOnEditorOSX || isOnStandalone || isOnStandaloneOSX || isOnStandaloneWin || isOnStandaloneLinux || isOnDashboardWidget || isOnWebplayer || isOnWii || isOnIPhone || isOnIOS || isOnPS3 || isOnPS4 || isOnAndroid || isOnXBOX360 || isOnXBoxOne || isOnNACL || isOnFlash || isOnBlackberry || isOnWP8 || isOnMetro || isOnWinRT || isOnTizen || isOnWebGL)
 			{
 				Fsm.Event(onEvent);
-			}
-			else
+			} else
 			{
 				Fsm.Event(notOnEvent);
 			}

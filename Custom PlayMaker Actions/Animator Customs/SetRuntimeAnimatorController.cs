@@ -1,9 +1,13 @@
-﻿
+﻿// License: Attribution 4.0 International (CC BY 4.0)
+/*--- __ECO__ __PLAYMAKER__ __ACTION__ ---*/
+// Author : Deek
+
 using UnityEngine;
 
 namespace HutongGames.PlayMaker.Actions
 {
 	[ActionCategory(ActionCategory.Animator)]
+	[HelpUrl("http://hutonggames.com/playmakerforum/index.php?topic=15458.0")]
 	[Tooltip("Set or change the runtimeAnimatorController of an Animator Component to switch the animation playing.")]
 	public class SetRuntimeAnimatorController : FsmStateAction
 	{
