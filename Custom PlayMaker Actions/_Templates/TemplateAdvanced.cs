@@ -25,8 +25,8 @@ namespace HutongGames.PlayMaker.Actions
 
 		public override void Reset()
 		{
+			//resets 'everyFrame' and 'updateType' if you don't want to set their default value yourself
 			base.Reset();
-
 			gameObject = null;
 			//-- insert reset values for variables --//
 		}

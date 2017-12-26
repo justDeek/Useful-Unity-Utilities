@@ -4,6 +4,9 @@
 ## EnableColliderMulti.cs
 ![Image](/Screenshots/Actions/EnableColliderMulti_Info.png)
 
+## FollowMouse2D.cs
+![Image](/Screenshots/Actions/FollowMouse2D_Info.png)
+
 ## GetPositionAddOffset.cs
 ![Image](/Screenshots/Actions/GetPositionAddOffset_Info.png)
 

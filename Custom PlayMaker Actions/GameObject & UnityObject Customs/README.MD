@@ -1,3 +1,6 @@
+## ActivateGameObjects.cs
+![Image](/Screenshots/Actions/ActivateGameObjects_Info.png)
+
 ## ActivateMultipleComponents.cs
 ![Image](/Screenshots/Actions/ActivateMultipleComponents_Info.png)
 
