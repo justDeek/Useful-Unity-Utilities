@@ -85,6 +85,12 @@ namespace HutongGames.PlayMaker.Actions
 			}
 		}
 
+		//explicitly declare using OnGUI
+		public override void OnPreprocess()
+		{
+			Fsm.HandleOnGUI = true;
+		}
+
 		public override void OnGUI()
 		{
 			Default();

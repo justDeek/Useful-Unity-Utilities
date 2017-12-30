@@ -27,7 +27,8 @@ public class DebugFSM : MonoBehaviour
 
 	private GUIStyle _guiStyle = new GUIStyle();
 	private GUIStyle _guiStyle2 = new GUIStyle();
-	private string currentStateName = "";
+	private string currStateName = "";
+	private string prevStateName = "";
 	private List<string> previousStateNames = new List<string>();
 	private List<float> previousStateTimers = new List<float>();
 	private Rect labelRect;
@@ -42,7 +43,7 @@ public class DebugFSM : MonoBehaviour
 	[HideInInspector] public int traceBackAmount = 3;
 	[HideInInspector] public int startFrom = 0;
 
-	public void Start()
+	public void Awake()
 	{
 		startTime = FsmTime.RealtimeSinceStartup;
 
@@ -53,6 +54,12 @@ public class DebugFSM : MonoBehaviour
 			{
 				targetFSM = gameObject.GetComponent<PlayMakerFSM>();
 			}
+		}
+
+		if(targetFSM && targetFSM.Fsm != null)
+		{
+			currStateName = targetFSM.Fsm.ActiveStateName;
+			AddToPrevStates(currStateName);
 		}
 	}
 
@@ -107,7 +114,8 @@ public class DebugFSM : MonoBehaviour
 		{
 			labelRect = new Rect(labelRect.x, labelPosition.y + (fontSize + fontSize / 2),
 								 labelRect.width, labelRect.height);
-			content.text = "Current State: " + currentStateName;
+			content.text = "Current State: " + targetFSM.Fsm.ActiveStateName
+						 + " (" + timer.ToString("n2") + "s)";
 
 			//display current state name
 			GUI.Label(labelRect, content, _guiStyle2);
@@ -137,14 +145,11 @@ public class DebugFSM : MonoBehaviour
 		///Variables
 		else if(debugVariables && allVariables != null)
 		{
-			var i = 0;
-			var skipped = 0;
+			int skipped = 0;
 			//iterate through variables
-			foreach(var currentVariable in allVariables)
+			for(int i = 1; i < allVariables.Length; i++)
 			{
-				i++;
-
-				//skip if startFrom is bigger than current indext
+				//skip if startFrom is bigger than current index
 				if(i < startFrom)
 				{
 					skipped++;
@@ -166,9 +171,9 @@ public class DebugFSM : MonoBehaviour
 				{
 					labelRect = new Rect(labelRect.x, labelPosition.y + (fontSize * (i - skipped) + (fontSize / 2)),
 									 labelRect.width, labelRect.height);
-					content.text = "Variable #" + i + " - \"" + currentVariable.Name
-										 + "\" (" + currentVariable.VariableType.ToString()
-										 + ")" + ": " + currentVariable.RawValue.ToString();
+					content.text = "Variable #" + i + " - \"" + allVariables[i].Name
+										 + "\" (" + allVariables[i].VariableType.ToString()
+										 + ")" + ": " + allVariables[i].RawValue.ToString();
 
 					GUI.Label(labelRect, content, _guiStyle);
 					DrawShadow(labelRect, content, _guiStyle, fontColor, shadowColor, new Vector2(0, 1));
@@ -183,11 +188,35 @@ public class DebugFSM : MonoBehaviour
 
 	public void Update()
 	{
-		if(targetFSM == null)
+		if(!timerInRealTime)
+		{
+			UpdateValues();
+		}
+	}
+
+	public void FixedUpdate()
+	{
+		if(timerInRealTime)
+		{
+			UpdateValues();
+		}
+	}
+
+	void UpdateValues()
+	{
+		if(!targetFSM || targetFSM.Fsm == null)
 		{
 			return;
 		}
 
+		///Variables
+		if(debugVariables)
+		{
+			allVariables = targetFSM.Fsm.Variables.GetAllNamedVariables();
+			return;
+		}
+
+		///State Names
 		//get timespan between previous and current state
 		if(timerInRealTime)
 		{
@@ -197,28 +226,47 @@ public class DebugFSM : MonoBehaviour
 			timer += Time.deltaTime;
 		}
 
-		///State names
-		currentStateName = targetFSM.Fsm.ActiveStateName;
-
-		//add first state to the list if the list is empty
-		if(previousStateNames.IsEmpty() && !currentStateName.IsNullOrEmpty())
+		currStateName = targetFSM.Fsm.ActiveStateName;
+		if(targetFSM.Fsm.PreviousActiveState != null)
 		{
-			previousStateNames.Add(currentStateName);
+			prevStateName = targetFSM.Fsm.PreviousActiveState.Name;
 		}
 
-		//only add active state to list if the state changed
-		if(previousStateNames.GetLastItem() != currentStateName)
+		if(previousStateNames.Count > 1 && !string.IsNullOrEmpty(prevStateName))
 		{
-			previousStateNames.Add(currentStateName);
-			previousStateTimers.Add(timer);
-			timer = 0f;
+			if(previousStateNames[previousStateNames.Count - 2] != prevStateName)
+			{
+				AddToPrevStates(prevStateName);
+			}
 		}
 
-		///Variables
-		allVariables = targetFSM.Fsm.Variables.GetAllNamedVariables();
+		AddToPrevStates(currStateName);
 	}
 
-	//out of "ShadowAndOutline" by Bérenger from the UnifyCommunity (http://wiki.unity3d.com/index.php/ShadowAndOutline)
+	void AddToPrevStates(string stateName)
+	{
+		//skip if given statename is empty
+		if(string.IsNullOrEmpty(stateName))
+		{
+			return;
+		}
+
+		if(previousStateNames.Count != 0)
+		{
+			//check if last item already equals given state
+			if(previousStateNames[previousStateNames.Count - 1] == stateName)
+			{
+				return;
+			}
+		}
+
+		//add given entry to list
+		previousStateNames.Add(stateName);
+		previousStateTimers.Add(timer);
+		timer = 0f;
+	}
+
+	//snippet of "ShadowAndOutline" by Bérenger from the UnifyCommunity (http://wiki.unity3d.com/index.php/ShadowAndOutline)
 	private void DrawShadow(Rect rect, GUIContent content, GUIStyle style, Color txtColor, Color shadowColor,
 									Vector2 direction)
 	{

@@ -33,6 +33,11 @@ public class DebugFSMInspector : Editor
 
 		if(script.debugStateNames)
 		{
+			//limit traceBackAmount to always be above 0
+			if(script.traceBackAmount < 0)
+			{
+				script.traceBackAmount = 0;
+			}
 			script.traceBackAmount = EditorGUILayout.IntField("Trace-Back Amount", script.traceBackAmount);
 		} else if(script.debugVariables)
 		{

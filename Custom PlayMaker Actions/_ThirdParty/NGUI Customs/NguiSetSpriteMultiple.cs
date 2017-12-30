@@ -6,94 +6,100 @@ using UnityEngine;
 /// </summary>
 namespace HutongGames.PlayMaker.Actions
 {
-  [ActionCategory("NGUI")]
-  [HutongGames.PlayMaker.Tooltip("Sets the sprite value of multiple UISprites.")]
-  public class NguiSetSpriteMultiple : FsmStateAction
-  {
-      [RequiredField]
-      [Tooltip("NGUI Sprite to set")]
-      public FsmGameObject[] NGUISpriteAmount;
+	[ActionCategory("NGUI")]
+	[HutongGames.PlayMaker.Tooltip("Sets the sprite value of multiple UISprites.")]
+	public class NguiSetSpriteMultiple : FsmStateAction
+	{
+		[RequiredField]
+		[Tooltip("NGUI Sprite to set")]
+		public FsmGameObject[] NGUISpriteAmount;
 
-      [RequiredField]
-      [Tooltip("The name of the new sprites")]
-      public FsmString NewSpriteName;
+		[RequiredField]
+		[Tooltip("The name of the new sprites")]
+		public FsmString NewSpriteName;
 
-      [Tooltip("Optionally enable or disable all UISprite Components.")]
-      public FsmBool enableSpriteComponents;
+		[Tooltip("Optionally enable or disable all UISprite Components.")]
+		public FsmBool enableSpriteComponents;
 
-      [Tooltip("Optionally enable or disable all specified GameObjects.")]
-      public FsmBool enableGameObjects;
+		[Tooltip("Optionally enable or disable all specified GameObjects.")]
+		public FsmBool enableGameObjects;
 
-      public override void Reset()
-      {
-  		NGUISpriteAmount = new FsmGameObject[3];
-      NewSpriteName = null;
-      enableSpriteComponents = new FsmBool() {UseVariable = true};
-      enableGameObjects = new FsmBool() {UseVariable = true};
-      }
+		public override void Reset()
+		{
+			NGUISpriteAmount = new FsmGameObject[3];
+			NewSpriteName = null;
+			enableSpriteComponents = new FsmBool() { UseVariable = true };
+			enableGameObjects = new FsmBool() { UseVariable = true };
+		}
 
-  	  public override void OnLateUpdate()
-      {
-          // set the sprite
-          DoSetSprite();
-          Finish();
-      }
+		public override void OnPreprocess()
+		{
+#if PLAYMAKER_1_8_5_OR_NEWER
+			//required since PlayMaker 1.8.5 if you want to use OnLateUpdate()
+			Fsm.HandleLateUpdate = true;
+#endif
+		}
 
-      private void DoSetSprite()
-      {
+		public override void OnLateUpdate()
+		{
+			// set the sprite
+			DoSetSprite();
+			Finish();
+		}
 
-      if ((NewSpriteName == null) || (string.IsNullOrEmpty(NewSpriteName.Value)))
-      {
-        Debug.LogWarning("\"New Sprite Name\" is empty. Please specify.");
-        return;
-      }
-  		foreach (var gonum in NGUISpriteAmount)
-  		{
-  			// exit if objects are null
-  			if (gonum == null)
-        {
-          Debug.LogWarning("One of the Elements is null / not defined.");
-          return;
-        }
+		private void DoSetSprite()
+		{
 
-  			// get the UISprite component
-  			UISprite sprite = gonum.Value.GetComponent<UISprite>();
+			if((NewSpriteName == null) || (string.IsNullOrEmpty(NewSpriteName.Value)))
+			{
+				Debug.LogWarning("\"New Sprite Name\" is empty. Please specify.");
+				return;
+			}
+			foreach(var gonum in NGUISpriteAmount)
+			{
+				// exit if objects are null
+				if(gonum == null)
+				{
+					Debug.LogWarning("One of the Elements is null / not defined.");
+					return;
+				}
 
-  			// exit if no sprite found
-  			if (sprite == null)
-        {
-          Debug.LogWarning("No UISprite Component found on " + gonum.Value.name);
-          return;
-        }
+				// get the UISprite component
+				UISprite sprite = gonum.Value.GetComponent<UISprite>();
 
-        if (!enableGameObjects.IsNone)
-        {
-          if (enableGameObjects.Value == true)
-          {
-            gonum.Value.SetActive(true);
-          }
-          else
-          {
-            gonum.Value.SetActive(false);
-          }
-        }
+				// exit if no sprite found
+				if(sprite == null)
+				{
+					Debug.LogWarning("No UISprite Component found on " + gonum.Value.name);
+					return;
+				}
 
-        if (!enableSpriteComponents.IsNone)
-        {
-          if (enableSpriteComponents.Value == true)
-          {
-            sprite.enabled = true;
-          }
-          else
-          {
-            sprite.enabled = false;
-          }
-        }
-  			// set new sprite name
-  			sprite.spriteName = NewSpriteName.Value;
+				if(!enableGameObjects.IsNone)
+				{
+					if(enableGameObjects.Value == true)
+					{
+						gonum.Value.SetActive(true);
+					} else
+					{
+						gonum.Value.SetActive(false);
+					}
+				}
 
-  		}
+				if(!enableSpriteComponents.IsNone)
+				{
+					if(enableSpriteComponents.Value == true)
+					{
+						sprite.enabled = true;
+					} else
+					{
+						sprite.enabled = false;
+					}
+				}
+				// set new sprite name
+				sprite.spriteName = NewSpriteName.Value;
 
-    }
-  }
+			}
+
+		}
+	}
 }

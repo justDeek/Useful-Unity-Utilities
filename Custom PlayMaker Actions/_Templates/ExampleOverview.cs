@@ -74,8 +74,15 @@ namespace HutongGames.PlayMaker.Actions
 			targetGameObject = new FsmGameObject() { UseVariable = true };
 		}
 
+		//explicitly declare using certain MonoBehaviour methods in PlayMaker
 		public override void OnPreprocess()
 		{
+			//some examples on how to allow supported MonoBehaviour methods
+			Fsm.HandleOnGUI = true;
+			Fsm.HandleFixedUpdate = true;
+			Fsm.HandleCollisionEnter = true;
+			Fsm.HandleTriggerStay2D = true;
+
 #if PLAYMAKER_1_8_5_OR_NEWER
 			//required since PlayMaker 1.8.5 if you want to use OnLateUpdate()
 			Fsm.HandleLateUpdate = true;

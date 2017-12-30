@@ -16,18 +16,9 @@ public class TemplateInspector : CustomActionEditor
 	//set this to true on every change to only update OnGUI when something has differed from the last call
 	private bool isDirty = false;
 
-	//gets called once when the target script has been enabled
+	//use this for expensive initialization. Gets called when the target-fsm is selected.
 	public override void OnEnable()
 	{
-		//get action and FSM reference
-		action = target as Template;
-
-		if(action.Fsm == null || action.Fsm.FsmComponent == null)
-		{
-			return;
-		}
-
-		thisFSM = action.Fsm.FsmComponent;
 	}
 
 	//gets called when interacting with the action window or if something has changed
@@ -35,6 +26,16 @@ public class TemplateInspector : CustomActionEditor
 	{
 		//reset isDirty
 		isDirty = false;
+
+		//get action and FSM reference
+		action = target as Template;
+
+		if(action.Fsm == null || action.Fsm.FsmComponent == null)
+		{
+			return false;
+		}
+
+		thisFSM = action.Fsm.FsmComponent;
 
 		//draw default inspector (action-content) if you only want to add to it
 		isDirty = DrawDefaultInspector();
