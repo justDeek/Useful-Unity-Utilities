@@ -1,70 +1,72 @@
-using HutongGames.PlayMaker;
+
 using UnityEngine;
 
-/// <summary>
-/// Checks if a NGUI UISprite is visible on Screen.
-/// </summary>
-[ActionCategory("NGUI")]
-[HutongGames.PlayMaker.Tooltip("Checks if a NGUI UISprite is visible on Screen.")]
-public class NguiSpriteIsVisible : FsmStateAction
+namespace HutongGames.PlayMaker.Actions
 {
-    [RequiredField]
-    [HutongGames.PlayMaker.Tooltip("NGUI Sprite to check")]
-    public FsmOwnerDefault NguiSprite;
+	/// <summary>
+	/// Checks if a NGUI UISprite is visible on Screen.
+	/// </summary>
+	[ActionCategory("NGUI")]
+	[Tooltip("Checks if a NGUI UISprite is visible on Screen.")]
+	public class NguiSpriteIsVisible : FsmStateActionAdvanced
+	{
+		[RequiredField]
+		[Tooltip("NGUI Sprite to check")]
+		public FsmOwnerDefault NguiSprite;
 
-		[HutongGames.PlayMaker.Tooltip("Event to send if the Sprite is visible.")]
+		[Tooltip("Event to send if the Sprite is visible.")]
 		public FsmEvent trueEvent;
 
-		[HutongGames.PlayMaker.Tooltip("Event to send if the Sprite is not visible.")]
+		[Tooltip("Event to send if the Sprite is not visible.")]
 		public FsmEvent falseEvent;
 
 		[UIHint(UIHint.Variable)]
-		[HutongGames.PlayMaker.Tooltip("Store the result in a bool variable.")]
+		[Tooltip("Store the result in a bool variable.")]
 		public FsmBool storeResult;
 
-		public bool everyFrame;
+		public override void Reset()
+		{
+			base.Reset();
 
-    public override void Reset()
-    {
-        NguiSprite = null;
-				trueEvent = null;
-				falseEvent = null;
-				storeResult = null;
-				everyFrame = false;
-    }
+			NguiSprite = null;
+			trueEvent = null;
+			falseEvent = null;
+			storeResult = null;
+		}
 
 		public override void OnEnter()
 		{
 			DoCheck();
 
-			if (!everyFrame)
+			if(!everyFrame)
 			{
 				Finish();
 			}
 		}
 
-		public override void OnUpdate()
+		public override void OnActionUpdate()
 		{
 			DoCheck();
 		}
 
-    private void DoCheck()
-    {
-        // exit if sprite is null
-        if (NguiSprite == null)
-            return;
+		private void DoCheck()
+		{
+			// exit if sprite is null
+			if(NguiSprite == null)
+				return;
 
-        // get the UISprite Component
-        UISprite sprite = Fsm.GetOwnerDefaultTarget(NguiSprite).GetComponent<UISprite>();
+			// get the UISprite Component
+			UISprite sprite = Fsm.GetOwnerDefaultTarget(NguiSprite).GetComponent<UISprite>();
 
-        // exit if no sprite found
-        if (sprite == null)
-				{
-					Debug.LogWarning("No UISprite Component attached to" + Fsm.GetOwnerDefaultTarget(NguiSprite));
-					return;
-				}
-				var isVisible = sprite.isVisible;
-				storeResult.Value = isVisible;
-				Fsm.Event(isVisible ? trueEvent : falseEvent);
-    }
+			// exit if no sprite found
+			if(sprite == null)
+			{
+				Debug.LogWarning("No UISprite Component attached to" + Fsm.GetOwnerDefaultTarget(NguiSprite));
+				return;
+			}
+			var isVisible = sprite.isVisible;
+			storeResult.Value = isVisible;
+			Fsm.Event(isVisible ? trueEvent : falseEvent);
+		}
+	}
 }
