@@ -1,5 +1,6 @@
 // License: Attribution 4.0 International (CC BY 4.0)
-//Author: Deek
+// Author: Deek
+
 /*--- __ECO__ __PLAYMAKER__ __ACTION__
 EcoMetaStart
 {
@@ -20,7 +21,7 @@ namespace HutongGames.PlayMaker.Actions
 	public class SetPositions : FsmStateActionAdvanced
 	{
 		[CompoundArray("Amount", "Game Object", "Position")]
-		
+
 		[Tooltip("The GameObject to position.")]
 		public FsmGameObject[] gameObjects;
 
@@ -54,7 +55,6 @@ namespace HutongGames.PlayMaker.Actions
 
 		public override void OnEnter()
 		{
-			Default();
 			DoSetPosition();
 
 			if(!everyFrame)
@@ -65,12 +65,13 @@ namespace HutongGames.PlayMaker.Actions
 
 		public override void OnActionUpdate()
 		{
-			Default();
 			DoSetPosition();
 		}
 
 		void DoSetPosition()
 		{
+			Default();
+
 			for(int i = 0; i < gameObjects.Length; i++)
 			{
 				go = gameObjects[i].Value;
@@ -136,21 +137,20 @@ namespace HutongGames.PlayMaker.Actions
 		void Default()
 		{
 			//if the array-size changes, set each empty GameObject to 'None'
-			if(prevAmount != gameObjects.Length)
+			if(prevAmount == gameObjects.Length) return;
+
+			for(int i = 0; i < gameObjects.Length; i++)
 			{
-				for(int i = 0; i < gameObjects.Length; i++)
+				if(gameObjects[i].Value == null)
 				{
-					if(gameObjects[i].Value == null)
+					gameObjects[i].UseVariable = true;
+					if(positions[i].Value == Vector3.zero)
 					{
-						gameObjects[i].UseVariable = true;
-						if(positions[i].Value == Vector3.zero)
-						{
-							positions[i].UseVariable = true;
-						}
+						positions[i].UseVariable = true;
 					}
 				}
-				prevAmount = gameObjects.Length;
 			}
+			prevAmount = gameObjects.Length;
 		}
 	}
 }

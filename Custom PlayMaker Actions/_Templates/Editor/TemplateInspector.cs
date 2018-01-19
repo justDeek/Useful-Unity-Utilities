@@ -3,8 +3,8 @@ using HutongGames.PlayMaker.Actions;
 using HutongGames.PlayMakerEditor;
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 using UnityEditor;
+using UnityEngine;
 
 [CustomActionEditor(typeof(Template))]
 public class TemplateInspector : CustomActionEditor
@@ -30,17 +30,16 @@ public class TemplateInspector : CustomActionEditor
 		//get action and FSM reference
 		action = target as Template;
 
-		if(action.Fsm == null || action.Fsm.FsmComponent == null)
-		{
-			return false;
-		}
-
-		thisFSM = action.Fsm.FsmComponent;
-
 		//draw default inspector (action-content) if you only want to add to it
 		isDirty = DrawDefaultInspector();
 		//OR only draw single fields (name has to be the exact same as the variable in the base script):
 		//EditField("gameObject");
+
+		//blocks everything that follows if in Action Browser (so that no errors happen when getting scene-references)
+		if(action.Fsm == null || action.Fsm.FsmComponent == null) return false;
+
+		//if you need reference to the FSM-Component:
+		//thisFSM = action.Fsm.FsmComponent;
 
 		//-- Your main code goes in here ( or before DrawDefaultInspector() ) --//
 

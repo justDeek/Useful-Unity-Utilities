@@ -1,4 +1,7 @@
-// (c) Copyright HutongGames, LLC 2010-2017. All rights reserved.
+// License: Attribution 4.0 International (CC BY 4.0)
+// Author: 
+
+/*--- __ECO__ __PLAYMAKER__ __ACTION__ ---*/
 
 using UnityEngine;
 
@@ -17,6 +20,8 @@ namespace HutongGames.PlayMaker.Actions
 		[Tooltip("Wheter to run every frame or only once.")]
 		public FsmBool everyFrame;
 
+		private GameObject go;
+
 		public override void Reset()
 		{
 			gameObject = null;
@@ -26,7 +31,7 @@ namespace HutongGames.PlayMaker.Actions
 
 		public override void OnEnter()
 		{
-			GameObject go = Fsm.GetOwnerDefaultTarget(gameObject);
+			go = Fsm.GetOwnerDefaultTarget(gameObject);
 
 			if(!go)
 			{

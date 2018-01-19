@@ -1,4 +1,6 @@
-﻿// (c) Copyright HutongGames, LLC 2010-2017. All rights reserved.
+﻿// License: Attribution 4.0 International (CC BY 4.0)
+// Author: 
+
 /*--- __ECO__ __PLAYMAKER__ __ACTION__
 EcoMetaStart
 {
@@ -21,25 +23,23 @@ namespace HutongGames.PlayMaker.Actions
 		[Tooltip("<Insert variable description>")]
 		public FsmOwnerDefault gameObject;
 
-		//-- insert further required variables --
+		//-- insert further required variables --//
+
+		private GameObject go;
 
 		public override void Reset()
 		{
-			//resets 'everyFrame' and 'updateType' if you don't want to set their default value yourself
+			//resets 'everyFrame' and 'updateType'
 			base.Reset();
+
 			gameObject = null;
-			//-- insert reset values for variables --//
+			//-- insert reset values for further variables --//
+			go = null;
 		}
 
 		public override void OnEnter()
 		{
-			GameObject go = Fsm.GetOwnerDefaultTarget(gameObject);
-
-			if(!go)
-			{
-				UnityEngine.Debug.LogError("GameObject is null!");
-				return;
-			}
+			go = Fsm.GetOwnerDefaultTarget(gameObject);
 
 			DoTemplate();
 
@@ -56,7 +56,14 @@ namespace HutongGames.PlayMaker.Actions
 
 		private void DoTemplate()
 		{
-			//-- Your main code goes in here --//
+			if(!go)
+			{
+				LogError("GameObject in " + Owner.name + " (" + Fsm.Name + ") is null!");
+				return;
+			}
+
+			//-- main logic goes here --//
+
 		}
 	}
 }
