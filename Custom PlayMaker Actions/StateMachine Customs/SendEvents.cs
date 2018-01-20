@@ -6,7 +6,7 @@ EcoMetaStart
 {
 "script dependancies":[
 						"Assets/PlayMaker Custom Actions/__Internal/FsmStateActionAdvanced.cs",
-						"Assets/PlayMaker Custom Actions/State Machine/Editor/SendEventsInspector.cs"
+						"Assets/PlayMaker Custom Actions/StateMachine/Editor/SendEventsInspector.cs"
 					  ]
 }
 EcoMetaEnd
