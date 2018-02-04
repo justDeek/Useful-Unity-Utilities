@@ -1,2 +1,2 @@
 ## ArrayListGetLength.cs
-![Image](/Screenshots/Actions/ArrayListGetLength_Info.png)
+![Image](/Screenshots/Actions/ArrayListGetLength.png)

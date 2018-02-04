@@ -38,7 +38,6 @@ namespace HutongGames.PlayMaker.Actions
 			subtract1 = true;
 		}
 
-
 		public override void OnEnter()
 		{
 
@@ -48,13 +47,9 @@ namespace HutongGames.PlayMaker.Actions
 				Finish();
 			}
 
-			if(subtract1 = true)
-			{
-				length.Value = proxy.arrayList.Count - 1;
-			} else
-			{
-				length.Value = proxy.arrayList.Count;
-			}
+			length.Value = proxy.arrayList.Count;
+
+			if(subtract1) length.Value -= 1;
 
 			Finish();
 		}

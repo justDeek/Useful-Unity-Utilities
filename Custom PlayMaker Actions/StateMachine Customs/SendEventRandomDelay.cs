@@ -29,7 +29,6 @@ namespace HutongGames.PlayMaker.Actions
 		[Tooltip("Wheter the delay is game time independent.")]
 		public FsmBool realTime;
 
-		private DelayedEvent delayedEvent;
 		private float startTime;
 		private float timer;
 		private float time;
@@ -55,7 +54,7 @@ namespace HutongGames.PlayMaker.Actions
 			{
 				startTime = FsmTime.RealtimeSinceStartup;
 				timer = 0f;
-				delayedEvent = Fsm.DelayedEvent(eventTarget, sendEvent, time);
+				Fsm.DelayedEvent(eventTarget, sendEvent, time);
 			}
 		}
 

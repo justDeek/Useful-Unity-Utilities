@@ -1,14 +1,14 @@
 ## FloatFlip.cs
-![Image](/Screenshots/Actions/FloatFlip_Info.png)
+![Image](/Screenshots/Actions/FloatFlip.png)
 
 ## IntFlip.cs
-![Image](/Screenshots/Actions/IntFlip_Info.png)
+![Image](/Screenshots/Actions/IntFlip.png)
 
 ## IntRoundToNearest.cs
-![Image](/Screenshots/Actions/IntRoundToNearest_Info.png)
+![Image](/Screenshots/Actions/IntRoundToNearest.png)
 
 ## RandomFloatOnSlope.cs
-![Image](/Screenshots/Actions/RandomFloatOnSlope_Info.png)
+![Image](/Screenshots/Actions/RandomFloatOnSlope.png)
 
 ## RandomPointOnSlope.cs
-![Image](/Screenshots/Actions/RandomPointOnSlope_Info.png)
+![Image](/Screenshots/Actions/RandomPointOnSlope.png)

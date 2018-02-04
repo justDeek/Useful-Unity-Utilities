@@ -1,8 +1,8 @@
 ## GetDeviceLinearAcceleration.cs
-![Image](/Screenshots/Actions/GetDeviceLinearAcceleration_Info.png)
+![Image](/Screenshots/Actions/GetDeviceLinearAcceleration.png)
 
 ## GetDeviceRollCustom.cs
-![Image](/Screenshots/Actions/GetDeviceRollCustom_Info.png)
+![Image](/Screenshots/Actions/GetDeviceRollCustom.png)
 
 ## SwipeGestureEventAdvanced.cs
-![Image](/Screenshots/Actions/SwipeGestureEventAdvanced_Info.png)
+![Image](/Screenshots/Actions/SwipeGestureEventAdvanced.png)

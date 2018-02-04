@@ -43,10 +43,7 @@ namespace HutongGames.PlayMaker.Actions
 
 			DoTemplate();
 
-			if(!everyFrame)
-			{
-				Finish();
-			}
+			if(!everyFrame) Finish();
 		}
 
 		public override void OnActionUpdate()

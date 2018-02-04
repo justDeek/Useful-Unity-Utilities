@@ -1,11 +1,11 @@
 ## SendEventRandomDelay.cs
-![Image](/Screenshots/Actions/SendEventRandomDelay_Info.png)
+![Image](/Screenshots/Actions/SendEventRandomDelay.png)
 
 ## SendEvents.cs
-![Image](/Screenshots/Actions/SendEvents_Info.png)
+![Image](/Screenshots/Actions/SendEvents.png)
 
 ## SendEventSetMulti.cs
-![Image](/Screenshots/Actions/SendEventSetMulti_Info.png)
+![Image](/Screenshots/Actions/SendEventSetMulti.png)
 
 ## SendEventSetValue.cs
-![Image](/Screenshots/Actions/SendEventSetValue_Info.png)
+![Image](/Screenshots/Actions/SendEventSetValue.png)

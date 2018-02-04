@@ -1,17 +1,17 @@
 ## EnableCollider.cs
-![Image](/Screenshots/Actions/EnableCollider_Info.png)
+![Image](/Screenshots/Actions/EnableCollider.png)
 
 ## EnableColliderMulti.cs
-![Image](/Screenshots/Actions/EnableColliderMulti_Info.png)
+![Image](/Screenshots/Actions/EnableColliderMulti.png)
 
 ## FollowMouse2D.cs
-![Image](/Screenshots/Actions/FollowMouse2D_Info.png)
+![Image](/Screenshots/Actions/FollowMouse2D.png)
 
 ## GetPositionAddOffset.cs
-![Image](/Screenshots/Actions/GetPositionAddOffset_Info.png)
+![Image](/Screenshots/Actions/GetPositionAddOffset.png)
 
 ## GetScaleAddOffset.cs
-![Image](/Screenshots/Actions/GetScaleAddOffset_Info.png)
+![Image](/Screenshots/Actions/GetScaleAddOffset.png)
 
 ## SetPositions.cs
-![Image](/Screenshots/Actions/SetPositions_Info.png)
+![Image](/Screenshots/Actions/SetPositions.png)

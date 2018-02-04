@@ -1,8 +1,8 @@
 ## ExampleOverview.cs
-![Image](/Screenshots/Actions/ExampleOverview_Info.png)
+![Image](/Screenshots/Actions/ExampleOverview.png)
 
 ## Template.cs
-![Image](/Screenshots/Actions/Template_Info.png)
+![Image](/Screenshots/Actions/Template.png)
 
 ## TemplateAdvanced.cs
-![Image](/Screenshots/Actions/TemplateAdvanced_Info.png)
+![Image](/Screenshots/Actions/TemplateAdvanced.png)

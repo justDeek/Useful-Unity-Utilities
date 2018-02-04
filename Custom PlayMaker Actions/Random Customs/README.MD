@@ -1,17 +1,17 @@
 ## RandomFloatAroundRange.cs
-![Image](/Screenshots/Actions/RandomFloatAroundRange_Info.png)
+![Image](/Screenshots/Actions/RandomFloatAroundRange.png)
 
 ## RandomIntAroundRange.cs
-![Image](/Screenshots/Actions/RandomIntAroundRange_Info.png)
+![Image](/Screenshots/Actions/RandomIntAroundRange.png)
 
 ## RandomWaitCustom.cs
-![Image](/Screenshots/Actions/RandomWaitCustom_Info.png)
+![Image](/Screenshots/Actions/RandomWaitCustom.png)
 
 ## RandomWeightedVector3.cs
-![Image](/Screenshots/Actions/RandomWeightedVector3_Info.png)
+![Image](/Screenshots/Actions/RandomWeightedVector3.png)
 
 ## SelectRandomAudioClip.cs
-![Image](/Screenshots/Actions/SelectRandomAudioClip_Info.png)
+![Image](/Screenshots/Actions/SelectRandomAudioClip.png)
 
 ## SelectRandomObject.cs
-![Image](/Screenshots/Actions/SelectRandomObject_Info.png)
+![Image](/Screenshots/Actions/SelectRandomObject.png)

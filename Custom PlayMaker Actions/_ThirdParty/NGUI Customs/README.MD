@@ -1,23 +1,23 @@
 ## NguiGetWidgetDetails.cs
-![Image](/Screenshots/Actions/NguiGetWidgetDetails_Info.png)
+![Image](/Screenshots/Actions/NguiGetWidgetDetails.png)
 
 ## NguiSetSpriteMultiple.cs
-![Image](/Screenshots/Actions/NguiSetSpriteMultiple_Info.png)
+![Image](/Screenshots/Actions/NguiSetSpriteMultiple.png)
 
 ## NguiSetSpriteSize.cs
-![Image](/Screenshots/Actions/NguiSetSpriteSize_Info.png)
+![Image](/Screenshots/Actions/NguiSetSpriteSize.png)
 
 ## NguiSetWidgetAlphaMulti.cs
-![Image](/Screenshots/Actions/NguiSetWidgetAlphaMulti_Info.png)
+![Image](/Screenshots/Actions/NguiSetWidgetAlphaMulti.png)
 
 ## NguiSetWidgetDetails.cs
-![Image](/Screenshots/Actions/NguiSetWidgetDetails_Info.png)
+![Image](/Screenshots/Actions/NguiSetWidgetDetails.png)
 
 ## NguiSpriteIsVisible.cs
-![Image](/Screenshots/Actions/NguiSpriteIsVisible_Info.png)
+![Image](/Screenshots/Actions/NguiSpriteIsVisible.png)
 
 ## NguiToolsAddChildAdvanced.cs
-![Image](/Screenshots/Actions/NguiToolsAddChildAdvanced_Info.png)
+![Image](/Screenshots/Actions/NguiToolsAddChildAdvanced.png)
 
 ## NguiToolsDestroyMulti.cs
-![Image](/Screenshots/Actions/NguiToolsDestroyMulti_Info.png)
+![Image](/Screenshots/Actions/NguiToolsDestroyMulti.png)

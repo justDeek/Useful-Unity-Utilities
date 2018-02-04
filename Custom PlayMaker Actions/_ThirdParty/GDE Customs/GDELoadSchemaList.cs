@@ -38,36 +38,41 @@ namespace HutongGames.PlayMaker.Actions
 			string currentSchema = "";
 			foreach(KeyValuePair<string, object> pair in GDEDataManager.DataDictionary)
 			{
-					if (pair.Key.StartsWith(GDMConstants.SchemaPrefix))
-							continue;
+				if(pair.Key.StartsWith(GDMConstants.SchemaPrefix))
+					continue;
 
-					Dictionary<string, object> currentDataSet = pair.Value as Dictionary<string, object>;
-					currentDataSet.TryGetString(GDMConstants.SchemaKey, out currentSchema);
-					if (!allSchemas.Contains(currentSchema))
-						allSchemas.Add(currentSchema);
+				Dictionary<string, object> currentDataSet = pair.Value as Dictionary<string, object>;
+				currentDataSet.TryGetString(GDMConstants.SchemaKey, out currentSchema);
+				if(!allSchemas.Contains(currentSchema))
+					allSchemas.Add(currentSchema);
 			}
 
-			if (Fsm.GetOwnerDefaultTarget(gameObject).GetComponent<PlayMakerArrayListProxy>() != null) {
-				PlayMakerArrayListProxy _proxy = GetArrayListProxyPointer(Fsm.GetOwnerDefaultTarget(gameObject),reference.Value,false);
+			if(Fsm.GetOwnerDefaultTarget(gameObject).GetComponent<PlayMakerArrayListProxy>() != null)
+			{
+				PlayMakerArrayListProxy _proxy = GetArrayListProxyPointer(Fsm.GetOwnerDefaultTarget(gameObject), reference.Value, false);
 				_proxy.AddRange(allSchemas, string.Empty);
 			}
 
-			if (viaProxyReference != null)
+			if(viaProxyReference != null)
 				viaProxyReference.AddRange(allSchemas, string.Empty);
 
-			if (storeAsString != null) {
-				foreach (string schema in allSchemas) {
-					if (schema == allSchemas.ToArray().GetValue(allSchemas.ToArray().Length - 1)) {
+			if(storeAsString != null)
+			{
+				foreach(string schema in allSchemas)
+				{
+					if(schema == (string)allSchemas.ToArray().GetValue(allSchemas.ToArray().Length - 1))
+					{
 						storeAsString.Value = string.Concat(storeAsString.Value + schema);
-					} else {
+					} else
+					{
 						storeAsString.Value = string.Concat(storeAsString.Value + schema + ", ");
 					}
 				}
-				string end = ", ";
+
 				storeAsString.Value.Remove(storeAsString.Value.Length - 2);
 			}
 
-			if (storeAsStringArray != null)
+			if(storeAsStringArray != null)
 				storeAsStringArray.Values = allSchemas.ToArray();
 
 		}

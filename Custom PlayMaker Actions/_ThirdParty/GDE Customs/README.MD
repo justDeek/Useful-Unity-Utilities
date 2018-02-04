@@ -1,44 +1,44 @@
 ## GDEAddFloat.cs
-![Image](/Screenshots/Actions/GDEAddFloat_Info.png)
+![Image](/Screenshots/Actions/GDEAddFloat.png)
 
 ## GDEAddInt.cs
-![Image](/Screenshots/Actions/GDEAddInt_Info.png)
+![Image](/Screenshots/Actions/GDEAddInt.png)
 
 ## GDEAddString.cs
-![Image](/Screenshots/Actions/GDEAddString_Info.png)
+![Image](/Screenshots/Actions/GDEAddString.png)
 
 ## GDEBoolTest.cs
-![Image](/Screenshots/Actions/GDEBoolTest_Info.png)
+![Image](/Screenshots/Actions/GDEBoolTest.png)
 
 ## GDECreateItem.cs
-![Image](/Screenshots/Actions/GDECreateItem_Info.png)
+![Image](/Screenshots/Actions/GDECreateItem.png)
 
 ## GDEFindItemByValue.cs
-![Image](/Screenshots/Actions/GDEFindItemByValue_Info.png)
+![Image](/Screenshots/Actions/GDEFindItemByValue.png)
 
 ## GDEGetRandomItem.cs
-![Image](/Screenshots/Actions/GDEGetRandomItem_Info.png)
+![Image](/Screenshots/Actions/GDEGetRandomItem.png)
 
 ## GDEGetSchemaByItem.cs
-![Image](/Screenshots/Actions/GDEGetSchemaByItem_Info.png)
+![Image](/Screenshots/Actions/GDEGetSchemaByItem.png)
 
 ## GDEHasItem.cs
-![Image](/Screenshots/Actions/GDEHasItem_Info.png)
+![Image](/Screenshots/Actions/GDEHasItem.png)
 
 ## GDELoadAllItemsBySchema.cs
-![Image](/Screenshots/Actions/GDELoadAllItemsBySchema_Info.png)
+![Image](/Screenshots/Actions/GDELoadAllItemsBySchema.png)
 
 ## GDELoadAllKeysBySchema.cs
-![Image](/Screenshots/Actions/GDELoadAllKeysBySchema_Info.png)
+![Image](/Screenshots/Actions/GDELoadAllKeysBySchema.png)
 
 ## GDELoadSchemaList.cs
-![Image](/Screenshots/Actions/GDELoadSchemaList_Info.png)
+![Image](/Screenshots/Actions/GDELoadSchemaList.png)
 
 ## GDELoadStringListCustom.cs
-![Image](/Screenshots/Actions/GDELoadStringListCustom_Info.png)
+![Image](/Screenshots/Actions/GDELoadStringListCustom.png)
 
 ## GDEMultiplyFloat.cs
-![Image](/Screenshots/Actions/GDEMultiplyFloat_Info.png)
+![Image](/Screenshots/Actions/GDEMultiplyFloat.png)
 
 ## GDEMultiplyInt.cs
-![Image](/Screenshots/Actions/GDEMultiplyInt_Info.png)
+![Image](/Screenshots/Actions/GDEMultiplyInt.png)

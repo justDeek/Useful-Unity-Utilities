@@ -16,14 +16,16 @@ using System.Runtime.InteropServices;
 using UnityEngine.Events;
 
 
-internal sealed class CustomAssetImporter : AssetPostprocessor {
+internal sealed class CustomAssetImporter : AssetPostprocessor
+{
 
 	#region Methods
 
 	//-------------Pre Processors
 
 	// This event is raised when a texture asset is imported
-	private void OnPreprocessTexture() {
+	private void OnPreprocessTexture()
+	{
 
 		var importer = assetImporter as TextureImporter;
 
@@ -35,17 +37,16 @@ internal sealed class CustomAssetImporter : AssetPostprocessor {
 		importer.mipmapEnabled = false;
 		//importer.textureFormat = TextureImporterFormat.AutomaticTruecolor; //worked in Unity 5.3, obsolete in 5.5
 
-		importer.textureCompression = TextureImporterCompression.Uncompressed;	//<----
+		importer.textureCompression = TextureImporterCompression.Uncompressed;  //<----
 
 		//importer.anisoLevel = 9;
 		//importer.compressionQuality = 100;
 
 		// If you are only using the alpha channel for transparency, uncomment the below line. I commented it out because I use the alpha channel for various shaders (e.g. specular map or various other masks)
-		if (importer.DoesSourceTextureHaveAlpha())
+		if(importer.DoesSourceTextureHaveAlpha())
 		{
 			importer.alphaSource = TextureImporterAlphaSource.FromInput;
-		}
-		else
+		} else
 		{
 			importer.alphaSource = TextureImporterAlphaSource.None;
 		}
@@ -53,19 +54,21 @@ internal sealed class CustomAssetImporter : AssetPostprocessor {
 	}
 
 	// This event is raised when a new mesh asset is imported
-	private void OnPreprocessModel() {
+	private void OnPreprocessModel()
+	{
 		// I prefix my mesh assets with "msh", this line says "if msh is not in the asset file name, do nothing"
 		var fileNameIndex = assetPath.LastIndexOf('/');
 		var fileName = assetPath.Substring(fileNameIndex + 1);
 
-		if (!fileName.Contains("msh")) return;
+		if(!fileName.Contains("msh")) return;
 
 		// Once again I unbox the assetImporter reference, to a ModelImporter this time
 		var importer = assetImporter as ModelImporter;
 
 		// I use the Stat prefix to determine if the gameobject produced by this model is going to be static or dynamic
 		// So a static tree mesh file name would be "mshStatTree" for my asset importer
-		if(assetPath.Contains("Stat")) {
+		if(assetPath.Contains("Stat"))
+		{
 			// If it is static we don't want any kind of animation imported
 			importer.animationType = ModelImporterAnimationType.None;
 			importer.importAnimation = false;
@@ -85,22 +88,23 @@ internal sealed class CustomAssetImporter : AssetPostprocessor {
 	// This event is raised every time an audio asset is imported
 	// This method does nothing at the moment, just a skeleton to fill in if we ever need to do audio specific importing
 	// ------Imports audio assets in the default way without changing anything------
-	private void OnPreprocessAudio() {
+	private void OnPreprocessAudio()
+	{
 
 		//Get the reference to the assetImporter (From the AssetPostProcessor class) and unbox it to an AudioImporter (wich is inherited and extends the AssetImporter with AudioClip-specific utilities)
 		var importer = assetImporter as AudioImporter;
 		//if the variable is empty, "do nothing"
-		if (importer == null) return;
+		if(importer == null) return;
 
 		//create a temp variable that contains everything you want to apply to the imported AudioClip (possible changes: .compressionFormat, .conversionMode, .loadType, .quality, .sampleRateOverride, .sampleRateSetting)
 		AudioImporterSampleSettings sampleSettings = importer.defaultSampleSettings;
-		sampleSettings.loadType = AudioClipLoadType.Streaming; //Options: .CompressedInMemory, .Streaming .DecompressOnLoad
+		//sampleSettings.loadType = AudioClipLoadType.DecompressOnLoad; //Options: .CompressedInMemory, .Streaming .DecompressOnLoad
 		//sampleSettings.compressionFormat = AudioCompressionFormat.Vorbis; //alternatives: .AAC, .ADPCM, .GDADPCM, .HEVAG, .MP3, .PCM, .VAG, .XMA
 		sampleSettings.quality = 0.01f; //ranging from 0 (0%) to 1 (100%), currently set to 1%, wich is the smallest value that can be set in the inspector | Probably only useful when the compression format is set to Vorbis
 
 		importer.defaultSampleSettings = sampleSettings; //applying the temp variable values to the default settings (most important step!)
-		//platform-specific alternative:
-		//importer.SetOverrideSampleSettings ("Android", sampleSettings); //platform options: "Webplayer", "Standalone", "iOS", "Android", "WebGL", "PS4", "PSP2", "XBoxOne", "Samsung TV"
+														 //platform-specific alternative:
+														 //importer.SetOverrideSampleSettings ("Android", sampleSettings); //platform options: "Webplayer", "Standalone", "iOS", "Android", "WebGL", "PS4", "PSP2", "XBoxOne", "Samsung TV"
 
 
 	}
@@ -112,7 +116,8 @@ internal sealed class CustomAssetImporter : AssetPostprocessor {
 	//private void OnPostprocessTexture(Texture2D import) {}
 
 	// This event is called as soon as the mesh asset is imported successfully
-	private void OnPostprocessModel(GameObject import) {
+	private void OnPostprocessModel(GameObject import)
+	{
 		// As described in the OnPreProcessModel(), determine if this is a static mesh based on the file name
 		// If so, tick it as static
 		if(import.name.Contains("Stat"))
@@ -127,7 +132,7 @@ internal sealed class CustomAssetImporter : AssetPostprocessor {
 	}
 
 	// This event is called as soon as the audio asset is imported successfully
-	private void OnPostprocessAudio(AudioClip import) {}
+	private void OnPostprocessAudio(AudioClip import) { }
 
 	#endregion
 }

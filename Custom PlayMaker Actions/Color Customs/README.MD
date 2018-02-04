@@ -1,2 +1,2 @@
 ## CompareColors.cs
-![Image](/Screenshots/Actions/CompareColors_Info.png)
+![Image](/Screenshots/Actions/CompareColors.png)

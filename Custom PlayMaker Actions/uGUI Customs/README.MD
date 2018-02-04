@@ -1,5 +1,5 @@
 ## DebugVariableOnScreen.cs
-![Image](/Screenshots/Actions/DebugVariableOnScreen_Info.png)
+![Image](/Screenshots/Actions/DebugVariableOnScreen.png)
 
 ## DrawFullscreenColorAdvanced.cs
-![Image](/Screenshots/Actions/DrawFullscreenColorAdvanced_Info.png)
+![Image](/Screenshots/Actions/DrawFullscreenColorAdvanced.png)

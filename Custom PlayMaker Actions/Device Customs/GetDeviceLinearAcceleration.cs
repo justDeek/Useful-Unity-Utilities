@@ -45,7 +45,7 @@ namespace HutongGames.PlayMaker.Actions
 			storeVector = Vector3.zero;
 			storeHorizontalMovement = null;
 			storeVerticalMovement = null;
-      storeAccelerationEvents = null;
+			storeAccelerationEvents = null;
 			moveObjectAccordingly = null;
 			resetInputAxesOnStart = false;
 			everyFrame = true;
@@ -54,11 +54,11 @@ namespace HutongGames.PlayMaker.Actions
 
 		public override void OnEnter()
 		{
-			if (resetInputAxesOnStart.Value)
-			Input.ResetInputAxes();
+			if(resetInputAxesOnStart.Value)
+				Input.ResetInputAxes();
 
 
-      if (!everyFrame)
+			if(!everyFrame)
 				Finish();
 		}
 
@@ -73,27 +73,25 @@ namespace HutongGames.PlayMaker.Actions
 			Vector3 dir = Vector3.zero;
 			dir.x = -Input.acceleration.y;
 			dir.z = Input.acceleration.x;
-			if (dir.sqrMagnitude > 1)
-					dir.Normalize();
+			if(dir.sqrMagnitude > 1)
+				dir.Normalize();
 
-			if (realTime)
+			if(realTime)
 				dir *= Time.deltaTime;
 
-			if (moveObjectAccordingly.Value != null)
-			moveObjectAccordingly.Value.transform.Translate(dir * speed.Value);
+			if(moveObjectAccordingly.Value != null)
+				moveObjectAccordingly.Value.transform.Translate(dir * speed.Value);
 
 			storeVector.Value = dir;
 			storeHorizontalMovement.Value = dir.x;
 			storeVerticalMovement.Value = dir.z;
 
-			if (storeAccelerationEvents.Value != null)
+			Vector3 acceleration = Vector3.zero;
+			foreach(AccelerationEvent accEvent in Input.accelerationEvents)
 			{
-				Vector3 acceleration = Vector3.zero;
-				foreach (AccelerationEvent accEvent in Input.accelerationEvents) {
-						acceleration += accEvent.acceleration * accEvent.deltaTime;
-				}
-				storeAccelerationEvents.Value = acceleration;
+				acceleration += accEvent.acceleration * accEvent.deltaTime;
 			}
+			storeAccelerationEvents.Value = acceleration;
 		}
 	}
 }
