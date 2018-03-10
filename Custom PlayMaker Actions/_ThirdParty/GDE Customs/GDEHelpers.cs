@@ -1,5 +1,8 @@
 ﻿///ToDo: FindFieldByValue | is it possible to create Schemas? | SortBy, GDEStringSwitch, GDECompareFloat, GDECompareInt
 
+///Current Problems: Setting the field values in CreateItem doesn't seem to work (at least not in the action
+///GDECreateItem) | searching for FieldTypes in GDEFind returns no results/errors
+
 /* Notes:
  * GDEDataManager.DataDictionary contains all pre-defined Schemas, Items, Field Types, Field Names and Field Values
  *						   ... structure: Dictionary<string, object> = <ItemName, <<Description, Type>, <Key, Value>, <Type, Key>, <Value, SchemaName>>>
