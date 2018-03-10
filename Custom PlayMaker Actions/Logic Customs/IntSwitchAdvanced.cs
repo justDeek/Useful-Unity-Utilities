@@ -1,7 +1,11 @@
+// License: Attribution 4.0 International (CC BY 4.0)
+/*--- __ECO__ __PLAYMAKER__ __ACTION__ ---*/
+//Author: Deek
 
 namespace HutongGames.PlayMaker.Actions
 {
 	[ActionCategory(ActionCategory.Logic)]
+	[HelpUrl("http://hutonggames.com/playmakerforum/index.php?topic=15458.0")]
 	[Tooltip("Sends an Event based on the value of an Integer Variable.")]
 	public class IntSwitchAdvanced : FsmStateAction
 	{
@@ -30,7 +34,7 @@ namespace HutongGames.PlayMaker.Actions
 		{
 			DoIntSwitch();
 
-			if (!everyFrame.Value)
+			if(!everyFrame.Value)
 				Finish();
 		}
 
@@ -41,18 +45,18 @@ namespace HutongGames.PlayMaker.Actions
 
 		void DoIntSwitch()
 		{
-			if (intVariable.IsNone)
+			if(intVariable.IsNone)
 				return;
 
-			for (int i = 0; i < compareTo.Length; i++)
+			for(int i = 0; i < compareTo.Length; i++)
 			{
-				if (intVariable.Value == compareTo[i].Value)
+				if(intVariable.Value == compareTo[i].Value)
 				{
 					Fsm.Event(sendEvent[i]);
 					return;
 				}
 			}
-			if (noMatchEvent != null)
+			if(noMatchEvent != null)
 			{
 				Fsm.Event(noMatchEvent);
 			}

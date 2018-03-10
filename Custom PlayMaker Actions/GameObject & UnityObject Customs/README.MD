@@ -10,6 +10,9 @@
 ## EnableChildren.cs
 ![Image](/Screenshots/Actions/EnableChildren.png)
 
+## EnableChildrenInRange.cs
+![Image](/Screenshots/Actions/EnableChildrenInRange.png)
+
 ## GameObjectCompareMulti.cs
 ![Image](/Screenshots/Actions/GameObjectCompareMulti.png)
 
@@ -24,3 +27,6 @@
 
 ## GetObjectName.cs
 ![Image](/Screenshots/Actions/GetObjectName.png)
+
+## HasSibling.cs
+![Image](/Screenshots/Actions/HasSibling.png)

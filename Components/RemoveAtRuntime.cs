@@ -13,22 +13,20 @@ public class RemoveAtRuntime : MonoBehaviour
 {
 	public bool removeOBSOLETE = false;
 
-	private void Awake()
+	void Awake()
 	{
-		if (!removeOBSOLETE)
+		if(!removeOBSOLETE)
 		{
 			Destroy(this.gameObject);
-		}
-		else
+		} else
 		{
-			foreach (var currentGO in GameObject.FindObjectsOfType(typeof(GameObject)))
+			foreach(var currentGO in GameObject.FindObjectsOfType(typeof(GameObject)))
 			{
-				if (currentGO.name.Contains("OBSOLETE"))
+				if(currentGO.name.Contains("OBSOLETE"))
 				{
 					Destroy(currentGO);
 				}
 			}
 		}
-
 	}
 }

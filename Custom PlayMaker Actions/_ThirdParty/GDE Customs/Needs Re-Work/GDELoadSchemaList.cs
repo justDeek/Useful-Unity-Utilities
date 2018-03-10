@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using GameDataEditor;
+using iDecay.GDE;
 
 #if GDE_PLAYMAKER_SUPPORT
 
@@ -34,18 +35,7 @@ namespace HutongGames.PlayMaker.Actions
 
 		public override void OnEnter()
 		{
-			List<string> allSchemas = new List<string>();
-			string currentSchema = "";
-			foreach(KeyValuePair<string, object> pair in GDEDataManager.DataDictionary)
-			{
-				if(pair.Key.StartsWith(GDMConstants.SchemaPrefix))
-					continue;
-
-				Dictionary<string, object> currentDataSet = pair.Value as Dictionary<string, object>;
-				currentDataSet.TryGetString(GDMConstants.SchemaKey, out currentSchema);
-				if(!allSchemas.Contains(currentSchema))
-					allSchemas.Add(currentSchema);
-			}
+			List<string> allSchemas = GDEHelpers.GDEGetAllDataBy(GDEDataType.Schema).ToStringList();
 
 			if(Fsm.GetOwnerDefaultTarget(gameObject).GetComponent<PlayMakerArrayListProxy>() != null)
 			{

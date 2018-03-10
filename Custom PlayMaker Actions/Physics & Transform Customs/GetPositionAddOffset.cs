@@ -16,7 +16,8 @@ namespace HutongGames.PlayMaker.Actions
 			Add,
 			Subtract,
 			Multiply,
-			Divide
+			Divide,
+			Set
 		}
 
 		[RequiredField]
@@ -63,10 +64,8 @@ namespace HutongGames.PlayMaker.Actions
 		public override void OnEnter()
 		{
 			DoGetPosition();
-			if(!everyFrame)
-			{
-				Finish();
-			}
+
+			if(!everyFrame) Finish();
 		}
 
 		public override void OnUpdate()
@@ -77,16 +76,13 @@ namespace HutongGames.PlayMaker.Actions
 		void DoGetPosition()
 		{
 			var go = Fsm.GetOwnerDefaultTarget(gameObject);
-			if(go == null)
-			{
-				return;
-			}
+			if(go == null) return;
 
-			if(vector3Offset != null && !vector3Offset.IsNone)
+			if(!vector3Offset.IsNone)
 			{
-				xOffset.Value = vector3Offset.Value.x;
-				yOffset.Value = vector3Offset.Value.y;
-				zOffset.Value = vector3Offset.Value.z;
+				if(vector3Offset.Value.x != 0) xOffset.Value = vector3Offset.Value.x;
+				if(vector3Offset.Value.y != 0) yOffset.Value = vector3Offset.Value.y;
+				if(vector3Offset.Value.z != 0) zOffset.Value = vector3Offset.Value.z;
 			}
 
 			var position = space == Space.World ? go.transform.position : go.transform.localPosition;
@@ -102,47 +98,27 @@ namespace HutongGames.PlayMaker.Actions
 					break;
 				case Vector3Operation.Multiply:
 					var multResult = Vector3.zero;
-					if(xOffset.Value != 0)
-					{
-						multResult.x = position.x * xOffset.Value;
-					}
-					if(yOffset.Value != 0)
-					{
-						multResult.y = position.y * yOffset.Value;
-					}
-					if(zOffset.Value != 0)
-					{
-						multResult.z = position.z * zOffset.Value;
-					}
+					if(xOffset.Value != 0) multResult.x = position.x * xOffset.Value;
+					if(yOffset.Value != 0) multResult.y = position.y * yOffset.Value;
+					if(zOffset.Value != 0) multResult.z = position.z * zOffset.Value;
 					storeVector3Result.Value = multResult;
 					break;
 				case Vector3Operation.Divide:
 					var divResult = Vector3.zero;
-					if(xOffset.Value != 0)
-					{
-						divResult.x = position.x / xOffset.Value;
-					}
-					if(yOffset.Value != 0)
-					{
-						divResult.y = position.y / yOffset.Value;
-					}
-					if(zOffset.Value != 0)
-					{
-						divResult.z = position.z / zOffset.Value;
-					}
+					if(xOffset.Value != 0) divResult.x = position.x / xOffset.Value;
+					if(yOffset.Value != 0) divResult.y = position.y / yOffset.Value;
+					if(zOffset.Value != 0) divResult.z = position.z / zOffset.Value;
 					storeVector3Result.Value = divResult;
+					break;
+				case Vector3Operation.Set:
+					storeVector3Result.Value = input;
 					break;
 			}
 
 			if(applyOffsetToGO)
 			{
-				if(space == Space.World)
-				{
-					go.transform.position = storeVector3Result.Value;
-				} else
-				{
-					go.transform.localPosition = storeVector3Result.Value;
-				}
+				if(space == Space.World) go.transform.position = storeVector3Result.Value;
+				else go.transform.localPosition = storeVector3Result.Value;
 			}
 		}
 	}

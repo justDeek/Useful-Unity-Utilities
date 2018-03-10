@@ -16,7 +16,7 @@ using UnityEngine.AI;
 
 namespace HutongGames.PlayMaker.Actions
 {
-	[ActionCategory("Navigation")]
+	[ActionCategory(ActionCategory.NavMeshAgent)]
 	[Tooltip("Sets the destination of the given NavMesh Agent to an object or position (only updates when the target has moved).")]
 	public class NavMeshAgentMoveTo : FsmStateActionAdvanced
 	{

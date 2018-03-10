@@ -24,7 +24,7 @@ namespace HutongGames.PlayMaker.Actions
 		{
 			ActiveInHirarchy,
 			ActiveSelf,
-			Active
+			//Active
 		}
 
 		[RequiredField]
@@ -124,9 +124,9 @@ namespace HutongGames.PlayMaker.Actions
 					case ActiveType.ActiveSelf:
 						isActive = currGO.activeSelf;
 						break;
-					case ActiveType.Active:
-						isActive = currGO.active;
-						break;
+					//case ActiveType.Active:
+					//	isActive = currGO.active;
+					//	break;
 					default:
 						break;
 				}

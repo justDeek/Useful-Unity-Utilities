@@ -52,20 +52,20 @@ namespace HutongGames.PlayMaker.Actions
 		{
 			List<string> allItems = new List<string>();
 			string currentSchema = "";
-			foreach (KeyValuePair<string, object> pair in GDEDataManager.DataDictionary)
+			foreach(KeyValuePair<string, object> pair in GDEDataManager.DataDictionary)
 			{
-				if (pair.Key.StartsWith(GDMConstants.SchemaPrefix))
+				if(pair.Key.StartsWith(GDMConstants.SchemaPrefix))
 					continue;
 
 				//skip if schema not specified
-				if (!string.IsNullOrEmpty(searchInSchema.Value))
+				if(!string.IsNullOrEmpty(searchInSchema.Value))
 				{
 					//get all values of current Item
 					Dictionary<string, object> currentDataSet = pair.Value as Dictionary<string, object>;
 					//get Schema of current Item
 					currentDataSet.TryGetString(GDMConstants.SchemaKey, out currentSchema);
 					//check if current Schema equals specified one
-					if (currentSchema != searchInSchema.Value)
+					if(currentSchema != searchInSchema.Value)
 					{
 						continue;
 					}
@@ -76,12 +76,12 @@ namespace HutongGames.PlayMaker.Actions
 
 			hasItem.Value = allItems.Contains(itemName.Value);
 
-			if (!string.IsNullOrEmpty(fieldName.Value))
+			if(!string.IsNullOrEmpty(fieldName.Value))
 			{
 				try
 				{
 					Dictionary<string, object> data;
-					if (GDEDataManager.Get(itemName.Value, out data))
+					if(GDEDataManager.Get(itemName.Value, out data))
 					{
 						string val;
 						data.TryGetString(fieldName.Value, out val);
@@ -90,19 +90,15 @@ namespace HutongGames.PlayMaker.Actions
 
 					result = GDEDataManager.GetString(itemName.Value, fieldName.Value, result);
 
-					if (!string.IsNullOrEmpty(result))
+					if(!string.IsNullOrEmpty(result))
 					{
 						hasResult.Value = true;
 						storeResult.Value = result;
-					}
-					else
-					{
+					} else
 						hasResult.Value = false;
-					}
-				}
-				catch (UnityException ex)
+				} catch(UnityException ex)
 				{
-					UnityEngine.Debug.LogError(ex.ToString());
+					UnityEngine.Debug.LogException(ex);
 				}
 			}
 

@@ -1,3 +1,9 @@
+## GetFsmComponent.cs
+![Image](/Screenshots/Actions/GetFsmComponent.png)
+
+## GetGameObjectByFsmVariableValue.cs
+![Image](/Screenshots/Actions/GetGameObjectByFsmVariableValue.png)
+
 ## SendEventRandomDelay.cs
 ![Image](/Screenshots/Actions/SendEventRandomDelay.png)
 

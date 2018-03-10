@@ -29,7 +29,6 @@ namespace HutongGames.PlayMaker.Actions
 		[Tooltip("If the given int is bigger than this and smaller than the next range, send the event.")]
 		public FsmFloat[] biggerThan;
 
-		[RequiredField]
 		[Tooltip("The event to send if in this range.")]
 		public FsmEvent[] currEvent;
 

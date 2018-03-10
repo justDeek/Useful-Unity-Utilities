@@ -1,6 +1,6 @@
-// License: Attribution 4.0 International (CC BY 4.0)
+//License: Attribution 4.0 International (CC BY 4.0)
 /*--- __ECO__ __PLAYMAKER__ __ACTION__ ---*/
-// Author : Deek
+//Author: Deek
 
 using UnityEngine;
 

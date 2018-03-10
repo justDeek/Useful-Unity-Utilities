@@ -23,58 +23,53 @@ namespace HutongGames.PlayMaker.Actions
 
 		public override void OnEnter()
 		{
-			GameObject _go  = Fsm.GetOwnerDefaultTarget(target);
+			GameObject _go = Fsm.GetOwnerDefaultTarget(target);
 			//Get all Proxy Components
 			PlayMakerArrayListProxy[] proxies = _go.GetComponents<PlayMakerArrayListProxy>();
 
-			if (reference.Value != "" || reference.Value != null)
+			if(reference.Value != "" || reference.Value != null)
 			{
 				//Check if more than one Proxy Component exists on the target
-				if (proxies.Length>0)
+				if(proxies.Length > 0)
 				{
-					foreach (PlayMakerArrayListProxy iProxy in proxies)
+					foreach(PlayMakerArrayListProxy iProxy in proxies)
 					{
-						if (iProxy.referenceName == reference.Value)
+						if(iProxy.referenceName == reference.Value)
 						{
-						proxy = iProxy;
-						}
-						else
+							proxy = iProxy;
+						} else
 						{
 							// Debug.LogWarning("No Array List with the Reference " + reference.Value + " in " + _go.name + " found!");
 							// Finish();
 						}
 					}
 				}
-			}
-			else
+			} else
 			{
-				proxy = _go.GetComponent ("PlayMakerArrayListProxy") as PlayMakerArrayListProxy;
+				proxy = _go.GetComponent("PlayMakerArrayListProxy") as PlayMakerArrayListProxy;
 			}
 
 			try
 			{
 				Dictionary<string, object> data;
 
-				if (proxy == null)
+				if(proxy == null)
 					LogError("ArrayMaker Proxy is null!");
 
-				if (GDEDataManager.Get(ItemName.Value, out data) && proxy != null)
+				if(GDEDataManager.Get(ItemName.Value, out data) && proxy != null)
 				{
 					List<string> val;
 					data.TryGetStringList(FieldName.Value, out val);
 
 					proxy.AddRange(val, string.Empty);
-				}
-				else
+				} else
 				{
 					//LogError(string.Format(GDMConstants.ErrorLoadingValue, "string array", ItemName.Value, FieldName.Value));
 				}
-			}
-			catch(System.Exception ex)
+			} catch(System.Exception ex)
 			{
-				//LogError(ex.ToString());
-			}
-			finally
+				UnityEngine.Debug.LogException(ex);
+			} finally
 			{
 				Finish();
 			}
