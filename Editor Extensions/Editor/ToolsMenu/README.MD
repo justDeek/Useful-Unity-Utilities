@@ -1,5 +1,5 @@
 ## ToolsScenesMenu.cs
-![Image](/Screenshots/Editor/ToolsScenesMenu_Info.png)
+![Image](/Screenshots/Editor/ToolsScenesMenu.png)
 
 A custom Menu for several useful Scene-based shortcuts:
 

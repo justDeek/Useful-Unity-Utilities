@@ -1,5 +1,5 @@
 ## CurrentSelectionMenu.cs
-![Image](/Screenshots/Editor/CurrentSelectionMenu_Info.png)
+![Image](/Screenshots/Editor/CurrentSelectionMenu.png)
 
 A custom Menu for all sorts of selection-based actions with shortcuts:
 
