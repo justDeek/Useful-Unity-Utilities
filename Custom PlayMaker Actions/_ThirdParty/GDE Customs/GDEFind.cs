@@ -37,6 +37,8 @@ namespace HutongGames.PlayMaker.Actions
 
 		public override void OnEnter()
 		{
+			result.Reset();
+
 			//convert FsmString[] to string[]
 			string[] strArr = new string[searchBy.Length];
 

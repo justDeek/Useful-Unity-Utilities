@@ -280,7 +280,10 @@ namespace iDecay.GDE
 			}
 
 			if(currList.Count == 0)
+			{
 				UnityEngine.Debug.LogError("Empty List in ListAllBy(" + searchBy.ToString() + ", " + limitBySchema + ")!");
+				return null;
+			}
 
 			return currList;
 		}
@@ -385,6 +388,7 @@ namespace iDecay.GDE
 			{
 				UnityEngine.Debug.LogWarning("Couldn't find any matching " + dataType.ToString()
 										  + " which " + searchTypes[0].ToString() + " \"" + searchBy[0] + "\".");
+				return result;
 			}
 
 			for(int i = 1; i < searchTypes.Length; i++)
@@ -605,6 +609,7 @@ namespace iDecay.GDE
 				return false;
 			}
 
+			GDEDataManager.DataDictionary.Remove(itemName);
 			GDEDataManager.ResetToDefault(itemName);
 			if(save) GDEDataManager.Save();
 			return true;
