@@ -52,7 +52,7 @@ namespace HutongGames.PlayMaker.Actions
 
 		void CheckGDEBool()
 		{
-			GDEHelpers.CheckFieldType(ItemName.Value, FieldName.Value, GDEFieldType.Bool);
+			//GDEHelpers.CheckFieldType(ItemName.Value, FieldName.Value, GDEFieldType.Bool);
 			storeBoolResult.Value = (bool)GDEHelpers.GetFieldValue(ItemName.Value, FieldName.Value);
 			Fsm.Event(storeBoolResult.Value ? isTrueEvent : isFalseEvent);
 		}

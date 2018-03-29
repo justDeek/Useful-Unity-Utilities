@@ -47,12 +47,12 @@ namespace HutongGames.PlayMaker.Actions
 				strArr[i] = searchBy[i].Value;
 			}
 
-			List<string> matchingValues = GDEHelpers.FindAllMatching(dataType, searchType, strArr);
+			List<string> matchingValues = GDEHelpers.FindAllMatching(dataType, searchType, strArr, "", false);
 
 			if(matchingValues.Count == 0)
 				Fsm.Event(noneFoundEvent);
-
-			result.SetArrayContents(matchingValues);
+			else
+				result.SetArrayContents(matchingValues);
 
 			Finish();
 		}

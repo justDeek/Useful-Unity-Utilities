@@ -31,14 +31,6 @@ namespace HutongGames.PlayMaker.Actions
 
 		public override void OnEnter()
 		{
-			go = Fsm.GetOwnerDefaultTarget(gameObject);
-
-			if(!go)
-			{
-				UnityEngine.Debug.LogError("GameObject is null!");
-				return;
-			}
-
 			DoTemplate();
 
 			if(!everyFrame.Value) Finish();
@@ -51,7 +43,15 @@ namespace HutongGames.PlayMaker.Actions
 
 		private void DoTemplate()
 		{
-			//-- Your main code goes in here --//
+			go = Fsm.GetOwnerDefaultTarget(gameObject);
+
+			if(!go)
+			{
+				UnityEngine.Debug.LogError("GameObject is null!");
+				return;
+			}
+
+			//-- main code goes here --//
 		}
 	}
 }

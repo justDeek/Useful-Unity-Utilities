@@ -380,11 +380,11 @@ namespace iDecay.GDE
 		/// Finds all matching occurrences with given search-parameters.
 		/// </summary>
 		public static List<string> FindAllMatching(GDEDataType dataType, SearchType[] searchTypes,
-												   string[] searchBy, string limitBySchema = "")
+												   string[] searchBy, string limitBySchema = "", bool debug = true)
 		{
 			List<string> result = FindAll(dataType, searchTypes[0], searchBy[0], limitBySchema);
 
-			if(result.Count == 0)
+			if(result.Count == 0 && debug)
 			{
 				UnityEngine.Debug.LogWarning("Couldn't find any matching " + dataType.ToString()
 										  + " which " + searchTypes[0].ToString() + " \"" + searchBy[0] + "\".");
@@ -489,13 +489,14 @@ namespace iDecay.GDE
 		/// <summary>
 		/// Returns the Schema containing the given Item.
 		/// </summary>
-		public static string GetSchemaByItem(string itemName)
+		public static string GetSchemaByItem(string itemName, bool debug = false)
 		{
 			List<object> matchingSchemas = GDEGetAllDataBy(GDEDataType.Schema, itemName);
 
 			if(matchingSchemas.Count == 0)
 			{
-				UnityEngine.Debug.LogError("Couldn't find the Schema of the Item " + itemName + "!");
+				if(debug) UnityEngine.Debug.LogError("Couldn't find the Schema of the Item " + itemName + "!");
+				return "";
 			}
 
 			return matchingSchemas[0] as string;
@@ -603,11 +604,16 @@ namespace iDecay.GDE
 		/// <param name="itemName">The item to remove.</param>
 		public static bool RemoveItem(string itemName, bool save = true, bool debugFailure = true)
 		{
-			if(!HasItem(itemName) && debugFailure)
+			string schema = GetSchemaByItem(itemName);
+
+			if(!HasItem(itemName) && string.IsNullOrEmpty(schema) && debugFailure)
 			{
 				UnityEngine.Debug.LogError("GDE doens't contain the item " + itemName + " and thus can't remove it!");
 				return false;
 			}
+
+			//clear each field of the Item, so that it at least resets the Item if it's not removable
+			ResetAllFields(itemName, schema);
 
 			GDEDataManager.DataDictionary.Remove(itemName);
 			GDEDataManager.ResetToDefault(itemName);
@@ -650,6 +656,71 @@ namespace iDecay.GDE
 		public static string FindFirstItemWithValue(object fieldValue)
 		{
 			return FindItemsByValue(fieldValue)[0];
+		}
+
+		/// <summary>
+		/// Goes through each Item in the given Schema and checks if the Values
+		/// of the specified Field Names match the given Field Values. Returns the first matching Item.
+		/// </summary>
+		/// <param name="ignoreValues">Optionally provide a list of values that should be ignored
+		/// (e.g. if it contains 'none' then every Field with that value will be skipped).</param>
+		/// <returns></returns>
+		public static string GetItemWithMatchingValues(string schema, List<string> fieldNames,
+													   List<object> fieldValues, List<object> ignoreValues = null)
+		{
+			if(fieldNames.Count != fieldValues.Count)
+			{
+				UnityEngine.Debug.LogError("Amount of Field Names doesn't match the Amount of Field Values!");
+				return null;
+			}
+
+			if(fieldNames.Count == 0 || fieldValues.Count == 0)
+			{
+				UnityEngine.Debug.LogError("Field Names or Field Values are empty!");
+				return null;
+			}
+
+			List<string> allItems = GetAllItems(schema);
+			if(allItems.Count == 0)
+			{
+				UnityEngine.Debug.LogError("The given Schema doesn't exist or doesn't contain any Items!");
+				return null;
+			}
+
+			//check if the given fields exist
+			foreach(string fieldName in fieldNames)
+			{
+				CheckHasField(fieldName, schema);
+			}
+
+			//go through all Items of the given Schema
+			foreach(string itemName in allItems)
+			{
+				int matchingFields = 0; //how many of the Item's Fields match the given Field Values
+
+				if(matchingFields != fieldNames.Count)
+				{
+					List<object> currFieldValues = new List<object>();
+
+					//Get all Field Values of the current Item
+					foreach(string fieldName in fieldNames)
+					{
+						object currFieldValue = GetFieldValue(itemName, fieldName);
+						if(ignoreValues.Contains(currFieldValue)) continue;
+						currFieldValues.Add(currFieldValue);
+					}
+
+					foreach(var givenFieldValue in fieldValues)
+					{
+						if(currFieldValues.Contains(givenFieldValue)) matchingFields++;
+					}
+				} //end of Item
+
+				if(matchingFields >= fieldValues.Count) return itemName;
+			}
+
+			UnityEngine.Debug.LogError("No Item found!");
+			return null;
 		}
 
 		#endregion
@@ -701,6 +772,21 @@ namespace iDecay.GDE
 			}
 
 			return tmpDict;
+		}
+
+		/// <summary>
+		/// Removes the modified data from each Field or if set, only the ones in the given Schema.
+		/// </summary>
+		public static void ResetAllFields(string itemName, string schema = "")
+		{
+			List<string> allFieldNames = GetAllFieldNames(schema);
+
+			foreach(var fieldName in allFieldNames)
+			{
+				GDEDataManager.ResetToDefault(itemName, fieldName);
+			}
+
+			return;
 		}
 
 		#endregion
@@ -940,6 +1026,21 @@ namespace iDecay.GDE
 			if(save) Save();
 		}
 
+		/// <summary>
+		/// Returns multiple Field Values by given Item Name and Field Names
+		/// </summary>
+		public static List<object> GetFieldValues(string itemName, string[] fieldNames)
+		{
+			List<object> fieldValues = new List<object>();
+
+			foreach(var fieldName in fieldNames)
+			{
+				fieldValues.Add(GetFieldValue(itemName, fieldName));
+			}
+
+			return fieldValues;
+		}
+
 		#endregion
 
 		#region Logic
@@ -1005,6 +1106,12 @@ namespace iDecay.GDE
 			SetFieldValue(itemName, fieldName, prevStringValue.Replace(prevStringValue, remove), GDEFieldType.String);
 
 			if(save) Save();
+		}
+
+		public static string GetString(string itemName, string fieldName)
+		{
+			CheckFieldType(itemName, fieldName, GDEFieldType.String);
+			return (string)GetFieldValue(itemName, fieldName);
 		}
 
 		#endregion

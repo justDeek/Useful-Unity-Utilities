@@ -13,5 +13,8 @@
 ## GetScaleAddOffset.cs
 ![Image](/Screenshots/Actions/GetScaleAddOffset.png)
 
+## ResetTransforms.cs
+![Image](/Screenshots/Actions/ResetTransforms.png)
+
 ## SetPositions.cs
 ![Image](/Screenshots/Actions/SetPositions.png)

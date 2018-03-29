@@ -39,8 +39,6 @@ namespace HutongGames.PlayMaker.Actions
 
 		public override void OnEnter()
 		{
-			go = Fsm.GetOwnerDefaultTarget(gameObject);
-
 			DoTemplate();
 
 			if(!everyFrame) Finish();
@@ -53,13 +51,15 @@ namespace HutongGames.PlayMaker.Actions
 
 		private void DoTemplate()
 		{
+			go = Fsm.GetOwnerDefaultTarget(gameObject);
+
 			if(!go)
 			{
 				LogError("GameObject in " + Owner.name + " (" + Fsm.Name + ") is null!");
 				return;
 			}
 
-			//-- main logic goes here --//
+			//-- main code goes here --//
 
 		}
 	}

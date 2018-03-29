@@ -3,3 +3,6 @@
 
 ## NavMeshAgentMoveTo.cs
 ![Image](/Screenshots/Actions/NavMeshAgentMoveTo.png)
+
+## NavMeshFindClosestPoint.cs
+![Image](/Screenshots/Actions/NavMeshFindClosestPoint.png)

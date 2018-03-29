@@ -18,7 +18,7 @@ using UnityEngine.AI;
 
 namespace HutongGames.PlayMaker.Actions
 {
-	[ActionCategory("Navigation")]
+	[ActionCategory(ActionCategory.NavMeshAgent)]
 	[Tooltip("Searches for the closest point on any NavMesh from the given position. Useful to lead/teleport an Agent to a point of interest or clicked position, independent of where the agent is currently at.")]
 	public class NavMeshFindClosestPoint : FsmStateActionAdvanced
 	{

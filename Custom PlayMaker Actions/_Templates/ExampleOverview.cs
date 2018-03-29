@@ -1,20 +1,22 @@
-// License: Attribution 4.0 International (CC BY 4.0)
+//License: Attribution 4.0 International (CC BY 4.0)
 /*--- __ECO__ __PLAYMAKER__ __ACTION__ ---*/
-// Author : 'Your Playmaker username'
-// supportUrl : 'url to the playmaker forum thread when available'
-// Keywords: additions,words,this can,Get Searched for
-// require minimum 5.3
+//Author: 'Your Playmaker username'
+//supportUrl: 'url to the playmaker forum thread when available'
+//Keywords: additions,words,this can,Get Searched for
+//require minimum 5.3
 
 using UnityEngine;
+using System.Collections.Generic;
 
 namespace HutongGames.PlayMaker.Actions
 {
 	[ActionCategory("<Custom Category Name>")]
 	[ActionTarget(typeof(GameObject), "gameObject")]
 	[Tooltip("Contains various useful examples for creating custom actions.")]
-	[HelpUrl("<alternative link to forum when not using the Ecosystem tags>")]
-	public class ExampleOverview : FsmStateAction
+	[HelpUrl("<alternative link to forum post when not using the Ecosystem tags>")]
+	public class ExampleOverview : FsmStateAction //use FsmStateActionAdvanced to include any update type in the action
 	{
+		//declaring an Enumerator
 		public enum ExEnum
 		{
 			Option1,
@@ -28,6 +30,7 @@ namespace HutongGames.PlayMaker.Actions
 		public FsmOwnerDefault gameObject;
 
 		//you can use a specific enum, either from the same or from a different script
+		//and display its options as a drop-down-list
 		public ExEnum exampleEnum;
 		//OR use FSMEnum to let the user select from all available enums
 		public FsmEnum fsmEnum;
@@ -53,6 +56,12 @@ namespace HutongGames.PlayMaker.Actions
 
 		public FsmGameObject targetGameObject;
 
+		public FsmString[] normalStringArray;
+
+		[UIHint(UIHint.Variable)]
+		[ArrayEditor(VariableType.String)]
+		public FsmArray anyArrayResult;
+
 		//adds space and a label between the previous and following variable to divide your action in sections
 		[ActionSection("Result")]
 		//allows only to store the variable value in the action, not setting/changing it
@@ -72,6 +81,9 @@ namespace HutongGames.PlayMaker.Actions
 
 			//"UseVariable" sets the field in the action to 'None' by default
 			targetGameObject = new FsmGameObject() { UseVariable = true };
+			normalStringArray = new FsmString[2];
+			anyArrayResult = null;
+			result = null;
 		}
 
 		//explicitly declare using certain MonoBehaviour methods in PlayMaker
@@ -95,6 +107,11 @@ namespace HutongGames.PlayMaker.Actions
 
 		public override void OnEnter()
 		{
+
+			/******************************
+			*********** FsmVar ************
+			******************************/
+
 			//you need to call .UpdateValue() before using an FsmVar
 			variable.UpdateValue();
 			if(variable.gameObjectValue != null)
@@ -102,6 +119,11 @@ namespace HutongGames.PlayMaker.Actions
 				//"Owner" returns the GameObject this FSM is attached to
 				variable.gameObjectValue = Owner;
 			}
+
+
+			/******************************
+			******* Compound Arrays *******
+			******************************/
 
 			//going through the elements of the compound array
 			for(int i = 0; i < compareTos.Length; i++)
@@ -119,10 +141,38 @@ namespace HutongGames.PlayMaker.Actions
 				}
 			}
 
+
+			/******************************
+			**** Pre-defined Variables ****
+			******************************/
+
 			//examples of pre-defined variables that hold a specific, fsm-related value
+			//that get derived from FsmStateAction
 			Fsm currentFSM = Fsm;
 			FsmState currentState = State;
 			string currentStateName = Name;
+
+
+			/******************************
+			*********** FsmArray **********
+			******************************/
+
+			//best to reset an FsmArrays values before using it to
+			//make sure it doesn't keep any values when re-entering
+			anyArrayResult.Reset();
+			List<string> fieldValues = new List<string>();
+
+			for(int i = 0; i < normalStringArray.Length; i++)
+			{
+				anyArrayResult.Set(i, (object)normalStringArray[i]);
+			}
+
+			anyArrayResult.SaveChanges();
+
+
+			/******************************
+			********* Finish Event ********
+			******************************/
 
 			//"Finished" returns wheter every action in the current state has been finished,
 			//thus can be used to only send an event when every other action has finished
@@ -136,24 +186,29 @@ namespace HutongGames.PlayMaker.Actions
 
 		public override void OnUpdate()
 		{
+
 		}
 
 		public override void OnLateUpdate()
 		{
+
 		}
 
 		public override void OnFixedUpdate()
 		{
+
 		}
 
 		//gets called when exiting the current state
 		public override void OnExit()
 		{
+
 		}
 
 		public override string ErrorCheck()
 		{
-			//return an error string or null if no error
+			if(FsmEvent.IsNullOrEmpty(onFinishEvent))
+				return "Action sends no events!";
 
 			return null;
 		}
