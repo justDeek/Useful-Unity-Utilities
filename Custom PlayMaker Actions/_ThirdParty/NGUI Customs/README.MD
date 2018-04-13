@@ -1,6 +1,9 @@
 ## NguiGetWidgetDetails.cs
 ![Image](/Screenshots/Actions/NguiGetWidgetDetails.png)
 
+## NguiLabelSetTextAdvanced.cs
+![Image](/Screenshots/Actions/NguiLabelSetTextAdvanced.png)
+
 ## NguiSetSpriteMultiple.cs
 ![Image](/Screenshots/Actions/NguiSetSpriteMultiple.png)
 
@@ -9,6 +12,9 @@
 
 ## NguiSetWidgetAlphaMulti.cs
 ![Image](/Screenshots/Actions/NguiSetWidgetAlphaMulti.png)
+
+## NguiSetWidgetColor.cs
+![Image](/Screenshots/Actions/NguiSetWidgetColor.png)
 
 ## NguiSetWidgetDetails.cs
 ![Image](/Screenshots/Actions/NguiSetWidgetDetails.png)

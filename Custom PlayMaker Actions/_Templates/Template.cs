@@ -1,5 +1,5 @@
-// License: Attribution 4.0 International (CC BY 4.0)
-// Author: 
+//License: Attribution 4.0 International (CC BY 4.0)
+//Author: 
 
 /*--- __ECO__ __PLAYMAKER__ __ACTION__ ---*/
 
@@ -15,9 +15,9 @@ namespace HutongGames.PlayMaker.Actions
 		[Tooltip("<Insert variable description>")]
 		public FsmOwnerDefault gameObject;
 
-		//-- insert further required variables --
+		//-- insert further variables --
 
-		[Tooltip("Wheter to run every frame or only once.")]
+		[Tooltip("Wheter to repeat this action on every frame or only once.")]
 		public FsmBool everyFrame;
 
 		private GameObject go;
@@ -25,7 +25,7 @@ namespace HutongGames.PlayMaker.Actions
 		public override void Reset()
 		{
 			gameObject = null;
-			//-- insert reset values for variables --//
+			//-- insert default values for further variables --//
 			everyFrame = false;
 		}
 
@@ -51,7 +51,7 @@ namespace HutongGames.PlayMaker.Actions
 				return;
 			}
 
-			//-- main code goes here --//
+			//-- insert main code --//
 		}
 	}
 }

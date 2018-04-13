@@ -1,6 +1,15 @@
-// License: Attribution 4.0 International (CC BY 4.0)
-/*--- __ECO__ __PLAYMAKER__ __ACTION__ ---*/
-// Author : Deek
+//License: Attribution 4.0 International (CC BY 4.0)
+//Author: Deek
+
+/*--- __ECO__ __PLAYMAKER__ __ACTION__
+EcoMetaStart
+{
+"script dependancies":[
+						"Assets/PlayMaker Custom Actions/__Internal/FsmStateActionAdvanced.cs"
+					  ]
+}
+EcoMetaEnd
+---*/
 
 using UnityEngine;
 
@@ -8,8 +17,8 @@ namespace HutongGames.PlayMaker.Actions
 {
 	[ActionCategory(ActionCategory.Transform)]
 	[HelpUrl("http://hutonggames.com/playmakerforum/index.php?topic=15458.0")]
-	[Tooltip("Get the position of a Game Object and add an offset to that Vector. Optionally applies that offset to the GameObject.")]
-	public class GetPositionAddOffset : FsmStateAction
+	[Tooltip("Get the position of a Game Object and add an offset to that Vector. Optionally applies that offset to another/the same GameObject.")]
+	public class GetPositionAddOffset : FsmStateActionAdvanced
 	{
 		public enum Vector3Operation
 		{
@@ -43,12 +52,12 @@ namespace HutongGames.PlayMaker.Actions
 		public FsmVector3 storeVector3Result;
 
 		[Tooltip("If the GameObject's position should be changed with the offset. (the Value of 'Store Vector3 Result' will be the new position)")]
-		public bool applyOffsetToGO;
-
-		public bool everyFrame;
+		public FsmGameObject applyOffsetToGO;
 
 		public override void Reset()
 		{
+			base.Reset();
+
 			gameObject = null;
 			vector3Offset = new FsmVector3() { UseVariable = true };
 			xOffset = null;
@@ -57,8 +66,7 @@ namespace HutongGames.PlayMaker.Actions
 			space = Space.Self;
 			operation = Vector3Operation.Add;
 			storeVector3Result = null;
-			applyOffsetToGO = false;
-			everyFrame = false;
+			applyOffsetToGO = new FsmGameObject() { UseVariable = true };
 		}
 
 		public override void OnEnter()
@@ -68,7 +76,7 @@ namespace HutongGames.PlayMaker.Actions
 			if(!everyFrame) Finish();
 		}
 
-		public override void OnUpdate()
+		public override void OnActionUpdate()
 		{
 			DoGetPosition();
 		}
@@ -115,10 +123,10 @@ namespace HutongGames.PlayMaker.Actions
 					break;
 			}
 
-			if(applyOffsetToGO)
+			if(!applyOffsetToGO.IsNone)
 			{
-				if(space == Space.World) go.transform.position = storeVector3Result.Value;
-				else go.transform.localPosition = storeVector3Result.Value;
+				if(space == Space.World) applyOffsetToGO.Value.transform.position = storeVector3Result.Value;
+				else applyOffsetToGO.Value.transform.localPosition = storeVector3Result.Value;
 			}
 		}
 	}

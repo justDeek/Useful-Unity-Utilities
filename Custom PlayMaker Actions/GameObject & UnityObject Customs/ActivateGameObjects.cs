@@ -114,12 +114,25 @@ namespace HutongGames.PlayMaker.Actions
 				prevAmount = gameObjects.Length;
 			}
 
-			//sets all 'Enable' bools to the one from 'Enable All', if it's not None
+			//sets all 'Enable' bools to the one from 'Enable All', if it's not None and "unlock" unset GO's
 			if(!applyToAll.IsNone)
 			{
+				foreach(var go in gameObjects)
+				{
+					if(go.IsNone)
+						go.UseVariable = false;
+				}
+
 				foreach(var item in enable)
 				{
 					item.Value = applyToAll.Value;
+				}
+			} else
+			{
+				foreach(var go in gameObjects)
+				{
+					if(go == null)
+						go.UseVariable = true;
 				}
 			}
 		}

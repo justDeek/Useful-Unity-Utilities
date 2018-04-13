@@ -2,7 +2,7 @@
 /*--- __ECO__ __PLAYMAKER__ __ACTION__ ---*/
 //Author: Deek
 
-//Based on dudebxl's action "ArrayListFindGameObjectsInsideCollider", searches for Colliders instead of Renderer's
+//Based on dudebxl's action "ArrayListFindGameObjectsInsideCollider", searches for Collider's instead of Sprites
 //http://hutonggames.com/playmakerforum/index.php?topic=11754.0
 
 using UnityEngine;
@@ -12,7 +12,7 @@ namespace HutongGames.PlayMaker.Actions
 {
 	[ActionCategory("ArrayMaker/ArrayList")]
 	[HelpUrl("http://hutonggames.com/playmakerforum/index.php?topic=15458.0")]
-	[Tooltip("Store all active GameObjects with a Collider component that are inside the specified collider with a specific tag and/or layer. Will filter first by tag, then by layer. Tags and/or layers must be declared in the tag/layer manager before using them.")]
+	[Tooltip("Store all active GameObjects with a collider component that are inside the specified collider while optionally filtering by tag and/or layer. NOTE: Tags and layers must be declared in the tag/layer manager before using them.")]
 	public class ListGameObjectsInsideCollider : ArrayListActions
 	{
 		[ActionSection("Set up")]
@@ -34,16 +34,16 @@ namespace HutongGames.PlayMaker.Actions
 		[ActionSection("Filter")]
 
 		[UIHint(UIHint.Tag)]
-		[Tooltip("by tag")]
+		[Tooltip("Optionally filter by tag.")]
 		public FsmString tag;
 
 		[Title("Incl Layer Filter")]
-		[UIHint(UIHint.FsmBool)]
 		[Tooltip("Also filter by layer?")]
 		public FsmBool layerFilterOn;
 
 		[UIHint(UIHint.Layer)]
 		public int layer;
+
 
 		[ActionSection("Optionally")]
 
@@ -53,12 +53,11 @@ namespace HutongGames.PlayMaker.Actions
 		public FsmArray storeArray;
 
 		[UIHint(UIHint.Variable)]
-		[Tooltip("Store the amount of found GameObjects.")]
+		[Tooltip("Store the amount of matching GameObjects.")]
 		public FsmInt storeAmount;
 
 		[Tooltip("Wheter to update on every frame.")]
 		public FsmBool everyFrame;
-
 
 		private List<GameObject> tempList = new List<GameObject>();
 
@@ -77,55 +76,78 @@ namespace HutongGames.PlayMaker.Actions
 
 		public override void OnEnter()
 		{
-			if(SetUpArrayListProxyPointer(Fsm.GetOwnerDefaultTarget(gameObject), reference.Value))
-				FindGOByTag();
+			FindGOByTag();
 
 			if(!everyFrame.Value) Finish();
 		}
 
 		public override void OnUpdate()
 		{
-			if(SetUpArrayListProxyPointer(Fsm.GetOwnerDefaultTarget(gameObject), reference.Value))
-				FindGOByTag();
+			FindGOByTag();
 		}
 
 		public void FindGOByTag()
 		{
+			if(!SetUpArrayListProxyPointer(Fsm.GetOwnerDefaultTarget(gameObject), reference.Value))
+				return;
+
 			if(!isProxyValid()) return;
 
-			proxy.arrayList.Clear();
-
-			GameObject[] objtag = GameObject.FindGameObjectsWithTag(tag.Value);
+			GameObject[] objtag = Object.FindObjectsOfType<GameObject>();
 
 			if(objtag.Length == 0) return;
 
+			proxy.arrayList.Clear();
 			tempList.Clear();
 
 			Collider temp = colliderTarget.Value as Collider;
 			Bounds colliderBounds = temp.bounds;
 
-			if(layerFilterOn.Value == false)
+			for(int i = 0; i < objtag.Length; i++)
 			{
-				for(int i = 0; i < objtag.Length; i++)
+				GameObject go = objtag[i];
+
+				if(!string.IsNullOrEmpty(tag.Value) && go.tag != tag.Value)
+					continue;
+
+				Collider tmpCol = objtag[i].GetComponent<Collider>();
+				if(!tmpCol) continue;
+
+				Bounds currBounds = tmpCol.bounds;
+				bool insideCollider = colliderBounds.Intersects(currBounds);
+
+				if(insideCollider == true)
 				{
-					Collider tempRen = objtag[i].GetComponent<Collider>();
-					Bounds myObj = tempRen.bounds;
+					if(layerFilterOn.Value == true
+					&& objtag[i].gameObject.layer != layer) continue;
 
-					bool insideCollider = colliderBounds.Intersects(myObj);
-
-					if(insideCollider == true)
-					{
-						if(layerFilterOn.Value == true
-						&& objtag[i].gameObject.layer != layer) continue;
-
-						tempList.Add(objtag[i]);
-					}
+					tempList.Add(objtag[i]);
 				}
 			}
 
 			proxy.arrayList.InsertRange(0, tempList);
 			storeArray.Values = tempList.ToArray();
 			storeAmount.Value = tempList.Count;
+		}
+
+		//explicitly declare using OnGUI
+		public override void OnPreprocess()
+		{
+			Fsm.HandleOnGUI = true;
+		}
+
+		public override void OnGUI()
+		{
+			//reset tag value to 'Untagged' if toggled between None and tag selection
+			if(string.IsNullOrEmpty(tag.Value) && !tag.UsesVariable) tag.Value = "Untagged";
+		}
+
+		public override string ErrorCheck()
+		{
+			if(colliderTarget.Value == null || colliderTarget.IsNone)
+				return "Please specify the Collider Target!";
+
+			return "";
 		}
 	}
 }

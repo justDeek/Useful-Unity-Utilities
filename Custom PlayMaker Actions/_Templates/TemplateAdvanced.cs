@@ -1,5 +1,5 @@
-﻿// License: Attribution 4.0 International (CC BY 4.0)
-// Author: 
+﻿//License: Attribution 4.0 International (CC BY 4.0)
+//Author: 
 
 /*--- __ECO__ __PLAYMAKER__ __ACTION__
 EcoMetaStart
@@ -23,7 +23,7 @@ namespace HutongGames.PlayMaker.Actions
 		[Tooltip("<Insert variable description>")]
 		public FsmOwnerDefault gameObject;
 
-		//-- insert further required variables --//
+		//-- insert further variables --//
 
 		private GameObject go;
 
@@ -33,7 +33,7 @@ namespace HutongGames.PlayMaker.Actions
 			base.Reset();
 
 			gameObject = null;
-			//-- insert reset values for further variables --//
+			//-- insert default values for further variables --//
 			go = null;
 		}
 
@@ -59,7 +59,7 @@ namespace HutongGames.PlayMaker.Actions
 				return;
 			}
 
-			//-- main code goes here --//
+			//-- insert main logic --//
 
 		}
 	}

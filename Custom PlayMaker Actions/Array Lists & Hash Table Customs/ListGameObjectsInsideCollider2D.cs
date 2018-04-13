@@ -12,7 +12,7 @@ namespace HutongGames.PlayMaker.Actions
 {
 	[ActionCategory("ArrayMaker/ArrayList")]
 	[HelpUrl("http://hutonggames.com/playmakerforum/index.php?topic=15458.0")]
-	[Tooltip("Store all active GameObjects with a Collider2D component that are inside the specified 2D collider with a specific tag and/or layer. Will filter first by tag, then by layer. Tags and/or layers must be declared in the tag/layer manager before using them.")]
+	[Tooltip("Store all active GameObjects with a collider2D component that are inside the specified collider2D while optionally filtering by tag and/or layer. NOTE: Tags and layers must be declared in the tag/layer manager before using them.")]
 	public class ListGameObjectsInsideCollider2D : ArrayListActions
 	{
 		[ActionSection("Set up")]
@@ -26,24 +26,24 @@ namespace HutongGames.PlayMaker.Actions
 		public FsmString reference;
 
 		[RequiredField]
-		[Tooltip("The collider to check against other intersecting colliders.")]
+		[Tooltip("The collider2D to check against other intersecting collider2Ds.")]
 		[ObjectType(typeof(Collider2D))]
-		public FsmObject colliderTarget;
+		public FsmObject collider2DTarget;
 
 
 		[ActionSection("Filter")]
 
 		[UIHint(UIHint.Tag)]
-		[Tooltip("by tag")]
+		[Tooltip("Optionally filter by tag.")]
 		public FsmString tag;
 
 		[Title("Incl Layer Filter")]
-		[UIHint(UIHint.FsmBool)]
 		[Tooltip("Also filter by layer?")]
 		public FsmBool layerFilterOn;
 
 		[UIHint(UIHint.Layer)]
 		public int layer;
+
 
 		[ActionSection("Optionally")]
 
@@ -53,19 +53,18 @@ namespace HutongGames.PlayMaker.Actions
 		public FsmArray storeArray;
 
 		[UIHint(UIHint.Variable)]
-		[Tooltip("Store the amount of found GameObjects.")]
+		[Tooltip("Store the amount of matching GameObjects.")]
 		public FsmInt storeAmount;
 
 		[Tooltip("Wheter to update on every frame.")]
 		public FsmBool everyFrame;
-
 
 		private List<GameObject> tempList = new List<GameObject>();
 
 		public override void Reset()
 		{
 			gameObject = null;
-			colliderTarget = null;
+			collider2DTarget = null;
 			reference = null;
 			tag = "Untagged";
 			layerFilterOn = false;
@@ -77,55 +76,78 @@ namespace HutongGames.PlayMaker.Actions
 
 		public override void OnEnter()
 		{
-			if(SetUpArrayListProxyPointer(Fsm.GetOwnerDefaultTarget(gameObject), reference.Value))
-				FindGOByTag();
+			FindGOByTag();
 
 			if(!everyFrame.Value) Finish();
 		}
 
 		public override void OnUpdate()
 		{
-			if(SetUpArrayListProxyPointer(Fsm.GetOwnerDefaultTarget(gameObject), reference.Value))
-				FindGOByTag();
+			FindGOByTag();
 		}
 
 		public void FindGOByTag()
 		{
+			if(!SetUpArrayListProxyPointer(Fsm.GetOwnerDefaultTarget(gameObject), reference.Value))
+				return;
+
 			if(!isProxyValid()) return;
 
-			proxy.arrayList.Clear();
-
-			GameObject[] objtag = GameObject.FindGameObjectsWithTag(tag.Value);
+			GameObject[] objtag = Object.FindObjectsOfType<GameObject>();
 
 			if(objtag.Length == 0) return;
 
+			proxy.arrayList.Clear();
 			tempList.Clear();
 
-			Collider2D temp = colliderTarget.Value as Collider2D;
-			Bounds colliderBounds = temp.bounds;
+			Collider2D temp = collider2DTarget.Value as Collider2D;
+			Bounds collider2DBounds = temp.bounds;
 
-			if(layerFilterOn.Value == false)
+			for(int i = 0; i < objtag.Length; i++)
 			{
-				for(int i = 0; i < objtag.Length; i++)
+				GameObject go = objtag[i];
+
+				if(!string.IsNullOrEmpty(tag.Value) && go.tag != tag.Value)
+					continue;
+
+				Collider2D tmpCol = objtag[i].GetComponent<Collider2D>();
+				if(!tmpCol) continue;
+
+				Bounds currBounds = tmpCol.bounds;
+				bool insideCollider2D = collider2DBounds.Intersects(currBounds);
+
+				if(insideCollider2D == true)
 				{
-					Collider2D tempRen = objtag[i].GetComponent<Collider2D>();
-					Bounds myObj = tempRen.bounds;
+					if(layerFilterOn.Value == true
+					&& objtag[i].gameObject.layer != layer) continue;
 
-					bool insideCollider = colliderBounds.Intersects(myObj);
-
-					if(insideCollider == true)
-					{
-						if(layerFilterOn.Value == true
-						&& objtag[i].gameObject.layer != layer) continue;
-
-						tempList.Add(objtag[i]);
-					}
+					tempList.Add(objtag[i]);
 				}
 			}
 
 			proxy.arrayList.InsertRange(0, tempList);
 			storeArray.Values = tempList.ToArray();
 			storeAmount.Value = tempList.Count;
+		}
+
+		//explicitly declare using OnGUI
+		public override void OnPreprocess()
+		{
+			Fsm.HandleOnGUI = true;
+		}
+
+		public override void OnGUI()
+		{
+			//reset tag value to 'Untagged' if toggled between None and tag selection
+			if(string.IsNullOrEmpty(tag.Value) && !tag.UsesVariable) tag.Value = "Untagged";
+		}
+
+		public override string ErrorCheck()
+		{
+			if(collider2DTarget.Value == null || collider2DTarget.IsNone)
+				return "Please specify the Collider2D Target!";
+
+			return "";
 		}
 	}
 }

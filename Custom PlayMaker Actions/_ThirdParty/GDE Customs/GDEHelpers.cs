@@ -1129,7 +1129,7 @@ namespace iDecay.GDE
 		public static void GDEOperator(string itemName, string fieldName, GDEFieldType fieldType,
 									   GDEOperation operation, object byValue)
 		{
-			if(!CheckFieldType(itemName, fieldName, fieldType)) return;
+			//if(!CheckFieldType(itemName, fieldName, fieldType)) return;
 
 			object prevValue = GetFieldValue(itemName, fieldName);
 
