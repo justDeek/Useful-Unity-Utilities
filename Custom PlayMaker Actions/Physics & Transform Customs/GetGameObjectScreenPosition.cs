@@ -35,6 +35,9 @@ namespace HutongGames.PlayMaker.Actions
 				" convert it to use it in other actions.")]
 		public FsmVector3 v3Result;
 
+		[Tooltip("If true, X/Y coordinates are considered normalized (0-1), otherwise they are expected to be in pixels")]
+		public FsmBool normalize;
+
 		private GameObject go;
 
 		public override void Reset()
@@ -45,6 +48,7 @@ namespace HutongGames.PlayMaker.Actions
 			gameObject = null;
 			camera = null;
 			go = null;
+			normalize = false;
 		}
 
 		public override void OnEnter()
@@ -72,6 +76,7 @@ namespace HutongGames.PlayMaker.Actions
 			if(!camera) camera = Camera.main;
 
 			Vector3 tmpV3 = camera.WorldToScreenPoint(go.transform.position);
+			if(normalize.Value) tmpV3 = tmpV3.normalized;
 			v3Result.Value = new Vector3(tmpV3.x, tmpV3.y, 0f);
 			v2Result.Value = new Vector2(tmpV3.x, tmpV3.y);
 		}

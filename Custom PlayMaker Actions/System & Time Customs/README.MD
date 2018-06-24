@@ -7,5 +7,8 @@
 ## GetTimeScale.cs
 ![Image](/Screenshots/Actions/GetTimeScale.png)
 
+## RandomWaitAroundOffset.cs
+![Image](/Screenshots/Actions/RandomWaitAroundOffset.png)
+
 ## SetPropertyAdvanced.cs
 ![Image](/Screenshots/Actions/SetPropertyAdvanced.png)

@@ -10,5 +10,3 @@
 ## IntSwitchAdvanced.cs
 ![Image](/Screenshots/Actions/IntSwitchAdvanced.png)
 
-## Vector3Compare.cs
-![Image](/Screenshots/Actions/Vector3Compare.png)
