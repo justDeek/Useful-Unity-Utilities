@@ -20,7 +20,7 @@ namespace HutongGames.PlayMaker.Actions
 		[Tooltip("The String to remove.")]
 		public FsmString stringToRemove;
 
-		[Tooltip("Remove the String to the end of the first one instead of the beginning.")]
+		[Tooltip("Remove the String from the end of the first one instead of the beginning.")]
 		public FsmBool removeFromEnd;
 
 		[Tooltip("Wheter to run this action on every frame or only once.")]

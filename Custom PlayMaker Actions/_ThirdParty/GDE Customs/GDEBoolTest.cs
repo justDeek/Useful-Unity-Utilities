@@ -7,8 +7,16 @@ namespace HutongGames.PlayMaker.Actions
 {
 	[ActionCategory(GDMConstants.ActionCategory)]
 	[Tooltip("Sends Events based  on the value of a bool variable from a GDE Item.")]
-	public class GDEBoolTest : GDEActionBase
+	public class GDEBoolTest : FsmStateAction
 	{
+		[RequiredField]
+		[Tooltip(GDMConstants.ItemNameTooltip)]
+		public FsmString ItemName;
+
+		[RequiredField]
+		[Tooltip(GDMConstants.FieldNameTooltip)]
+		public FsmString FieldName;
+
 		[Tooltip("Event to send if the bool variable is True.")]
 		public FsmEvent isTrueEvent;
 
@@ -27,7 +35,8 @@ namespace HutongGames.PlayMaker.Actions
 
 		public override void Reset()
 		{
-			base.Reset();
+			ItemName = null;
+			FieldName = null;
 			storeBoolResult = null;
 			isTrueEvent = null;
 			isFalseEvent = null;
@@ -39,10 +48,7 @@ namespace HutongGames.PlayMaker.Actions
 		{
 			CheckGDEBool();
 
-			if(!everyFrame)
-			{
-				Finish();
-			}
+			if(!everyFrame) Finish();
 		}
 
 		public override void OnUpdate()
@@ -52,7 +58,6 @@ namespace HutongGames.PlayMaker.Actions
 
 		void CheckGDEBool()
 		{
-			//GDEHelpers.CheckFieldType(ItemName.Value, FieldName.Value, GDEFieldType.Bool);
 			storeBoolResult.Value = (bool)GDEHelpers.GetFieldValue(ItemName.Value, FieldName.Value);
 			Fsm.Event(storeBoolResult.Value ? isTrueEvent : isFalseEvent);
 		}

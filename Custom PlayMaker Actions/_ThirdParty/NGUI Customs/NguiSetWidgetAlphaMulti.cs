@@ -47,6 +47,8 @@ namespace HutongGames.PlayMaker.Actions
 			int j = NguiWidgets.Length;
 			for(int i = 0; i < j; i++)
 			{
+				if(!NguiWidgets[i].Value) continue;
+
 				// get the Widget component (one of the base classes for UISprites)
 				UIWidget NWidget = NguiWidgets[i].Value.GetComponent<UIWidget>();
 				if(NWidget == null)

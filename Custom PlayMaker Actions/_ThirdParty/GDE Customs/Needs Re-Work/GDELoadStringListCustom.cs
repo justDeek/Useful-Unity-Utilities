@@ -9,8 +9,16 @@ namespace HutongGames.PlayMaker.Actions
 {
 	[ActionCategory(GDMConstants.ActionCategory)]
 	[Tooltip("Changes: Lets you specify the reference name if several Array List Proxy Components coexist on the target GameObject. Also targets the owner by default and allows to null or none Arguments to be set.")]
-	public class GDELoadStringListCustom : GDEActionBase
+	public class GDELoadStringListCustom : FsmStateAction
 	{
+		[RequiredField]
+		[Tooltip(GDMConstants.ItemNameTooltip)]
+		public FsmString ItemName;
+
+		[RequiredField]
+		[Tooltip(GDMConstants.FieldNameTooltip)]
+		public FsmString FieldName;
+
 		[RequiredField]
 		[UIHint(UIHint.Variable)]
 		[HutongGames.PlayMaker.Tooltip("The target GameObject (requires an Array List Component)")]
@@ -20,6 +28,15 @@ namespace HutongGames.PlayMaker.Actions
 		public FsmString reference;
 
 		private PlayMakerArrayListProxy proxy;
+
+		public override void Reset()
+		{
+			ItemName = null;
+			FieldName = null;
+			target = null;
+			reference = null;
+			proxy = null;
+		}
 
 		public override void OnEnter()
 		{

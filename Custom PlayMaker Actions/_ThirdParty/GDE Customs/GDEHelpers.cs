@@ -842,6 +842,11 @@ namespace iDecay.GDE
 		{
 			object result = null;
 
+			//if(GDEGetAllDataBy(GDEDataType.FieldValue, "", itemName, "", fieldName) != null)
+			//	result = GDEGetAllDataBy(GDEDataType.FieldValue, "", itemName, "", fieldName)[0] ?? null;
+
+			//UnityEngine.Debug.Log(GDEGetAllDataBy(GDEDataType.FieldValue, "", itemName, "", fieldName));
+
 			try
 			{
 				Dictionary<string, object> data;

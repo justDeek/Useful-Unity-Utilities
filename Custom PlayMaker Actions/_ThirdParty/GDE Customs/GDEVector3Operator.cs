@@ -7,8 +7,16 @@ namespace HutongGames.PlayMaker.Actions
 {
 	[ActionCategory(GDMConstants.ActionCategory)]
 	[Tooltip("Performs an operation on the specified Field value. Optionally save afterwards.")]
-	public class GDEVector3Operator : GDEActionBase
+	public class GDEVector3Operator : FsmStateAction
 	{
+		[RequiredField]
+		[Tooltip(GDMConstants.ItemNameTooltip)]
+		public FsmString ItemName;
+
+		[RequiredField]
+		[Tooltip(GDMConstants.FieldNameTooltip)]
+		public FsmString FieldName;
+
 		[Tooltip("What operation should be performed on the field value.")]
 		public GDEOperation operation;
 
@@ -20,8 +28,8 @@ namespace HutongGames.PlayMaker.Actions
 
 		public override void Reset()
 		{
-			base.Reset();
-
+			ItemName = null;
+			FieldName = null;
 			operation = GDEOperation.Add;
 			value = UnityEngine.Vector3.one;
 			save = true;
