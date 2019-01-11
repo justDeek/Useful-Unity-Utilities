@@ -25,6 +25,9 @@
 ## GetChildCountAdvanced.cs
 ![Image](/Screenshots/Actions/GetChildCountAdvanced.png)
 
+## GetChildren.cs
+![Image](/Screenshots/Actions/GetChildren.png)
+
 ## GetGameObjectSibling.cs
 ![Image](/Screenshots/Actions/GetGameObjectSibling.png)
 

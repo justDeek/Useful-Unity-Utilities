@@ -27,6 +27,8 @@ namespace HutongGames.PlayMaker.Actions
 		[Tooltip("The variable-name to check.")]
 		public FsmString variableName;
 
+		[Tooltip("If the array items can contain the given variable name. When unset, they have to match.")]
+		public FsmBool contains;
 
 		[ActionSection("Result")]
 
@@ -53,6 +55,7 @@ namespace HutongGames.PlayMaker.Actions
 			gameObject = null;
 			reference = null;
 			variableName = null;
+			contains = false;
 			indexOf = null;
 			storeFoundResult = new FsmVar();
 			itemFoundEvent = null;
@@ -74,17 +77,30 @@ namespace HutongGames.PlayMaker.Actions
 			int i = 0;
 			foreach(var item in proxy.arrayList)
 			{
-				if(item.ToString() == variableName.Value)
-				{
-					storeFoundResult.UpdateValue();
+				string itemName = item.ToString();
+				
+				//remove any object type inside the item name
+				if (itemName.Contains(" ("))
+					itemName = itemName.Substring(0, itemName.IndexOf(" ("));
 
-					if(storeFoundResult.ObjectType != item.GetType())
+				bool containsName = !contains.Value ? itemName == variableName.Value 
+																				     : itemName.Contains(variableName.Value);
+				
+				if(containsName)
+				{
+					if (!storeFoundResult.IsNone)
 					{
-						LogError("Found ArrayList item isn't of type " + storeFoundResult.Type.ToString() + "!");
+						storeFoundResult.UpdateValue();
+
+						if(storeFoundResult.ObjectType != item.GetType())
+						{
+							LogError("Found ArrayList item isn't of type " + storeFoundResult.Type + "! Please change the Object type of '" + storeFoundResult.variableName + "' in the Variables tab to " + item.GetType() + ".");
+						}
+
+						storeFoundResult.SetValue(item);
 					}
 
-					storeFoundResult.SetValue(item);
-					indexOf.Value = i;
+					if (!indexOf.IsNone) indexOf.Value = i;
 
 					Fsm.Event(itemFoundEvent);
 				}
