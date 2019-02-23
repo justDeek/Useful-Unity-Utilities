@@ -26,8 +26,6 @@ namespace HutongGames.PlayMaker.Actions
 		[Tooltip("Wheter to save the GDE data afterwards.")]
 		public FsmBool save;
 
-		private FsmString prevalentString;
-
 		public override void Reset()
 		{
 			ItemName = null;
@@ -35,7 +33,6 @@ namespace HutongGames.PlayMaker.Actions
 			stringToAdd = "";
 			addToEnd = true;
 			save = true;
-			prevalentString = null;
 		}
 
 		public override void OnEnter()

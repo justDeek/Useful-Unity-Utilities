@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using iDecay.GDE;
 using GameDataEditor;
@@ -64,7 +65,7 @@ namespace HutongGames.PlayMaker.Actions
 
 		void DoCompare()
 		{
-			int result = (int)GDEHelpers.GetFieldValue(ItemName.Value, FieldName.Value);
+			int result = Convert.ToInt32(GDEHelpers.GetFieldValue(ItemName.Value, FieldName.Value));
 
 			if(Mathf.Abs(result - compareTo.Value) <= tolerance.Value)
 				Fsm.Event(equal);

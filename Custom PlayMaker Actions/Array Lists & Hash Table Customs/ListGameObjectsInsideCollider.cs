@@ -7,6 +7,7 @@
 
 using UnityEngine;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace HutongGames.PlayMaker.Actions
 {
@@ -37,12 +38,11 @@ namespace HutongGames.PlayMaker.Actions
 		[Tooltip("Optionally filter by tag.")]
 		public FsmString tag;
 
-		[Title("Incl Layer Filter")]
-		[Tooltip("Also filter by layer?")]
-		public FsmBool layerFilterOn;
-
 		[UIHint(UIHint.Layer)]
-		public int layer;
+		public FsmInt layer;
+		
+		[Tooltip("Wheter to exclude colliders that have the 'Is Trigger' flag set.")]
+		public FsmBool ignoreTriggers;
 
 
 		[ActionSection("Optionally")]
@@ -59,16 +59,14 @@ namespace HutongGames.PlayMaker.Actions
 		[Tooltip("Wheter to update on every frame.")]
 		public FsmBool everyFrame;
 
-		private List<GameObject> tempList = new List<GameObject>();
-
 		public override void Reset()
 		{
 			gameObject = null;
 			colliderTarget = null;
 			reference = null;
-			tag = "Untagged";
-			layerFilterOn = false;
-			layer = 0;
+			tag = new FsmString { UseVariable = true };
+			layer = new FsmInt {UseVariable = true};
+			ignoreTriggers = false;
 			storeArray = null;
 			storeAmount = null;
 			everyFrame = false;
@@ -88,9 +86,9 @@ namespace HutongGames.PlayMaker.Actions
 
 		public void FindGOByTag()
 		{
-			if(!SetUpArrayListProxyPointer(Fsm.GetOwnerDefaultTarget(gameObject), reference.Value))
-				return;
-
+			GameObject srcGO = Fsm.GetOwnerDefaultTarget(gameObject);
+		
+			if(!SetUpArrayListProxyPointer(srcGO, reference.Value)) return;
 			if(!isProxyValid()) return;
 
 			GameObject[] objtag = Object.FindObjectsOfType<GameObject>();
@@ -98,36 +96,70 @@ namespace HutongGames.PlayMaker.Actions
 			if(objtag.Length == 0) return;
 
 			proxy.arrayList.Clear();
-			tempList.Clear();
+			List<Collider> tmpResult;
+			List<GameObject> tempList = new List<GameObject>();
 
 			Collider temp = colliderTarget.Value as Collider;
-			Bounds colliderBounds = temp.bounds;
 
-			for(int i = 0; i < objtag.Length; i++)
+			Vector3 rot = srcGO.transform.rotation.eulerAngles;
+			Vector3 ext = temp.bounds.extents;
+
+			if (temp.GetType().ToString().Contains("Box"))
 			{
-				GameObject go = objtag[i];
+				float diffX = rot.x + 45f;
+				while (diffX > 90f) diffX -= 90f;
+				diffX /= 360;
+				if(diffX > 0.125f) diffX -= 0.125f;
+				else diffX = 0.125f - diffX;
+				
+				float diffY = rot.y + 45f;
+				while (diffY > 90f) diffY -= 90f;
+				diffY /= 360;
+				if(diffY > 0.125f) diffY -= 0.125f;
+				else diffY = 0.125f - diffY;
+				
+				float diffZ = rot.z + 45f;
+				while (diffZ > 90f) diffZ -= 90f;
+				diffZ /= 360;
+				if(diffZ > 0.125f) diffZ -= 0.125f;
+				else diffZ = 0.125f - diffZ;
 
-				if(!string.IsNullOrEmpty(tag.Value) && go.tag != tag.Value)
-					continue;
+				Vector3 extents = new Vector3(ext.x * (1f - diffX*2f), ext.y * (1f - diffY*2f), ext.z * (1f - diffZ*2f));
+				
+				Collider[] results = Physics.OverlapBox(temp.bounds.center, extents, srcGO.transform.localRotation);
 
-				Collider tmpCol = objtag[i].GetComponent<Collider>();
-				if(!tmpCol) continue;
-
-				Bounds currBounds = tmpCol.bounds;
-				bool insideCollider = colliderBounds.Intersects(currBounds);
-
-				if(insideCollider == true)
-				{
-					if(layerFilterOn.Value == true
-					&& objtag[i].gameObject.layer != layer) continue;
-
-					tempList.Add(objtag[i]);
-				}
+				tmpResult = results.ToList();
 			}
+			else
+			{
+				SphereCollider sphere = temp as SphereCollider;
+				Collider[] results = Physics.OverlapSphere(temp.bounds.center, sphere.radius);
 
+				tmpResult = results.ToList();
+			}
+			
+			foreach (var result in tmpResult)
+			{
+				GameObject go = result.gameObject;
+				
+				//skip source GameObject
+				if(srcGO == go) continue;
+
+				//skip triggers if set to ignore them
+				if (ignoreTriggers.Value && result.isTrigger) continue;
+				
+				//skip GameObjects that don't have the specified tag
+				if(!tag.IsNone && !string.IsNullOrEmpty(tag.Value) && !go.CompareTag(tag.Value)) continue;
+				
+				//skip GameObjects that don't match the given layer if included
+				if(go.layer != layer.Value) continue;
+				
+				tempList.Add(result.gameObject);
+			}
+			
 			proxy.arrayList.InsertRange(0, tempList);
-			storeArray.Values = tempList.ToArray();
-			storeAmount.Value = tempList.Count;
+			if(!storeArray.IsNone) storeArray.Values = tempList.ToArray();
+			if(!storeAmount.IsNone) storeAmount.Value = tempList.Count;
 		}
 
 		//explicitly declare using OnGUI
@@ -139,12 +171,13 @@ namespace HutongGames.PlayMaker.Actions
 		public override void OnGUI()
 		{
 			//reset tag value to 'Untagged' if toggled between None and tag selection
-			if(string.IsNullOrEmpty(tag.Value) && !tag.UsesVariable) tag.Value = "Untagged";
+			if(string.IsNullOrEmpty(tag.Value) && !tag.UsesVariable)
+				tag.Value = "Untagged";
 		}
 
 		public override string ErrorCheck()
 		{
-			if(colliderTarget.Value == null || colliderTarget.IsNone)
+			if(colliderTarget == null || colliderTarget.Value == null || colliderTarget.IsNone)
 				return "Please specify the Collider Target!";
 
 			return "";

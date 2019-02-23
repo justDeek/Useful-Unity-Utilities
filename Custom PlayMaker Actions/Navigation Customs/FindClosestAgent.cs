@@ -87,29 +87,29 @@ namespace HutongGames.PlayMaker.Actions
 			GameObject closestObj = null;
 			var closestDist = Mathf.Infinity;
 
-			foreach(var agent in allNavMeshAgents)
+			foreach(var tmpAgent in allNavMeshAgents)
 			{
 				//skip if equals specified agent
-				if(agent.gameObject == go) continue;
+				if(tmpAgent.gameObject == go) continue;
 
 				if(!string.IsNullOrEmpty(withTag.Value) && withTag.Value != "Untagged" && !withTag.IsNone)
 				{
-					if(agent.gameObject.tag != withTag.Value) continue;
+					if(tmpAgent.gameObject.CompareTag(withTag.Value)) continue;
 				}
 
 				if(!string.IsNullOrEmpty(ignoreTag.Value) && ignoreTag.Value != "Untagged" && !ignoreTag.IsNone)
 				{
-					if(agent.gameObject.tag == ignoreTag.Value) continue;
+					if(tmpAgent.gameObject.CompareTag(ignoreTag.Value)) continue;
 				}
 
-				if(mustBeVisible.Value && !ActionHelpers.IsVisible(agent.gameObject)) continue;
+				if(mustBeVisible.Value && !ActionHelpers.IsVisible(tmpAgent.gameObject)) continue;
 
-				var dist = (go.transform.position - agent.transform.position).sqrMagnitude;
+				var dist = (go.transform.position - tmpAgent.transform.position).sqrMagnitude;
 
 				if(dist < closestDist)
 				{
 					closestDist = dist;
-					closestObj = agent.gameObject;
+					closestObj = tmpAgent.gameObject;
 				}
 			}
 

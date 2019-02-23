@@ -31,12 +31,10 @@ namespace HutongGames.PlayMaker.Actions
 
 		private string result;
 
-		private char[] m_chars = null;
+		private char[] m_chars;
 		private string m_stringGenerated = "";
-		private bool m_isStringGenerated = false;
-		private int m_charsCount = 0;
-		private int m_charsCapacity = 0;
-		private int prevStrPartsLength = 0;
+		private bool m_isStringGenerated;
+		private int m_charsCount, m_charsCapacity;
 
 		public override void Reset()
 		{

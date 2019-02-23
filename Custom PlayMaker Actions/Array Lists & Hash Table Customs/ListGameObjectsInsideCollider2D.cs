@@ -34,15 +34,15 @@ namespace HutongGames.PlayMaker.Actions
 		[ActionSection("Filter")]
 
 		[UIHint(UIHint.Tag)]
-		[Tooltip("Optionally filter by tag.")]
+		[Tooltip("Optionally filter by tag. Set to 'None' to ignore this check.")]
 		public FsmString tag;
 
-		[Title("Incl Layer Filter")]
-		[Tooltip("Also filter by layer?")]
-		public FsmBool layerFilterOn;
-
+		[Tooltip("Optionally filter by layer. Set to 'None' to ignore this check.")]
 		[UIHint(UIHint.Layer)]
-		public int layer;
+		public FsmInt layer;
+		
+		[Tooltip("Wheter to exclude colliders that have the 'Is Trigger' flag set.")]
+		public FsmBool ignoreTriggers;
 
 
 		[ActionSection("Optionally")]
@@ -59,75 +59,70 @@ namespace HutongGames.PlayMaker.Actions
 		[Tooltip("Wheter to update on every frame.")]
 		public FsmBool everyFrame;
 
-		private List<GameObject> tempList = new List<GameObject>();
-
 		public override void Reset()
 		{
 			gameObject = null;
 			collider2DTarget = null;
 			reference = null;
-			tag = "Untagged";
-			layerFilterOn = false;
-			layer = 0;
+			tag = new FsmString { UseVariable = true };
+			layer = new FsmInt {UseVariable = true};
+			ignoreTriggers = false;
 			storeArray = null;
 			storeAmount = null;
 			everyFrame = false;
 		}
-
+		
 		public override void OnEnter()
 		{
-			FindGOByTag();
+			FindOverlappingColliders();
 
 			if(!everyFrame.Value) Finish();
 		}
 
 		public override void OnUpdate()
 		{
-			FindGOByTag();
+			FindOverlappingColliders();
 		}
 
-		public void FindGOByTag()
+		public void FindOverlappingColliders()
 		{
-			if(!SetUpArrayListProxyPointer(Fsm.GetOwnerDefaultTarget(gameObject), reference.Value))
-				return;
-
+			GameObject srcGO = Fsm.GetOwnerDefaultTarget(gameObject);
+		
+			if(!SetUpArrayListProxyPointer(srcGO, reference.Value)) return;
 			if(!isProxyValid()) return;
 
-			GameObject[] objtag = Object.FindObjectsOfType<GameObject>();
-
-			if(objtag.Length == 0) return;
-
+			//reset lists
 			proxy.arrayList.Clear();
-			tempList.Clear();
+			
+			List<GameObject> tempList = new List<GameObject>();
 
-			Collider2D temp = collider2DTarget.Value as Collider2D;
-			Bounds collider2DBounds = temp.bounds;
+			Collider2D col = collider2DTarget.Value as Collider2D;
+			
+			ContactFilter2D filter = new ContactFilter2D();
+			filter.NoFilter();
+			
+			List<Collider2D> results = new List<Collider2D>();
+			col.OverlapCollider(filter, results);
 
-			for(int i = 0; i < objtag.Length; i++)
+			foreach (var result in results)
 			{
-				GameObject go = objtag[i];
+				GameObject go = result.gameObject;
 
-				if(!string.IsNullOrEmpty(tag.Value) && go.tag != tag.Value)
-					continue;
-
-				Collider2D tmpCol = objtag[i].GetComponent<Collider2D>();
-				if(!tmpCol) continue;
-
-				Bounds currBounds = tmpCol.bounds;
-				bool insideCollider2D = collider2DBounds.Intersects(currBounds);
-
-				if(insideCollider2D == true)
-				{
-					if(layerFilterOn.Value == true
-					&& objtag[i].gameObject.layer != layer) continue;
-
-					tempList.Add(objtag[i]);
-				}
+				//skip triggers if set to ignore them
+				if (ignoreTriggers.Value && result.isTrigger) continue;
+				
+				//skip GameObjects that don't have the specified tag
+				if(!tag.IsNone && !string.IsNullOrEmpty(tag.Value) && !go.CompareTag(tag.Value)) continue;
+				
+				//skip GameObjects that don't match the given layer if included
+				if(go.layer != layer.Value) continue;
+				
+				tempList.Add(go);
 			}
 
 			proxy.arrayList.InsertRange(0, tempList);
-			storeArray.Values = tempList.ToArray();
-			storeAmount.Value = tempList.Count;
+			if(!storeArray.IsNone) storeArray.Values = tempList.ToArray();
+			if(!storeAmount.IsNone) storeAmount.Value = tempList.Count;
 		}
 
 		//explicitly declare using OnGUI
@@ -139,12 +134,13 @@ namespace HutongGames.PlayMaker.Actions
 		public override void OnGUI()
 		{
 			//reset tag value to 'Untagged' if toggled between None and tag selection
-			if(string.IsNullOrEmpty(tag.Value) && !tag.UsesVariable) tag.Value = "Untagged";
+			if(string.IsNullOrEmpty(tag.Value) && !tag.UsesVariable)
+				tag.Value = "Untagged";
 		}
 
 		public override string ErrorCheck()
 		{
-			if(collider2DTarget.Value == null || collider2DTarget.IsNone)
+			if(collider2DTarget == null || collider2DTarget.Value == null || collider2DTarget.IsNone)
 				return "Please specify the Collider2D Target!";
 
 			return "";

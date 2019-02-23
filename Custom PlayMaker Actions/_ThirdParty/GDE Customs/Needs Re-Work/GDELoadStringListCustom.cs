@@ -63,7 +63,7 @@ namespace HutongGames.PlayMaker.Actions
 				}
 			} else
 			{
-				proxy = _go.GetComponent("PlayMakerArrayListProxy") as PlayMakerArrayListProxy;
+				proxy = _go.GetComponent("" + "PlayMakerArrayListProxy") as PlayMakerArrayListProxy;
 			}
 
 			try
