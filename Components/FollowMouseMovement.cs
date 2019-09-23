@@ -1,36 +1,43 @@
-//When enabled, the GameObject this script is attached to follows the movement of the mouse- / touch-position in 2D space
-//Requires the tag "UICamera" and always one GameObject tagged with this in every scene
-//				(alternatively use Camera.main to get the Main Camera)
-
 using UnityEngine;
 
+/// <summary>
+/// When enabled, the GameObject this script is attached to follows the movement of the mouse-/touch-position in 2D space.
+/// </summary>
 public class FollowMouseMovement : MonoBehaviour {
 
-	[Range(0.01f, 1.0f)]
-	public float smoothing = 1.0f;
+	[Tooltip("If not set, uses the GameObject tagged 'MainCamera'. When using custom GUI systems like NGUI, you should insert its own camera.")]
+	public Camera cam;
+	[Tooltip("How much delay between the current mouse position and the position of the GameObject should be added. " +
+	         "The higher the value, the closer the GameObject follows the mouse position.")]
+	[Range(0.01f, 1f)]
+	public float smoothing = 1f;
+	[Tooltip("Whether to use the world or local space of the GameObject.")]
 	public bool worldSpace = true;
-	private Camera UICamCamera;
+	[Tooltip("if set, disable this component immediately to manually activate it at a later point.")]
+	public bool startDisabled = true;	
 
 	void Awake()
 	{
-		//disable this component immediately to activate it later on when necessary
-		this.enabled = false;
+		if(startDisabled) enabled = false;
 	}
 
 	void Start()
 	{
-		var UICam = GameObject.FindWithTag("UICamera");
-		UICamCamera = UICam.GetComponent<Camera>();
+		if(cam == null) cam = Camera.main;
 	}
 
 	void Update()
 	{
-		if (worldSpace)
+		if (cam == null)
 		{
-			gameObject.transform.position = Vector3.Lerp(gameObject.transform.position, UICamCamera.ScreenToWorldPoint(Input.mousePosition), smoothing);
-		} else
-		{
-			gameObject.transform.localPosition = Vector3.Lerp(gameObject.transform.localPosition, UICamCamera.ScreenToWorldPoint(Input.mousePosition), smoothing);;
+			Debug.LogError("No camera set in FollowMouseMovement on " + name);
+			return;
 		}
+		
+		Vector3 currPos = worldSpace ? gameObject.transform.position : transform.localPosition;
+		Vector3 result = Vector3.Lerp(currPos, cam.ScreenToWorldPoint(Input.mousePosition), smoothing);
+
+		if (worldSpace) gameObject.transform.position = result;
+		else gameObject.transform.localPosition = result;
 	}
 }

@@ -17,6 +17,8 @@ does exactly what the artist wanted… bigger individual particles.
 using UnityEngine;
 using System.Collections;
 
+#pragma warning disable CS0618
+
 [RequireComponent(typeof(ParticleSystem))]
 [ExecuteInEditMode()]
 public class ParticleScaler : MonoBehaviour
@@ -38,7 +40,7 @@ public class ParticleScaler : MonoBehaviour
 		m_System.startSpeed = m_StartSpeed * currentScale;
 		for(int i = 0; i < numParticlesAlive; i++)
 		{
-			m_Particles[i].size = currentScale;
+			m_Particles[i].startSize = currentScale;
 		}
 
 		m_System.SetParticles(m_Particles, numParticlesAlive);

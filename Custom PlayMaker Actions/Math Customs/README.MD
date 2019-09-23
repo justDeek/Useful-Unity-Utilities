@@ -1,6 +1,9 @@
 ## FloatFlip.cs
 ![Image](/Screenshots/Actions/FloatFlip.png)
 
+## GetPercentageInt.cs
+![Image](/Screenshots/Actions/GetPercentageInt.png)
+
 ## GetUnsignedFloat.cs
 ![Image](/Screenshots/Actions/GetUnsignedFloat.png)
 

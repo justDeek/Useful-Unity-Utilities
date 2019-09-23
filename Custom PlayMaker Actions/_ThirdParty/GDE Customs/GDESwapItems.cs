@@ -6,7 +6,7 @@ using iDecay.GDE;
 namespace HutongGames.PlayMaker.Actions
 {
 	[ActionCategory(GDMConstants.ActionCategory)]
-	[Tooltip("Swaps the Field values of two Items by Schema.")]
+	[Tooltip("Swaps two items by their name in the same Schema.")]
 	public class GDESwapItems : FsmStateAction
 	{
 		[RequiredField]

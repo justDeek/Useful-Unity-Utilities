@@ -40,67 +40,63 @@ namespace HutongGames.PlayMaker.Actions
 		public override void OnEnter()
 		{
 			var go = Fsm.GetOwnerDefaultTarget(startingFrom);
-			if(go != null)
-			{
-				//Get Owner
-				if(index.Value == 0)
-				{
-					storeResult.Value = Owner;
-					storeResultName = storeResult.Value.name;
-					if(debug.Value == true)
-					{
-						Debug.Log("GetMultilevelGameObject - Owner: " + Owner);
-					}
 
-				}
-
-				//Get ascending parent
-				if(index.Value > 0)
-				{
-					for(int i = 1; i < index.Value; ++i)
-					{
-
-						go = go.transform.parent == null ? go : go.transform.parent.gameObject;
-
-						if(debug.Value == true)
-						{
-							var j = i + 1;
-							Debug.Log("GetMultilevelGameObject - Parent " + j.ToString() + ": " + go.transform.gameObject.name);
-						}
-
-						storeResult.Value = go;
-						storeResultName = storeResult.Value.name;
-					}
-				}
-
-				//Get descending Child
-				if(index.Value < 0)
-				{
-					for(int i = -1; i > index.Value; i--)
-					{
-						go = go.transform.GetChild(0) == null ? go.transform.gameObject : go.transform.GetChild(0).gameObject;
-
-						if(debug.Value == true)
-						{
-							//Invert and add 1 to current Index
-							var j = (i * (-1)) + 1;
-							Debug.Log("GetMultilevelGameObject - Child " + j.ToString() + ": " + go.transform.gameObject.name);
-						}
-
-						storeResult.Value = go;
-						storeResultName = storeResult.Value.name;
-					}
-				}
-
-			}
-			//If startingFrom is Null
-			else
+			//if startingFrom is null
+			if (go == null)
 			{
 				storeResult.Value = null;
-				storeResultName = "None";
-				if(debug.Value == true)
-					Debug.Log("GetMultilevelGameObject - NullReferenceException: 'Start From' is null");
+				storeResultName.Value = "None";
+				
+				if(debug.Value)
+					Debug.Log("GetMultilevelGameObject: 'Starting From' is null");
 			}
+			
+			//get owner
+			if(index.Value == 0)
+			{
+				storeResult.Value = Owner;
+				storeResultName.Value = storeResult.Value.name;
+					
+				if(debug.Value)
+					Debug.Log("GetMultilevelGameObject - Owner: " + Owner);
+			}
+
+			//Get ascending parent
+			if(index.Value > 0)
+			{
+				for(int i = 1; i < index.Value; ++i)
+				{
+					if (go.transform.parent != null) go = go.transform.parent.gameObject;
+					
+					if(debug.Value)
+					{
+						Debug.Log("GetMultilevelGameObject - Parent " + (i + 1) + ": " + go.transform.gameObject.name);
+					}
+
+					storeResult.Value = go;
+					storeResultName.Value = storeResult.Value.name;
+				}
+			}
+
+			//Get descending Child
+			if(index.Value < 0)
+			{
+				for(int i = -1; i > index.Value; i--)
+				{
+					go = go.transform.GetChild(0) == null ? go.transform.gameObject : go.transform.GetChild(0).gameObject;
+
+					if(debug.Value)
+					{
+						//Invert and add 1 to current Index
+						var j = i * -1 + 1;
+						Debug.Log("GetMultilevelGameObject - Child " + j + ": " + go.transform.gameObject.name);
+					}
+
+					storeResult.Value = go;
+					storeResultName.Value = storeResult.Value.name;
+				}
+			}
+			
 			Finish();
 		}
 	}

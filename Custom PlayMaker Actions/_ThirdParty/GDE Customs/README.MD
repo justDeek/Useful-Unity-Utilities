@@ -16,6 +16,12 @@
 ## GDEFind.cs
 ![Image](/Screenshots/Actions/GDEFind.png)
 
+## GDEFindItemsByValue.cs
+![Image](/Screenshots/Actions/GDEFindItemsByValue.png)
+
+## GDEFindItemsByValue2.cs
+![Image](/Screenshots/Actions/GDEFindItemsByValue.png)
+
 ## GDEFloatOperator.cs
 ![Image](/Screenshots/Actions/GDEFloatOperator.png)
 

@@ -89,7 +89,10 @@ namespace iDecay.GDE
 		Add,
 		Subtract,
 		Multiply,
-		Divide
+		Divide,
+		Min,
+		Max,
+		Set
 	}
 
 	public enum SearchType
@@ -275,13 +278,17 @@ namespace iDecay.GDE
 				case GDEDataType.FieldName:
 					currList = GetAllFieldNames(limitBySchema);
 					break;
-				default:
+				case GDEDataType.FieldType:
+					currList = GetAllFieldTypes(limitBySchema).ToStringList();
+					break;
+				case GDEDataType.FieldValue:
+					currList = GetAllFieldValues(limitBySchema).ToStringList();
 					break;
 			}
 
 			if(currList.Count == 0)
 			{
-				UnityEngine.Debug.LogError("Empty List in ListAllBy(" + searchBy.ToString() + ", " + limitBySchema + ")!");
+				Debug.LogError("Empty List in ListAllBy(" + searchBy + ", " + limitBySchema + ")!");
 				return null;
 			}
 
@@ -805,7 +812,9 @@ namespace iDecay.GDE
 			if(foundFieldTypes.Count >= 1)
 			{
 				return ParseFieldType(foundFieldTypes[0].ToString());
-			} else if(foundFieldTypes.Count < 1)
+			} 
+			
+			if(foundFieldTypes.Count < 1)
 			{
 				UnityEngine.Debug.LogError("Coudn't find Field Name \"" + fieldName + "\" in "
 											+ specifySchema + ": " + itemName + "!");
@@ -817,9 +826,9 @@ namespace iDecay.GDE
 		/// <summary>
 		/// Lists all existing Field Types.
 		/// </summary>
-		public static List<GDEFieldType> GetAllFieldTypes()
+		public static List<GDEFieldType> GetAllFieldTypes(string limitBySchema = "", string limitByItem = "")
 		{
-			List<object> allFieldTypes = GDEGetAllDataBy(GDEDataType.FieldType);
+			List<object> allFieldTypes = GDEGetAllDataBy(GDEDataType.FieldType, limitBySchema, limitByItem);
 			List<GDEFieldType> convFieldTypes = new List<GDEFieldType>();
 
 			foreach(var fieldType in allFieldTypes)
@@ -1029,9 +1038,11 @@ namespace iDecay.GDE
 		/// <summary>
 		/// Returns multiple Field Values by given Item Name and Field Names
 		/// </summary>
-		public static List<object> GetFieldValues(string itemName, string[] fieldNames)
+		public static List<object> GetFieldValues(string itemName, List<string> fieldNames = null)
 		{
 			List<object> fieldValues = new List<object>();
+
+			if (fieldNames == null) fieldNames = GetAllFieldNames();
 
 			foreach(var fieldName in fieldNames)
 			{
@@ -1039,6 +1050,17 @@ namespace iDecay.GDE
 			}
 
 			return fieldValues;
+		}
+
+		public static List<object> GetAllFieldValues(string limitBySchema = "")
+		{
+			List<string> items = GetAllItems(limitBySchema);
+			List<object> allFieldValues = new List<object>();
+
+			foreach (var item in items)
+				allFieldValues.AddRange(GetFieldValues(item));
+
+			return allFieldValues;
 		}
 
 		#endregion
@@ -1051,7 +1073,7 @@ namespace iDecay.GDE
 		/// </summary>
 		public static bool GetBool(string itemName, string fieldName)
 		{
-			CheckFieldType(itemName, fieldName, GDEFieldType.Bool);
+//			CheckFieldType(itemName, fieldName, GDEFieldType.Bool);
 			return (bool)GetFieldValue(itemName, fieldName);
 		}
 
@@ -1079,7 +1101,7 @@ namespace iDecay.GDE
 		/// <param name="addToEnd">Wheter to add the string to the end or front of the field value.</param>
 		public static void AddString(string itemName, string fieldName, string stringToAdd, bool addToEnd = true, bool save = true)
 		{
-			if(!CheckFieldType(itemName, fieldName, GDEFieldType.String)) return;
+//			if(!CheckFieldType(itemName, fieldName, GDEFieldType.String)) return;
 
 			object prevValue = GetFieldValue(itemName, fieldName);
 
@@ -1098,7 +1120,7 @@ namespace iDecay.GDE
 		/// <param name="addToEnd">Wheter to add the string to the end or front of the field value.</param>
 		public static void RemoveString(string itemName, string fieldName, string remove, bool addToEnd = true, bool save = true)
 		{
-			if(!CheckFieldType(itemName, fieldName, GDEFieldType.String)) return;
+//			if(!CheckFieldType(itemName, fieldName, GDEFieldType.String)) return;
 
 			object prevValue = GetFieldValue(itemName, fieldName);
 			string prevStringValue = Convert.ToString(prevValue);
@@ -1110,7 +1132,7 @@ namespace iDecay.GDE
 
 		public static string GetString(string itemName, string fieldName)
 		{
-			CheckFieldType(itemName, fieldName, GDEFieldType.String);
+//			CheckFieldType(itemName, fieldName, GDEFieldType.String);
 			return (string)GetFieldValue(itemName, fieldName);
 		}
 
@@ -1123,11 +1145,11 @@ namespace iDecay.GDE
 		/// Apply an operation to the given Field.
 		/// </summary>
 		/// <param name="itemName"></param>
-		/// <param name="FieldName"></param>
-		/// <param name="operation">Wheter to add, subtract, multiply or divide the Field value.</param>
+		/// <param name="fieldName"></param>
+		/// <param name="fieldType"></param>
+		/// <param name="operation">Wheter to add, subtract, multiply or divide the Field value. Alternatively only store the smallest or biggest of the two or override it with the second value.</param>
 		/// <param name="byValue"></param>
-		public static void GDEOperator(string itemName, string fieldName, GDEFieldType fieldType,
-									   GDEOperation operation, object byValue)
+		public static void GDEOperator(string itemName, string fieldName, GDEFieldType fieldType, GDEOperation operation, object byValue)
 		{
 			//if(!CheckFieldType(itemName, fieldName, fieldType)) return;
 
@@ -1153,6 +1175,15 @@ namespace iDecay.GDE
 						case GDEOperation.Divide:
 							tmpIntValue /= operateIntBy;
 							break;
+						case GDEOperation.Min:
+							tmpIntValue = Math.Min(tmpIntValue, operateIntBy);
+							break;
+						case GDEOperation.Max:
+							tmpIntValue = Math.Max(tmpIntValue, operateIntBy);
+							break;
+						case GDEOperation.Set:
+							tmpIntValue = operateIntBy;
+							break;
 					}
 
 					prevValue = tmpIntValue;
@@ -1175,6 +1206,15 @@ namespace iDecay.GDE
 						case GDEOperation.Divide:
 							tmpFloatValue /= operateFloatBy;
 							break;
+						case GDEOperation.Min:
+							tmpFloatValue = Mathf.Min(tmpFloatValue, operateFloatBy);
+							break;
+						case GDEOperation.Max:
+							tmpFloatValue = Mathf.Max(tmpFloatValue, operateFloatBy);
+							break;
+						case GDEOperation.Set:
+							tmpFloatValue = operateFloatBy;
+							break;
 					}
 
 					prevValue = tmpFloatValue;
@@ -1182,6 +1222,7 @@ namespace iDecay.GDE
 				case GDEFieldType.Vector2:
 					Vector2 tmpV2Value = (Vector2)prevValue;
 					Vector2 operateV2By = (Vector2)byValue;
+					Vector2 v2Result = Vector2.zero;
 
 					switch(operation)
 					{
@@ -1192,16 +1233,27 @@ namespace iDecay.GDE
 							tmpV2Value -= operateV2By;
 							break;
 						case GDEOperation.Multiply:
-							var multResult = Vector2.zero;
-							multResult.x = tmpV2Value.x * operateV2By.x;
-							multResult.y = tmpV2Value.y * operateV2By.y;
-							tmpV2Value = multResult;
+							v2Result.x = tmpV2Value.x * operateV2By.x;
+							v2Result.y = tmpV2Value.y * operateV2By.y;
+							tmpV2Value = v2Result;
 							break;
 						case GDEOperation.Divide:
-							var divResult = Vector2.zero;
-							divResult.x = tmpV2Value.x / operateV2By.x;
-							divResult.y = tmpV2Value.y / operateV2By.y;
-							tmpV2Value = divResult;
+							v2Result.x = tmpV2Value.x / operateV2By.x;
+							v2Result.y = tmpV2Value.y / operateV2By.y;
+							tmpV2Value = v2Result;
+							break;
+						case GDEOperation.Min:
+							v2Result.x = Mathf.Min(tmpV2Value.x, operateV2By.x);
+							v2Result.y = Mathf.Min(tmpV2Value.y, operateV2By.y);
+							tmpV2Value = v2Result;
+							break;
+						case GDEOperation.Max:
+							v2Result.x = Mathf.Max(tmpV2Value.x, operateV2By.x);
+							v2Result.y = Mathf.Max(tmpV2Value.y, operateV2By.y);
+							tmpV2Value = v2Result;
+							break;
+						case GDEOperation.Set:
+							tmpV2Value = operateV2By;
 							break;
 					}
 
@@ -1210,6 +1262,7 @@ namespace iDecay.GDE
 				case GDEFieldType.Vector3:
 					Vector3 tmpV3Value = (Vector3)prevValue;
 					Vector3 operateV3By = (Vector3)byValue;
+					Vector3 v3Result = Vector3.zero;
 
 					switch(operation)
 					{
@@ -1220,18 +1273,31 @@ namespace iDecay.GDE
 							tmpV3Value -= operateV3By;
 							break;
 						case GDEOperation.Multiply:
-							var multResult = Vector3.zero;
-							multResult.x = tmpV3Value.x * operateV3By.x;
-							multResult.y = tmpV3Value.y * operateV3By.y;
-							multResult.z = tmpV3Value.z * operateV3By.z;
-							tmpV3Value = multResult;
+							v3Result.x = tmpV3Value.x * operateV3By.x;
+							v3Result.y = tmpV3Value.y * operateV3By.y;
+							v3Result.z = tmpV3Value.z * operateV3By.z;
+							tmpV3Value = v3Result;
 							break;
 						case GDEOperation.Divide:
-							var divResult = Vector3.zero;
-							divResult.x = tmpV3Value.x / operateV3By.x;
-							divResult.y = tmpV3Value.y / operateV3By.y;
-							divResult.z = tmpV3Value.z / operateV3By.z;
-							tmpV3Value = divResult;
+							v3Result.x = tmpV3Value.x / operateV3By.x;
+							v3Result.y = tmpV3Value.y / operateV3By.y;
+							v3Result.z = tmpV3Value.z / operateV3By.z;
+							tmpV3Value = v3Result;
+							break;
+						case GDEOperation.Min:
+							v3Result.x = Mathf.Min(tmpV3Value.x, operateV3By.x);
+							v3Result.y = Mathf.Min(tmpV3Value.y, operateV3By.y);
+							v3Result.z = Mathf.Min(tmpV3Value.z, operateV3By.z);
+							tmpV3Value = v3Result;
+							break;
+						case GDEOperation.Max:
+							v3Result.x = Mathf.Max(tmpV3Value.x, operateV3By.x);
+							v3Result.y = Mathf.Max(tmpV3Value.y, operateV3By.y);
+							v3Result.z = Mathf.Max(tmpV3Value.z, operateV3By.z);
+							tmpV3Value = v3Result;
+							break;
+						case GDEOperation.Set:
+							tmpV3Value = operateV3By;
 							break;
 					}
 
@@ -1240,6 +1306,7 @@ namespace iDecay.GDE
 				case GDEFieldType.Vector4:
 					Vector4 tmpV4Value = (Vector4)prevValue;
 					Vector4 operateV4By = (Vector4)byValue;
+					Vector4 v4Result = Vector4.zero;
 
 					switch(operation)
 					{
@@ -1250,20 +1317,35 @@ namespace iDecay.GDE
 							tmpV4Value -= operateV4By;
 							break;
 						case GDEOperation.Multiply:
-							var multResult = Vector4.zero;
-							multResult.w = tmpV4Value.w * operateV4By.w;
-							multResult.x = tmpV4Value.x * operateV4By.x;
-							multResult.y = tmpV4Value.y * operateV4By.y;
-							multResult.z = tmpV4Value.z * operateV4By.z;
-							tmpV4Value = multResult;
+							v4Result.w = tmpV4Value.w * operateV4By.w;
+							v4Result.x = tmpV4Value.x * operateV4By.x;
+							v4Result.y = tmpV4Value.y * operateV4By.y;
+							v4Result.z = tmpV4Value.z * operateV4By.z;
+							tmpV4Value = v4Result;
 							break;
 						case GDEOperation.Divide:
-							var divResult = Vector4.zero;
-							divResult.w = tmpV4Value.w / operateV4By.w;
-							divResult.x = tmpV4Value.x / operateV4By.x;
-							divResult.y = tmpV4Value.y / operateV4By.y;
-							divResult.z = tmpV4Value.z / operateV4By.z;
-							tmpV4Value = divResult;
+							v4Result.w = tmpV4Value.w / operateV4By.w;
+							v4Result.x = tmpV4Value.x / operateV4By.x;
+							v4Result.y = tmpV4Value.y / operateV4By.y;
+							v4Result.z = tmpV4Value.z / operateV4By.z;
+							tmpV4Value = v4Result;
+							break;
+						case GDEOperation.Min:
+							v4Result.w = Mathf.Min(tmpV4Value.w, operateV4By.w);
+							v4Result.x = Mathf.Min(tmpV4Value.x, operateV4By.x);
+							v4Result.y = Mathf.Min(tmpV4Value.y, operateV4By.y);
+							v4Result.z = Mathf.Min(tmpV4Value.z, operateV4By.z);
+							tmpV4Value = v4Result;
+							break;
+						case GDEOperation.Max:
+							v4Result.w = Mathf.Max(tmpV4Value.w, operateV4By.w);
+							v4Result.x = Mathf.Max(tmpV4Value.x, operateV4By.x);
+							v4Result.y = Mathf.Max(tmpV4Value.y, operateV4By.y);
+							v4Result.z = Mathf.Max(tmpV4Value.z, operateV4By.z);
+							tmpV4Value = v4Result;
+							break;
+						case GDEOperation.Set:
+							tmpV4Value = operateV4By;
 							break;
 					}
 
@@ -1298,9 +1380,7 @@ namespace iDecay.GDE
 			List<string> strList = new List<string>();
 
 			foreach(var entry in list)
-			{
 				strList.Add(entry.ToString());
-			}
 
 			return strList;
 		}
@@ -1438,6 +1518,9 @@ namespace iDecay.GDE
 				case "Int32":
 				case "Int64":
 					strToParse = "Int";
+					break;
+				case "Boolean":
+					strToParse = "Bool";
 					break;
 			}
 

@@ -1,3 +1,6 @@
+## RandomCharacters.cs
+![Image](/Screenshots/Actions/RandomCharacters.png)
+
 ## RandomFloatAroundRange.cs
 ![Image](/Screenshots/Actions/RandomFloatAroundRange.png)
 

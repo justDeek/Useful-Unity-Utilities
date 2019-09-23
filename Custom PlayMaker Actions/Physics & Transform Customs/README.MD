@@ -10,6 +10,9 @@
 ## GetGameObjectScreenPosition.cs
 ![Image](/Screenshots/Actions/GetGameObjectScreenPosition.png)
 
+## GetGravity2dScale.cs
+![Image](/Screenshots/Actions/GetGravity2dScale.png)
+
 ## GetPositionAddOffset.cs
 ![Image](/Screenshots/Actions/GetPositionAddOffset.png)
 
